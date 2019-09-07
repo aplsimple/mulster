@@ -223,4 +223,4 @@ and has two useful methods declared as:
     otherwise their leading/tailing spaces are ignored at comparing.
 
 Home page:
-  https://aplsimple.bitbucket.io/en/tcl/mulster
+  https://aplsimple.github.io/en/tcl/mulster
