@@ -1,0 +1,70 @@
+
+INFILE=test/test1.txt
+OUTFILE=test/testres.txt
+
+IN=BEGIN
+set leni [llength $lin]
+    if {!$leni} {
+      return $lcont  ;# nothing to replace
+IN=END
+
+OUT=BEGIN
+set leni [llength $lin]
+ new first
+ new   if {!$leni} {
+ new     return $lcont  ;# nothing to replace
+ new next
+OUT=END
+
+IN=BEGIN(1,3)
+ set ic [set ifnd 0]
+
+IN=END
+
+OUT=BEGIN
+qq-set leni [llength $lin]
+qq- new first
+qq- new   if {!$leni} {
+qq- new     return $lcont  ;# nothing to replace
+OUT=END
+
+KEEP=0
+EXACT=1
+BACKUP=BAK/new backup dir
+INFILE=test/test2.txt
+OUTFILE=test/testres2.txt
+
+IN=BEGIN(2,3)
+    set leni [llength $lin]
+    if {!$leni} {
+      return $lcont  ;# nothing to replace
+IN=END
+
+OUT=BEGIN
+ # leni [llength $lin]
+ # first
+ #   if {!$leni} {
+ #     return $lcont  ;# nothing to replace
+ # next
+OUT=END
+
+IN=BEGIN(1,3)
+ set ic [set ifnd 0]
+
+IN=END
+
+OUT=BEGIN
+qq-set leni [llength $lin]
+qq- new first
+qq- new   if {!$leni} {
+qq- new     return $lcont  ;# nothing to replace
+OUT=END
+
+IN=BEGIN(1,2)
+    proc1 $a $b
+    proc2 $a2 $b2
+IN=END
+OUT=BEGIN
+    proc3 $a $b $a2 $b2  ;# <=====REPLACED
+OUT=END
+

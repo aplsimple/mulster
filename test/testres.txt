@@ -1,0 +1,15 @@
+set leni [llength $lin]
+ new first
+ new   if {!$leni} {
+ new     return $lcont  ;# nothing to replace
+ new next
+    }
+    set lres [list]  ;# resulting list
+    set sti0 [lindex $lin 0]
+    if {!$exactly} {set sti0 [string trim $sti0]}
+    set leno [llength $lout]
+    set lenc [llength $lcont]
+qq-set leni [llength $lin]
+qq- new first
+qq- new   if {!$leni} {
+qq- new     return $lcont  ;# nothing to replace

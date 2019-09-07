@@ -1,0 +1,39 @@
+    set leni [llength $lin]
+    if {!$leni} {
+      return $lcont  ;# nothing to replace
+    }
+    set lres [list]  ;# resulting list
+    set sti0 [lindex $lin 0]
+    if {!$exactly} {set sti0 [string trim $sti0]}
+    set leno [llength $lout]
+    set lenc [llength $lcont]
+    set ic [set ifnd 0]
+    set leni [llength $lin]
+    if {!$leni} {
+      return $lcont  ;# nothing to replace
+    }
+    set leni [llength $lin]
+    if {!$leni} {
+      return $lcont  ;# nothing to replace
+    }
+    set leni [llength $lin]
+    if {!$leni} {
+      return $lcont  ;# nothing to replace
+
+    ############ taken from README ############
+
+    1st-comm
+    2nd-comm
+    proc1 $a $b
+    proc2 $a2 $b2
+    next-comm
+    #... other commands
+    proc1 $a $b
+    proc2 $a2 $b2
+
+    proc1 $a $b
+    proc2 $a2 $b2
+
+    proc1 $a $b
+    proc2 $a2 $b2
+

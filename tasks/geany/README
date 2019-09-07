@@ -1,0 +1,9 @@
+
+As a bonus, here is a Geany color scheme:
+  mild-dark2.conf
+
+Its location on Linux:
+  ~/.config/geany/colorschemes
+on Windows:
+  C:\Program Files (x86)\Geany\data\colorschemes
+

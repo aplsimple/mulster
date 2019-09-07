@@ -1,0 +1,211 @@
+#############################################################################
+# This replacement supplies for Geany IDE's context menus
+# the following wildcards:
+#  %d - substituted by the absolute path to the directory of the current file.
+#  %e - substituted by the name of the current file without the extension or path.
+#  %f - substituted by the name of the current file without the path.
+#  %p - if a project is open, substituted by the base path from the project.
+#  %l - substituted by the line number at the current cursor position.
+#
+# Also, the following features are provided:
+# - using the context command when no selected text is available;
+# - auto-saving a file before running the context command if and only if
+#   the command contains any of mentioned wildcards (i.e. file's attributes).
+#############################################################################
+
+INFILE=tasks/geany/src/about.c
+OUTFILE=tasks/geany/mulstered/about.c
+
+IN=BEGIN
+#define HEADER "<span size=\"larger\" weight=\"bold\">Geany %s</span>"
+IN=END
+
+OUT=BEGIN
+//aplsimple:
+#define HEADER "<span size=\"larger\" weight=\"bold\">Geany %s (ctx)</span>"
+OUT=END
+
+#############################################################################
+
+INFILE=tasks/geany/src/build.c
+OUTFILE=tasks/geany/mulstered/build.c
+
+IN=BEGIN
+static gchar *build_replace_placeholder(const GeanyDocument *doc, const gchar *src)
+IN=END
+
+OUT=BEGIN
+//aplsimple: static gchar *build_replace_placeholder(const GeanyDocument *doc, const gchar *src)
+GEANY_API_SYMBOL
+gchar *build_replace_placeholder(const GeanyDocument *doc, const gchar *src)
+OUT=END
+
+#############################################################################
+
+INFILE=tasks/geany/src/build.h
+OUTFILE=tasks/geany/mulstered/build.h
+
+IN=BEGIN
+guint build_get_group_count(const GeanyBuildGroup grp);
+
+
+#ifdef GEANY_PRIVATE
+IN=END
+
+OUT=BEGIN
+guint build_get_group_count(const GeanyBuildGroup grp);
+
+//aplsimple: guint build_get_group_count(const GeanyBuildGroup grp);
+gchar *build_replace_placeholder(const GeanyDocument *doc, const gchar *src);
+
+#ifdef GEANY_PRIVATE
+OUT=END
+
+#############################################################################
+
+INFILE=tasks/geany/src/callbacks.c
+OUTFILE=tasks/geany/mulstered/callbacks.c
+
+IN=BEGIN
+		word = g_strdup(editor_info.current_word);
+	}
+
+	/* use the filetype specific command if available, fallback to global command otherwise */
+IN=END
+
+OUT=BEGIN
+		/* aplsimple: take a current word under caret */
+		editor_find_current_word_sciwc(doc->editor, -1,
+			editor_info.current_word, GEANY_MAX_WORD_LENGTH);
+		word = g_strdup(editor_info.current_word);
+	}
+
+	/* use the filetype specific command if available, fallback to global command otherwise */
+OUT=END
+
+IN=BEGIN
+		gchar *command_line = g_strdup(command);
+
+		utils_str_replace_all(&command_line, "%s", word);
+
+		if (!spawn_async(NULL, command_line, NULL, NULL, NULL, &error))
+		{
+			/* G_SHELL_ERROR is parsing error, it may be caused by %s word with quotes */
+			ui_set_statusbar(TRUE, _("Cannot execute context action command \"%s\": %s. %s"),
+				error->domain == G_SHELL_ERROR ? command_line : command, error->message,
+				check_msg);
+			g_error_free(error);
+		}
+IN=END
+
+OUT=BEGIN
+		//aplsimple
+		//gchar *command_line = g_strdup(command);
+		/* add %f, %d, %e, %p, %l placeholders */
+		gchar *command_tmp = g_strdup(command);
+		gchar *command_line = build_replace_placeholder(doc, command_tmp);
+		gint isfilecontext = strcmp(command_tmp, command_line) != 0;
+		g_free(command_tmp);
+		//save file if its data are in context command
+		if (!(isfilecontext && doc && doc->changed) || document_save_file(doc, FALSE))
+			{
+			/* add %s placeholder */
+			utils_str_replace_all(&command_line, "%s", word);
+			if (!spawn_async(NULL, command_line, NULL, NULL, NULL, &error))
+			{
+				/* G_SHELL_ERROR is parsing error, it may be caused by %s word with quotes */
+				ui_set_statusbar(TRUE, _("Cannot execute context action command \"%s\": %s. %s"),
+					error->domain == G_SHELL_ERROR ? command_line : command, error->message,
+					check_msg);
+				g_error_free(error);
+			}
+		}
+OUT=END
+
+#############################################################################
+
+INFILE=tasks/geany/src/editor.c
+OUTFILE=tasks/geany/mulstered/editor.c
+
+IN=BEGIN
+		ui_update_popup_goto_items(can_goto);
+		ui_update_popup_copy_items(doc);
+IN=END
+
+OUT=BEGIN
+//aplsimple:
+//		ui_update_popup_goto_items(can_goto);
+/* create a list of locks/unlocks for the goto and context actions */
+		gchar cangos[64];  // never reachable maximum
+		for (gint i=0; i<64; i++)
+			cangos[i]=(can_goto?'1':'0'); // flag the whole group
+		gchar* command;
+		if (doc->file_type != NULL &&
+		!EMPTY(doc->file_type->context_action_cmd))
+			command = g_strdup(doc->file_type->context_action_cmd);
+		else
+			command = g_strdup(tool_prefs.context_action_cmd);
+		/* flag the context action (see widgets.popup_goto_items[1] ) */
+		cangos[1] = (G_LIKELY(!EMPTY(command))?'1':'0');
+		g_free(command);
+		ui_update_popup_goto_items(cangos);
+
+		ui_update_popup_copy_items(doc);
+OUT=END
+
+#############################################################################
+
+INFILE=tasks/geany/src/keybindings.c
+OUTFILE=tasks/geany/mulstered/keybindings.c
+
+IN=BEGIN
+		case GEANY_KEYS_EDITOR_CONTEXTACTION:
+			if (check_current_word(doc, FALSE))
+IN=END
+
+OUT=BEGIN
+		case GEANY_KEYS_EDITOR_CONTEXTACTION:
+			//aplsimple: do not check here: if (check_current_word(doc, FALSE))
+OUT=END
+
+#############################################################################
+
+INFILE=tasks/geany/src/ui_utils.c
+OUTFILE=tasks/geany/mulstered/ui_utils.c
+
+IN=BEGIN
+void ui_update_popup_goto_items(gboolean enable)
+{
+	guint i, len;
+	len = G_N_ELEMENTS(widgets.popup_goto_items);
+	for (i = 0; i < len; i++)
+		ui_widget_set_sensitive(widgets.popup_goto_items[i], enable);
+}
+IN=END
+
+OUT=BEGIN
+//aplsimple: void ui_update_popup_goto_items(gboolean enable)
+void ui_update_popup_goto_items(gchar* enable)
+{
+	guint i, len;
+	len = G_N_ELEMENTS(widgets.popup_goto_items);
+	for (i = 0; i < len; i++)
+		ui_widget_set_sensitive(widgets.popup_goto_items[i], enable[i]=='1');
+}
+OUT=END
+
+#############################################################################
+
+INFILE=tasks/geany/src/ui_utils.h
+OUTFILE=tasks/geany/mulstered/ui_utils.h
+
+IN=BEGIN
+void ui_update_popup_goto_items(gboolean enable);
+IN=END
+
+OUT=BEGIN
+//aplsimple: void ui_update_popup_goto_items(gboolean enable);
+void ui_update_popup_goto_items(gchar* enable);
+OUT=END
+
+#############################################################################

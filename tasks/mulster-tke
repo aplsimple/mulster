@@ -1,0 +1,42 @@
+
+#############################################################################
+# This replacement provides a file & dir showing in TKE editor's title.
+
+INFILE=tasks/tke/src/lib/gui.tcl
+OUTFILE=tasks/tke/mulstered/lib/gui.tcl
+
+IN=BEGIN
+    if {[set session [sessions::current]] ne ""} {
+      wm title . "$tab_name ($session) \[${host}[pwd]\]"
+    } else {
+      wm title . "$tab_name \[${host}[pwd]\]"
+    }
+IN=END
+
+OUT=BEGIN
+    get_info {} current txt fname
+    set dirname [file dirname $fname]
+    if {[set session [sessions::current]] ne ""} {
+      wm title . "$tab_name ($session) \[${host}$dirname\]"
+    } else {
+      wm title . "$tab_name \[${host}$dirname\]"
+    }
+OUT=END
+
+#############################################################################
+# This replacement changes 'current_line' plugin to force it working as for
+# Up/Down keys. The 'current_line' plugin highlights a current line.
+
+INFILE=tasks/tke/src/plugins/current_line/main.tcl
+OUTFILE=tasks/tke/mulstered/plugins/current_line/main.tcl
+
+IN=BEGIN
+    bind $tag <<CursorChanged>> "after idle [list current_line::update_line %W]"
+IN=END
+
+OUT=BEGIN
+    bind $tag <<CursorChanged>> "after idle [list current_line::update_line %W]"
+    bind $tag <KeyRelease>      "after idle [list current_line::update_line %W]"
+OUT=END
+
+#############################################################################
