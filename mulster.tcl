@@ -18,6 +18,9 @@
 #       -exact 0 | 1
 #       -backup 0 | <dir>
 #       -keep 0 | 1
+#       -single 0 | 1
+#       -charset charsetName
+#       -lineend lineEnding
 #       --
 # See README for details.
 #############################################################################
@@ -39,6 +42,9 @@ oo::class create Mulster {
     set _mulster(EXACT)     EXACT=    ;# pattern for exact mode
     set _mulster(BACKUP)    BACKUP=   ;# pattern for backup dir name
     set _mulster(KEEP)      KEEP=     ;# pattern for keep mode
+    set _mulster(SINGLE)    SINGLE=   ;# pattern for single mode
+    set _mulster(CHARSET)   CHARSET=  ;# pattern for charset mode
+    set _mulster(LINEEND)   LINEEND=  ;# pattern for lineend mode
     set _mulster(GRP1) {(.+)}           ;# RE group for a file name
     set _mulster(GRP2) {\((.+),(.+)\)}  ;# RE groups for range
     if { [self next] != {} } {
@@ -54,10 +60,15 @@ oo::class create Mulster {
   #           all their leading/tailing spaces
   #   'backup' if 0, means no backuping, otherwise - backup directory
   #   'keep' if 1, keeps input files' attributes/times in output files
+  #   'single' if 1, standard 'one string for one string' replacements
+  #   'charset' sets a charset of input files (e.g. cp1251)
+  #   'lineend' sets a line ending of input files (e.g. \r\n)
 
-  method mulster {fileini {exact 0} {backup BAK} {keep 0}} {
+  method mulster {fileini {exact 0} {backup BAK} {keep 0} \
+  {single 0} {charset ""} {lineend ""}} {
     if {!($exact in {0 1})} {set exact 1}
     if {!($keep in {0 1})} {set keep 1}
+    if {!($single in {0 1})} {set single 1}
     my FlushOut -1 ;# just to initialize
     set mode NONE
     set _mulster(st) ""
@@ -69,27 +80,38 @@ oo::class create Mulster {
       switch $mode {
         NONE {
           # check for exact mode
-          if [my OptionIs $_mulster(EXACT) $_mulster(GRP1)] {
-            my FlushOut $exact $keep
+          if {[my OptionIs $_mulster(EXACT) $_mulster(GRP1)]} {
+            my FlushOut $exact $keep $charset $lineend $backup
             set exact $_mulster(match1)
             if {!($exact in {0 1})} {set exact 1}
           # check for backup dir
-          } elseif [my OptionIs $_mulster(BACKUP) $_mulster(GRP1)] {
-            my FlushOut $exact $keep
+          } elseif {[my OptionIs $_mulster(BACKUP) $_mulster(GRP1)]} {
+            my FlushOut $exact $keep $charset $lineend $backup
             set backup $_mulster(match1)
-          # check for exact mode
-          } elseif [my OptionIs $_mulster(KEEP) $_mulster(GRP1)] {
-            my FlushOut $exact $keep
+          # check for keep mode
+          } elseif {[my OptionIs $_mulster(KEEP) $_mulster(GRP1)]} {
+            my FlushOut $exact $keep $charset $lineend $backup
             set keep $_mulster(match1)
             if {!($keep in {0 1})} {set keep 1}
+          # check for charset
+          } elseif {[my OptionIs $_mulster(CHARSET) $_mulster(GRP1)]} {
+            my FlushOut $exact $keep $charset $lineend $backup
+            set charset $_mulster(match1)
+          # check for lineend
+          } elseif {[my OptionIs $_mulster(LINEEND) $_mulster(GRP1)]} {
+            my FlushOut $exact $keep $charset $lineend $backup
+            set lineend $_mulster(match1)
+          # check for single mode
+          } elseif {[my OptionIs $_mulster(SINGLE) $_mulster(GRP1)]} {
+            set single $_mulster(match1)
+            if {!($single in {0 1})} {set single 1}
           # check for input file
-          } elseif [my OptionIs $_mulster(IN_FILE) $_mulster(GRP1)] {
-            my FlushOut $exact $keep
+          } elseif {[my OptionIs $_mulster(IN_FILE) $_mulster(GRP1)]} {
+            my FlushOut $exact $keep $charset $lineend $backup
             set _mulster(fin) 1
             set _mulster(infile) $_mulster(match1)
-            my BackupFile $backup $_mulster(infile)
           # check for output file
-          } elseif [my OptionIs $_mulster(OUT_FILE) $_mulster(GRP1)] {
+          } elseif {[my OptionIs $_mulster(OUT_FILE) $_mulster(GRP1)]} {
             my CheckForError 1
             set _mulster(fout) 1
             set _mulster(outfile) $_mulster(match1)
@@ -98,10 +120,11 @@ oo::class create Mulster {
                     [my OptionIs $_mulster(IN_BEGIN) $_mulster(GRP2)]} {
             my CheckForError 1
             my CheckForError 2
-            lappend _mulster(inlist) [list $_mulster(match1) $_mulster(match2)]
+            lappend _mulster(inlist) [list \
+              $_mulster(match1) $_mulster(match2) $single $charset $lineend]
             set mode IN
           # check for output lines beginning
-          } elseif [my OptionIs $_mulster(OUT_BEGIN)] {
+          } elseif {[my OptionIs $_mulster(OUT_BEGIN)]} {
             my CheckForError 1
             my CheckForError 2
             lappend _mulster(outlist) [list]
@@ -110,7 +133,7 @@ oo::class create Mulster {
         }
         IN {
           # check for input lines ending
-          if [my OptionIs $_mulster(IN_END)] {
+          if {[my OptionIs $_mulster(IN_END)]} {
             set mode NONE
           } else {
             # collect the input lines
@@ -121,7 +144,7 @@ oo::class create Mulster {
         }
         OUT {
           # check for output lines ending
-          if [my OptionIs $_mulster(OUT_END)] {
+          if {[my OptionIs $_mulster(OUT_END)]} {
             set mode NONE
           } else {
             # collect the output lines
@@ -132,7 +155,8 @@ oo::class create Mulster {
         }
       }
     }
-    my FlushOut $exact $keep  ;# flush out the collected lines if any
+    # flush out the collected lines if any
+    my FlushOut $exact $keep $charset $lineend $backup
     close $chini
   }
 
@@ -140,10 +164,18 @@ oo::class create Mulster {
   # Performs replacements in a list ('lcont') according to a list of
   # input lines ('lin') and  a list of output lines ('lout'), in
   # a range of replacements set with 'r1' and 'r2' parameters.
+  #
   # If 'exact' is true, the lines are compared to be strongly equal,
   # otherwise their leading/tailing spaces are ignored at comparing.
+  #
+  # If 'single' is true, the input lines ('lin') are replaced with output
+  # lines ('lout') in a list ('lcont') as standard string replacements.
+  #
+  # The 'charset' sets an encoding of input files (by default utf-8).
+  # The 'lineend' sets an line ending of input files (by default \n).
 
-  method mulster1 {lcont lin lout {r1 0} {r2 0} {exact 1}} {
+  method mulster1 {lcont lin lout {r1 0} {r2 0} {exact 1} \
+  {single 0} {charset ""} {lineend ""}} {
     set _mulster(repls) 0
     set leni [llength $lin]
     if {!$leni} {
@@ -188,6 +220,19 @@ oo::class create Mulster {
           continue
         }
       }
+      if {$single} {   ;# do standard string replacement
+        foreach si $lin so $lout {
+          set stc2 [string map [list $si $so] $stc]
+          if {$stc2 ne $stc} {
+            incr ifnd
+            ;# check a found ifnd-th bunch for the range (r1,r2)
+            if {$ifnd>=$r1 && ($ifnd<=$r2 || !$r2)} {
+              set stc $stc2
+              incr _mulster(repls)
+            }
+          }
+        }
+      }
       lappend lres $stc  ;# this line is not the 1st of 'lin' bunch
       incr ic
     }
@@ -228,11 +273,14 @@ oo::class create Mulster {
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Flushes the current file and initializes the mulster's variables
 
-  method FlushOut {exact {keep 1}} {
+  method FlushOut {exact {keep 1} {charset ""} {lineend ""} {backup ""}} {
     if {$exact!=-1 && ($_mulster(fin) + $_mulster(fout))} {
       my CheckForError 1
       my CheckForError 2
-      my Flush1 $exact $keep
+      set root [file dirname $_mulster(infile)]
+      set patt [file tail $_mulster(infile)]
+      my recurseProc $root $root $patt $_mulster(outfile) \
+        $exact $keep $charset $lineend $backup
     }
     set _mulster(fin) 0            ;# flag of "input file defined"
     set _mulster(fout) 0           ;# flag of "output file defined"
@@ -240,20 +288,79 @@ oo::class create Mulster {
     set _mulster(outlist) [list]   ;# out lines list
   }
 
-  method Flush1 {exact keep} {
-    puts "MULSTER: $_mulster(infile) ==> $_mulster(outfile)"
-    if {$keep} {
-      lassign [my FileAttributes $_mulster(infile)] attrs atime mtime
+  method recurseProc {root dirname inpatt outpatt exact \
+   keep charset lineend backup} {
+    # Scans reversively a directory for files as glob patterns.
+    #   root - a root directory name
+    #   dirname - current directory name
+    #   inpatt - glob pattern of input files
+    #   outpatt - glob pattern of output files
+    #   exact, keep, charset, lineend, backup - arguments of mulster
+    #
+    # For each found file, gets an output file name, makes an output
+    # directory and calls the mulstering procedure.
+
+    if {[string first * $outpatt]<0} {
+      ;# no patterns, simple file-to-file processing
+      my ProcFile [file join $root $inpatt] $outpatt \
+        $exact $keep $charset $lineend $backup
+      return
     }
-    set ch [open $_mulster(infile)]
+    foreach dir [glob -nocomplain [file join $dirname *]] {
+      if {[file isdirectory $dir]} {
+        my recurseProc $root $dir $inpatt $outpatt \
+          $exact $keep $charset $lineend $backup
+      }
+    }
+    # no dirs anymore
+    foreach filetempl [split $inpatt ", "] {
+      if {![catch { \
+      set files [glob -nocomplain [file join $dirname $filetempl]]}]} {
+        foreach f $files {
+          # compose the output file name from input file's and output pattern
+          set outf [file tail $outpatt]
+          set inpf [file rootname [file tail $f]]
+          set outf [string map [list * $inpf] $outf]
+          # subdirectory of input file, relative to the root
+          set r1 [file dirname [file normalize $f]]
+          set r2 [file normalize $root]
+          set sdir [string range $r1 [string len $r2]+1 end]
+          # join all parts of output file name:
+          # root output directory + input subdirectory + output file name
+          set outd [file join [file dirname $outpatt] $sdir]
+          catch {file mkdir $outd}
+          set outf [file join $outd $outf]
+          my ProcFile $f $outf $exact $keep $charset $lineend $backup
+        }
+      }
+    }
+
+  }
+
+  method ProcFile {infile outfile exact keep charset lineend backup} {
+    # Mulsters an input file to make an output file.
+    #   infile -
+    #   outfile -
+    #   exact, keep, charset, lineend, backup - arguments of mulster
+
+    puts "MULSTER: $infile ==> $outfile"
+    if {$keep} {
+      lassign [my FileAttributes $infile] attrs atime mtime
+    }
+    set le [string map [list \\n \n \\r \r] $lineend]
+    my BackupFile $backup $infile $charset $le
+    set ch [open $infile]
+    if {$charset ne ""} {
+      chan configure $ch -encoding $charset
+    }
     set lcont [split [read $ch] \n]
     close $ch
     for {set il 0} {$il<[llength $_mulster(inlist)]} {incr il} {
       set lin [lindex $_mulster(inlist) $il]
       set lout [lindex $_mulster(outlist) $il]
-      set r1 [lindex $lin 0]
-      set r2 [lindex $lin 1]
-      set lcont [my mulster1 $lcont [lrange $lin 2 end] $lout $r1 $r2 $exact]
+      lassign $lin r1 r2 single charset lineend
+      set lcont [my mulster1 $lcont [lrange $lin 5 end] \
+        $lout $r1 $r2 $exact $single $charset $lineend]
       puts -nonewline "Replacement #[expr {$il+1}]: "
       if {$_mulster(repls)==0} {
         puts "NOTHING CHANGED!"
@@ -261,14 +368,26 @@ oo::class create Mulster {
         puts "$_mulster(repls) done"
       }
     }
-    set ch [open $_mulster(outfile) w]
-    foreach stout $lcont {
-      if {[incr iamidiotofFMD]>1} {puts $ch ""}
-      puts -nonewline $ch $stout
-    }
-    close $ch
-    if {$keep} {
-      my FileAttributes $_mulster(outfile) $attrs $atime $mtime
+    if {[catch {set ch [open $outfile w]} err]} {
+      puts "Couldn't create $outfile\n    $err"
+    } else {
+      if {$charset ne ""} {
+        chan configure $ch -encoding $charset
+      }
+      foreach stout $lcont {
+        if {[incr iamidiotofFMD]>1} {
+          if {$le eq ""} {
+            puts $ch ""
+          } else {
+            puts -nonewline $ch $le
+          }
+        }
+        puts -nonewline $ch $stout
+      }
+      close $ch
+      if {$keep} {
+        my FileAttributes $outfile $attrs $atime $mtime
+      }
     }
   }
 
@@ -288,16 +407,25 @@ oo::class create Mulster {
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Backs up the input file
 
-  method BackupFile {backup filename} {
+  method BackupFile {backup filename charset le} {
     puts ""
     if {$backup!="0" && $backup!=""} {
       lassign [my FileAttributes $filename] attrs atime mtime
       set ch [open $filename]
+      if {$charset ne ""} {
+        chan configure $ch -encoding $charset
+      }
       set cont [read $ch]
       close $ch
       catch {file mkdir $backup}
       set bakfile [file join $backup [file tail $filename]]
       set ch [open $bakfile w]
+      if {$charset ne ""} {
+        chan configure $ch -encoding $charset
+      }
+      if {$le ne ""} {
+        set cont [string map [list \n $le] $cont]
+      }
       puts -nonewline $ch $cont
       close $ch
       my FileAttributes $bakfile $attrs $atime $mtime
@@ -353,13 +481,17 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
        -exact 0 | 1
        -backup 0 | <dir>
        -keep 0 | 1
+       -single 0 | 1
+       -charset charsetName
+       -lineend lineEnding
        --
 
  See README for details.
 "
     exit
   }
-  array set options {-exact 0 -backup BAK -keep 0 fn {}}
+  array set options {-exact 0 -backup BAK -keep 0 -single 0 \
+    -charset {} -lineend {} fn {}}
   set off 0
   foreach {opt val} $::argv {
     if {$off} {
@@ -370,6 +502,9 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
       -e - -exact  { set options(-exact) $val }
       -b - -backup { set options(-backup) $val }
       -k - -keep   { set options(-keep) $val }
+      -s - -single { set options(-single) $val }
+      -c - -charset { set options(-charset) $val }
+      -l - -lineend { set options(-lineend) $val }
       -- {
         set off 1
         set options(fn) $val
@@ -384,10 +519,11 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
 # for "Run me" of TKE editor's e_menu plugin:
 #-ARGS0: -k 1 test/test12ini
 #-ARGS1: -e 1 -b 0 tasks/mulster-tke
-#ARGS2: -e 1 -b 0 tasks/mulster-geany
+#-ARGS2: -e 1 -b 0 tasks/mulster-geany
+#ARGS2: -e 1 -b 0 tasks/mulster-ruff
   Mulster create mul
-  mul mulster $options(fn) $options(-exact) $options(-backup) $options(-keep)
+  mul mulster $options(fn) $options(-exact) $options(-backup) \
+    $options(-keep) $options(-single) $options(-charset) $options(-lineend)
   mul destroy
 #############################################################################
 }
-
