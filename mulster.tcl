@@ -15,6 +15,8 @@
 #         line #1
 #       OUT=END
 #   options are:
+#       -infile input-file
+#       -outfile output-file
 #       -exact 0 | 1
 #       -backup 0 | <dir>
 #       -keep 0 | 1
@@ -31,8 +33,17 @@ oo::class create Mulster {
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  constructor {args} {
+  constructor {infile outfile args} {
     array set _mulster {}
+    my InitIO
+    if {$infile ne ""} {
+      set _mulster(fin) 1
+      set _mulster(infile) $infile
+    }
+    if {$outfile ne ""} {
+      set _mulster(fout) 1
+      set _mulster(outfile) $outfile
+    }
     set _mulster(IN_FILE)   INFILE=   ;# pattern for in file name
     set _mulster(OUT_FILE)  OUTFILE=  ;# pattern for out file name
     set _mulster(IN_BEGIN)  IN=BEGIN  ;# pattern for in lines start
@@ -53,6 +64,18 @@ oo::class create Mulster {
   }
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  method InitIO {} {
+
+    # Initializes input & output files processing
+
+    set _mulster(fin) 0            ;# flag of "input file defined"
+    set _mulster(fout) 0           ;# flag of "output file defined"
+    set _mulster(inlist) [list]    ;# in lines list
+    set _mulster(outlist) [list]   ;# out lines list
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Processes files according to the options of 'fileini' file.
   # Input parameters:
   #   'fileini' is options file name
@@ -69,7 +92,7 @@ oo::class create Mulster {
     if {!($exact in {0 1})} {set exact 1}
     if {!($keep in {0 1})} {set keep 1}
     if {!($single in {0 1})} {set single 1}
-    my FlushOut -1 ;# just to initialize
+    if {!($_mulster(fin) + $_mulster(fout))} { my InitIO }
     set mode NONE
     set _mulster(st) ""
     set _mulster(nl) 0
@@ -273,8 +296,8 @@ oo::class create Mulster {
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Flushes the current file and initializes the mulster's variables
 
-  method FlushOut {exact {keep 1} {charset ""} {lineend ""} {backup ""}} {
-    if {$exact!=-1 && ($_mulster(fin) + $_mulster(fout))} {
+  method FlushOut {exact keep charset lineend backup} {
+    if {$_mulster(fin) || $_mulster(fout)} {
       my CheckForError 1
       my CheckForError 2
       set root [file dirname $_mulster(infile)]
@@ -282,10 +305,7 @@ oo::class create Mulster {
       my recurseProc $root $root $patt $_mulster(outfile) \
         $exact $keep $charset $lineend $backup
     }
-    set _mulster(fin) 0            ;# flag of "input file defined"
-    set _mulster(fout) 0           ;# flag of "output file defined"
-    set _mulster(inlist) [list]    ;# in lines list
-    set _mulster(outlist) [list]   ;# out lines list
+    my InitIO
   }
 
   method recurseProc {root dirname inpatt outpatt exact \
@@ -343,7 +363,7 @@ oo::class create Mulster {
     #   outfile -
     #   exact, keep, charset, lineend, backup - arguments of mulster
 
-    puts "MULSTER: $infile ==> $outfile"
+    puts "\nMULSTER: $infile ==> $outfile"
     if {$keep} {
       lassign [my FileAttributes $infile] attrs atime mtime
     }
@@ -408,7 +428,6 @@ oo::class create Mulster {
   # Backs up the input file
 
   method BackupFile {backup filename charset le} {
-    puts ""
     if {$backup!="0" && $backup!=""} {
       lassign [my FileAttributes $filename] attrs atime mtime
       set ch [open $filename]
@@ -478,6 +497,8 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
          line #1
        OUT=END
    options are:
+       -infile input-file-name
+       -outfile output-file-name
        -exact 0 | 1
        -backup 0 | <dir>
        -keep 0 | 1
@@ -492,6 +513,7 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
   }
   array set options {-exact 0 -backup BAK -keep 0 -single 0 \
     -charset {} -lineend {} fn {}}
+  set infile [set outfile ""]
   set off 0
   foreach {opt val} $::argv {
     if {$off} {
@@ -499,12 +521,14 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
       continue
     }
     switch -exact $opt {
-      -e - -exact  { set options(-exact) $val }
-      -b - -backup { set options(-backup) $val }
-      -k - -keep   { set options(-keep) $val }
-      -s - -single { set options(-single) $val }
+      -e - -exact   { set options(-exact) $val }
+      -b - -backup  { set options(-backup) $val }
+      -k - -keep    { set options(-keep) $val }
+      -s - -single  { set options(-single) $val }
       -c - -charset { set options(-charset) $val }
       -l - -lineend { set options(-lineend) $val }
+      -i - -infile  { set infile $val }
+      -o - -outfile { set outfile $val }
       -- {
         set off 1
         set options(fn) $val
@@ -515,15 +539,17 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
       }
     }
   }
+  if {$outfile eq "" && $infile ne ""} { set outfile $infile }
+  Mulster create mul $infile $outfile
+  mul mulster $options(fn) $options(-exact) $options(-backup) \
+    $options(-keep) $options(-single) $options(-charset) $options(-lineend)
+  mul destroy
+}
+
 #############################################################################
-# for "Run me" of TKE editor's e_menu plugin:
+# for "Run me" of e_menu:
 #-ARGS0: -k 1 test/test12ini
 #-ARGS1: -e 1 -b 0 tasks/mulster-tke
 #-ARGS2: -e 1 -b 0 tasks/mulster-geany
 #ARGS2: -e 1 -b 0 tasks/mulster-ruff
-  Mulster create mul
-  mul mulster $options(fn) $options(-exact) $options(-backup) \
-    $options(-keep) $options(-single) $options(-charset) $options(-lineend)
-  mul destroy
 #############################################################################
-}

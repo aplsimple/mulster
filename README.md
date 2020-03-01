@@ -22,7 +22,53 @@ It's called this way:
 
 where:
 
-    fileini is a name of file containing settings for replacements.
+`fileini` is a name of file containing settings for replacements
+
+`options` are:
+
+  * `-infile input-file-name` means a name of input file to be processed;
+  
+  * `-outfile output-file-name` means a name of output file; if -outfile
+           is omitted, *output-file-name* equals to *input-file-name*;
+  
+  * `-exact 1` means that IN-lines should be matched exactly, with
+           all their leading/tailing spaces as specified in
+           IN=BEGIN blocks; by default the lines are trimmed at
+           finding their matches;
+  
+  * `-backup dir` means that the original input files are
+           backed up into the *dir* directory;
+  
+  * `-backup 0` means that the original input files are NOT backed up
+           at all (by default they are backed up to BAK directory);
+  
+  * `-keep 1` means that input files' attributes/times will be
+           saved in output files; by default they are not kept;
+  
+  * `-single 1` means that a IN-line should be replaced with a OUT-line
+           (this mode is used at standard string-to-string replacements)
+  
+  * `-charset` means a charset of input files, e.g. cp1251
+  
+  * `-lineend` means characters to end lines, e.g. \r\n (by default \n)
+  
+  * `--` switches options off (for fileini)
+
+The `-infile, -outfile, -exact, -backup, -keep, -single, -charset, -lineend` options can be
+redefined in *fileini*, e.g.
+
+    ...
+    BACKUP=BAK/new backup dir
+    EXACT=1
+    KEEP=1
+    CHARSET=
+    LINEEND=
+    INFILE=input file2 name
+    OUTFILE=output file2 name
+    SINGLE=1
+    ...
+
+so that these options can be individual for any file(s).
 
 The *fileini* has the following structure:
 
@@ -134,51 +180,6 @@ For example, applying the following fileini:
     next-comm
     #... other commands
     proc3 $a $b $a2 $b2  ;# =====REPLACED
-
-The options of
-
-    tclsh mulster.tcl ?options? fileini
-
-are following:
-
-  -exact 1 means that IN-lines should be matched exactly, with
-         all their leading/tailing spaces as specified in
-         IN=BEGIN blocks; by default the lines are trimmed at
-         finding their matches;
-
-  -backup *dir* means that the original input files are
-         backed up into the *dir* directory;
-
-  -backup 0 means that the original input files are NOT backed up
-         at all (by default they are backed up to BAK directory);
-
-  -keep 1 means that input files' attributes/times will be
-         saved in output files; by default they are not kept;
-
-  -single 1 means that a IN-line should be replaced with a OUT-line
-         (this mode is used at standard string-to-string replacements)
-
-  -charset means a charset of input files, e.g. cp1251
-
-  -lineend means characters to end lines, e.g. \r\n (by default \n)
-
-  -- switches options off (for fileini)
-
-The -exact, -backup, -keep, -single, -charset and -lineend options can be
-redefined in *fileini*, e.g.
-
-    ...
-    BACKUP=BAK/new backup dir
-    EXACT=1
-    KEEP=1
-    CHARSET=
-    LINEEND=
-    INFILE=input file2 name
-    OUTFILE=output file2 name
-    SINGLE=1
-    ...
-
-so that these options can be individual for any file(s).
 
 Note: if the mulster comes across BACKUP=, EXACT=, KEEP=, CHARSET=,
 LINEEND= or INFILE= option in fileini, it flushes all collected

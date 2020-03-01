@@ -84,19 +84,15 @@ SINGLE=1
 IN=BEGIN
 trimmer.html#::
 <h2 class='ruff'>
+<h4 class='ruffproc'>
+width: max-content;
 IN=END
 
 OUT=BEGIN
 #::
 <br><h2 class='ruff'>
-OUT=END
-
-IN=BEGIN
-<h4 class='ruffproc'>
-IN=END
-
-OUT=BEGIN
 <br><h4 class='ruffproc'>
+/* width: max-content; --- to leave footsteps */ overflow: auto;
 OUT=END
 
 IN=BEGIN(2,0)
