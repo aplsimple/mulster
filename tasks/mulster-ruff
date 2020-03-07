@@ -86,6 +86,8 @@ trimmer.html#::
 <h2 class='ruff'>
 <h4 class='ruffproc'>
 width: max-content;
+<tr><td class='ruff_defitem'>
+</td><td class='ruff_defitem'>
 IN=END
 
 OUT=BEGIN
@@ -93,6 +95,8 @@ OUT=BEGIN
 <br><h2 class='ruff'>
 <br><h4 class='ruffproc'>
 /* width: max-content; --- to leave footsteps */ overflow: auto;
+<tr><td class='ruff_defitem'><code>
+</code></td><td class='ruff_defitem'>
 OUT=END
 
 IN=BEGIN(2,0)
