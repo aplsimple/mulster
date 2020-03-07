@@ -88,6 +88,10 @@ trimmer.html#::
 width: max-content;
 <tr><td class='ruff_defitem'>
 </td><td class='ruff_defitem'>
+.yui-t2 .yui-b{float:left;width:13
+.yui-t2 #yui-main .yui-b{margin-left:14
+zoom:1
+font-size: 108%;
 IN=END
 
 OUT=BEGIN
@@ -97,6 +101,10 @@ OUT=BEGIN
 /* width: max-content; --- to leave footsteps */ overflow: auto;
 <tr><td class='ruff_defitem'><code>
 </code></td><td class='ruff_defitem'>
+.yui-t2 .yui-b{float:left;width:9
+.yui-t2 #yui-main .yui-b{margin-left:10
+zoom:0
+/*font-size: 108%;*/
 OUT=END
 
 IN=BEGIN(2,0)
