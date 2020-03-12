@@ -93,6 +93,7 @@ width: max-content;
 #006666
 zoom:1
 font-size: 108%;
+<a style='text-decoration:none;' href=
 IN=END
 
 OUT=BEGIN
@@ -102,11 +103,12 @@ OUT=BEGIN
 /* width: max-content; --- to leave footsteps */ overflow: auto;
 <tr><td class='ruff_defitem'><code>
 </code></td><td class='ruff_defitem'>
-.yui-t2 .yui-b{float:left;width:8.8
-.yui-t2 #yui-main .yui-b{margin-left:9.8
+.yui-t2 .yui-b{float:left;width:10.
+.yui-t2 #yui-main .yui-b{margin-left:11.
 #3C4245
 zoom:0
 /*font-size: 108%;*/
+<a name=
 OUT=END
 
 IN=BEGIN(2,0)
@@ -143,4 +145,52 @@ IN=END
 OUT=BEGIN
 h3.ruff, h4.ruff, h5.ruff, h6.ruff {
     color: #2A2E30;
+OUT=END
+
+#############################################################################
+############################### Highlighting ################################
+
+IN=BEGIN
+<!DOCTYPE html><html><head><meta charset="utf-8"/>
+IN=END
+
+OUT=BEGIN
+<!DOCTYPE html><html><head><meta charset="utf-8"/>
+<link rel="stylesheet" href="../../../zoo/sh/styles/aplsimple.css">
+<script src="../../../zoo/sh/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+OUT=END
+
+SINGLE=1
+
+IN=BEGIN
+<pre class='ruff'>
+IN=END
+
+OUT=BEGIN
+<pre class='ruff'><code class="tcl">
+OUT=END
+
+IN=BEGIN
+class='ruff_dyn_src'><pre>
+IN=END
+
+OUT=BEGIN
+class='ruff_dyn_src'><pre><code class="tcl"><br>
+OUT=END
+
+IN=BEGIN
+</pre>
+IN=END
+
+OUT=BEGIN
+<br></code></pre>
+OUT=END
+
+IN=BEGIN
+}<br></code></pre></div>
+IN=END
+
+OUT=BEGIN
+}<br><br></code></pre></div>
 OUT=END
