@@ -29,7 +29,6 @@ qq- new     return $lcont  ;# nothing to replace
 OUT=END
 
 KEEP=0
-EXACT=1
 BACKUP=BAK/new backup dir
 INFILE=test/test2.txt
 OUTFILE=test/testres2.txt

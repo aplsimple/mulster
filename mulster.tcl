@@ -17,10 +17,10 @@
 #   options are:
 #       -infile input-file
 #       -outfile output-file
-#       -exact 0 | 1
+#       -mode exact | exact0 | glob | regexp
 #       -backup 0 | <dir>
-#       -keep 0 | 1
-#       -single 0 | 1
+#       -keep 0 | 1 | false | true
+#       -single 0 | 1 | false | true
 #       -charset charsetName
 #       -lineend lineEnding
 #       --
@@ -33,7 +33,10 @@ oo::class create Mulster {
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  constructor {infile outfile args} {
+  method init {infile outfile args} {
+
+    # Initializes processing files.
+
     array set _mulster {}
     my InitIO
     if {$infile ne ""} {
@@ -50,7 +53,7 @@ oo::class create Mulster {
     set _mulster(IN_END)    IN=END    ;# pattern for in lines finish
     set _mulster(OUT_BEGIN) OUT=BEGIN ;# pattern for out lines start
     set _mulster(OUT_END)   OUT=END   ;# pattern for out lines finish
-    set _mulster(EXACT)     EXACT=    ;# pattern for exact mode
+    set _mulster(MODE)      MODE=     ;# pattern for exact/glob/regexp mode
     set _mulster(BACKUP)    BACKUP=   ;# pattern for backup dir name
     set _mulster(KEEP)      KEEP=     ;# pattern for keep mode
     set _mulster(SINGLE)    SINGLE=   ;# pattern for single mode
@@ -61,6 +64,40 @@ oo::class create Mulster {
     if { [self next] != {} } {
       return [next {*}$args]
     }
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  method getSearchMode {strmode} {
+
+    # Gets a search mode as numeric from string.
+    # Default is 1 ("exact").
+
+    switch $strmode {
+      0 - exact0 - EXACT0           {return 0}
+      2 - glob   - GLOB             {return 2}
+      3 - regexp - re - REGEXP - RE {return 3}
+      default                       {return 1}
+    }
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Compares `str` and `pattern` according to mode
+  #   'mode' :
+  #      0 - to match exact, without their leading/tailing spaces (str trimmed)
+  #      1 - to match exact, with all their leading/tailing spaces
+  #      2 - to match glob
+  #      3 - to match regexp
+
+  method CompareStr {mode str pattern} {
+
+    if {$mode==0 && [string trim $str] eq $pattern || \
+        $mode==1 && $str eq $pattern || \
+        $mode==2 && [lsearch -glob [list $str] $pattern]==0 || \
+        $mode==3 && [lsearch -regexp [list $str] $pattern]==0 } {
+      return true
+    }
+    return false
   }
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -76,61 +113,70 @@ oo::class create Mulster {
   }
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  method getBoolean {val {defval true}} {
+
+    # Checks and gets a boolean value
+
+    if {$val ni {0 1 false true}} {set val $defval}
+    return $val
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Processes files according to the options of 'fileini' file.
   # Input parameters:
   #   'fileini' is options file name
-  #   'exact' if 1, means in-lines should be matched exact, with
-  #           all their leading/tailing spaces
+  #   'mode' :
+  #      0 - to match exact, without their leading/tailing spaces
+  #      1 - to match exact, with all their leading/tailing spaces
+  #      2 - to match glob
+  #      3 - to match regexp
   #   'backup' if 0, means no backuping, otherwise - backup directory
   #   'keep' if 1, keeps input files' attributes/times in output files
   #   'single' if 1, standard 'one string for one string' replacements
   #   'charset' sets a charset of input files (e.g. cp1251)
   #   'lineend' sets a line ending of input files (e.g. \r\n)
 
-  method mulster {fileini {exact 0} {backup BAK} {keep 0} \
+  method mulster {fileini {mode 1} {backup BAK} {keep 0} \
   {single 0} {charset ""} {lineend ""}} {
-    if {!($exact in {0 1})} {set exact 1}
-    if {!($keep in {0 1})} {set keep 1}
-    if {!($single in {0 1})} {set single 1}
+    set mode [my getSearchMode $mode]
+    set keep [my getBoolean $keep]
+    set single [my getBoolean $single]
     if {!($_mulster(fin) + $_mulster(fout))} { my InitIO }
-    set mode NONE
+    set state NONE
     set _mulster(st) ""
     set _mulster(nl) 0
     set _mulster(fileini) $fileini
     set chini [open $fileini]
     foreach _mulster(st) [split [read $chini] \n] {
       incr _mulster(nl)
-      switch $mode {
+      switch $state {
         NONE {
-          # check for exact mode
-          if {[my OptionIs $_mulster(EXACT) $_mulster(GRP1)]} {
-            my FlushOut $exact $keep $charset $lineend $backup
-            set exact $_mulster(match1)
-            if {!($exact in {0 1})} {set exact 1}
+          # check for mode
+          if {[my OptionIs $_mulster(MODE) $_mulster(GRP1)]} {
+            set mode [my getSearchMode $_mulster(match1)]
           # check for backup dir
           } elseif {[my OptionIs $_mulster(BACKUP) $_mulster(GRP1)]} {
-            my FlushOut $exact $keep $charset $lineend $backup
+            my FlushOut $mode $keep $charset $lineend $backup
             set backup $_mulster(match1)
-          # check for keep mode
+          # check for keep state
           } elseif {[my OptionIs $_mulster(KEEP) $_mulster(GRP1)]} {
-            my FlushOut $exact $keep $charset $lineend $backup
-            set keep $_mulster(match1)
-            if {!($keep in {0 1})} {set keep 1}
+            my FlushOut $mode $keep $charset $lineend $backup
+            set keep [my getBoolean $_mulster(match1)]
           # check for charset
           } elseif {[my OptionIs $_mulster(CHARSET) $_mulster(GRP1)]} {
-            my FlushOut $exact $keep $charset $lineend $backup
+            my FlushOut $mode $keep $charset $lineend $backup
             set charset $_mulster(match1)
           # check for lineend
           } elseif {[my OptionIs $_mulster(LINEEND) $_mulster(GRP1)]} {
-            my FlushOut $exact $keep $charset $lineend $backup
+            my FlushOut $mode $keep $charset $lineend $backup
             set lineend $_mulster(match1)
-          # check for single mode
+          # check for single state
           } elseif {[my OptionIs $_mulster(SINGLE) $_mulster(GRP1)]} {
-            set single $_mulster(match1)
-            if {!($single in {0 1})} {set single 1}
+            set single [my getBoolean $_mulster(match1)]
           # check for input file
           } elseif {[my OptionIs $_mulster(IN_FILE) $_mulster(GRP1)]} {
-            my FlushOut $exact $keep $charset $lineend $backup
+            my FlushOut $mode $keep $charset $lineend $backup
             set _mulster(fin) 1
             set _mulster(infile) $_mulster(match1)
           # check for output file
@@ -143,21 +189,21 @@ oo::class create Mulster {
                     [my OptionIs $_mulster(IN_BEGIN) $_mulster(GRP2)]} {
             my CheckForError 1
             my CheckForError 2
-            lappend _mulster(inlist) [list \
-              $_mulster(match1) $_mulster(match2) $single $charset $lineend]
-            set mode IN
+            lappend _mulster(inlist) [list $_mulster(match1) $_mulster(match2) \
+              $single $charset $lineend $mode]
+            set state IN
           # check for output lines beginning
           } elseif {[my OptionIs $_mulster(OUT_BEGIN)]} {
             my CheckForError 1
             my CheckForError 2
             lappend _mulster(outlist) [list]
-            set mode OUT
+            set state OUT
           }
         }
         IN {
           # check for input lines ending
           if {[my OptionIs $_mulster(IN_END)]} {
-            set mode NONE
+            set state NONE
           } else {
             # collect the input lines
             set curl [lindex $_mulster(inlist) end]
@@ -168,7 +214,7 @@ oo::class create Mulster {
         OUT {
           # check for output lines ending
           if {[my OptionIs $_mulster(OUT_END)]} {
-            set mode NONE
+            set state NONE
           } else {
             # collect the output lines
             set curl [lindex $_mulster(outlist) end]
@@ -179,7 +225,7 @@ oo::class create Mulster {
       }
     }
     # flush out the collected lines if any
-    my FlushOut $exact $keep $charset $lineend $backup
+    my FlushOut $mode $keep $charset $lineend $backup
     close $chini
   }
 
@@ -188,17 +234,16 @@ oo::class create Mulster {
   # input lines ('lin') and  a list of output lines ('lout'), in
   # a range of replacements set with 'r1' and 'r2' parameters.
   #
-  # If 'exact' is true, the lines are compared to be strongly equal,
-  # otherwise their leading/tailing spaces are ignored at comparing.
+  #   'mode' :
+  #      0 - to match exact, without their leading/tailing spaces
+  #      1 - to match exact, with all their leading/tailing spaces
+  #      2 - to match glob
+  #      3 - to match regexp
   #
   # If 'single' is true, the input lines ('lin') are replaced with output
   # lines ('lout') in a list ('lcont') as standard string replacements.
-  #
-  # The 'charset' sets an encoding of input files (by default utf-8).
-  # The 'lineend' sets an line ending of input files (by default \n).
 
-  method mulster1 {lcont lin lout {r1 0} {r2 0} {exact 1} \
-  {single 0} {charset ""} {lineend ""}} {
+  method mulster1 {lcont lin lout {r1 0} {r2 0} {mode 1} {single 0}} {
     set _mulster(repls) 0
     set leni [llength $lin]
     if {!$leni} {
@@ -206,23 +251,25 @@ oo::class create Mulster {
     }
     set lres [list]  ;# resulting list
     set sti0 [lindex $lin 0]
-    if {!$exact} {set sti0 [string trim $sti0]}
+    if {$mode==0} {set sti0 [string trim $sti0]} ;# for a quick 1st check
     set leno [llength $lout]
     set lenc [llength $lcont]
     set ic [set ifnd 0]
     while {$ic < $lenc} {
       set stc [lindex $lcont $ic]
-      if {[set stc [lindex $lcont $ic]] == $sti0 || \
-      !$exact && [string trim $stc] == $sti0 } { ;# 1st line found
+      if { [my CompareStr $mode $stc $sti0] } { ;# 1st line found
         for {set ii [set found 1]} {$ii<$leni && $found} {incr ii} {
-          set ic2 [expr {$ic + $ii}]
-          set st1 [lindex $lin $ii]
-          set st2 [lindex $lcont $ic2]
-          if {!$exact} {
-            set st1 [string trim $st1]
-            set st2 [string trim $st2]
+          if {[set ic2 [expr {$ic + $ii}]] >= $lenc} {
+            set found 0  ;# out of lcont's range
+          } else {
+            set sti [lindex $lin $ii]
+            set sto [lindex $lcont $ic2]
+            if {$mode==0} {  ;# exact0 is 'trimmed exact' mode
+              set found [my CompareStr $mode $sto [string trim $sti]]
+            } else {
+              set found [my CompareStr $mode $sto $sti]
+            }
           }
-          set found [expr {$st1==$st2 && $ic2<$lenc}]
         }
         if {$found} {
           incr ifnd
@@ -296,26 +343,26 @@ oo::class create Mulster {
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Flushes the current file and initializes the mulster's variables
 
-  method FlushOut {exact keep charset lineend backup} {
+  method FlushOut {mode keep charset lineend backup} {
     if {$_mulster(fin) || $_mulster(fout)} {
       my CheckForError 1
       my CheckForError 2
       set root [file dirname $_mulster(infile)]
       set patt [file tail $_mulster(infile)]
       my recurseProc $root $root $patt $_mulster(outfile) \
-        $exact $keep $charset $lineend $backup
+        $mode $keep $charset $lineend $backup
     }
     my InitIO
   }
 
-  method recurseProc {root dirname inpatt outpatt exact \
+  method recurseProc {root dirname inpatt outpatt mode \
    keep charset lineend backup} {
     # Scans reversively a directory for files as glob patterns.
     #   root - a root directory name
     #   dirname - current directory name
     #   inpatt - glob pattern of input files
     #   outpatt - glob pattern of output files
-    #   exact, keep, charset, lineend, backup - arguments of mulster
+    #   mode, keep, charset, lineend, backup - arguments of mulster
     #
     # For each found file, gets an output file name, makes an output
     # directory and calls the mulstering procedure.
@@ -323,13 +370,13 @@ oo::class create Mulster {
     if {[string first * $outpatt]<0} {
       ;# no patterns, simple file-to-file processing
       my ProcFile [file join $root $inpatt] $outpatt \
-        $exact $keep $charset $lineend $backup
+        $mode $keep $charset $lineend $backup
       return
     }
     foreach dir [glob -nocomplain [file join $dirname *]] {
       if {[file isdirectory $dir]} {
         my recurseProc $root $dir $inpatt $outpatt \
-          $exact $keep $charset $lineend $backup
+          $mode $keep $charset $lineend $backup
       }
     }
     # no dirs anymore
@@ -350,18 +397,17 @@ oo::class create Mulster {
           set outd [file join [file dirname $outpatt] $sdir]
           catch {file mkdir $outd}
           set outf [file join $outd $outf]
-          my ProcFile $f $outf $exact $keep $charset $lineend $backup
+          my ProcFile $f $outf $mode $keep $charset $lineend $backup
         }
       }
     }
-
   }
 
-  method ProcFile {infile outfile exact keep charset lineend backup} {
+  method ProcFile {infile outfile mode keep charset lineend backup} {
     # Mulsters an input file to make an output file.
     #   infile -
     #   outfile -
-    #   exact, keep, charset, lineend, backup - arguments of mulster
+    #   mode, keep, charset, lineend, backup - arguments of mulster
 
     puts "\nMULSTER: $infile ==> $outfile"
     if {$keep} {
@@ -378,9 +424,11 @@ oo::class create Mulster {
     for {set il 0} {$il<[llength $_mulster(inlist)]} {incr il} {
       set lin [lindex $_mulster(inlist) $il]
       set lout [lindex $_mulster(outlist) $il]
-      lassign $lin r1 r2 single charset lineend
-      set lcont [my mulster1 $lcont [lrange $lin 5 end] \
-        $lout $r1 $r2 $exact $single $charset $lineend]
+      # r1, r2, ... are options per a IN=/OUT= block
+      lassign $lin r1 r2 single charset lineend mode
+      # other options go after them
+      set others [lrange $lin 6 end]
+      set lcont [my mulster1 $lcont $others $lout $r1 $r2 $mode $single]
       puts -nonewline "Replacement #[expr {$il+1}]: "
       if {$_mulster(repls)==0} {
         puts "NOTHING CHANGED!"
@@ -499,10 +547,10 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
    options are:
        -infile input-file-name
        -outfile output-file-name
-       -exact 0 | 1
+       -mode exact | exact0 | glob | regexp
        -backup 0 | <dir>
-       -keep 0 | 1
-       -single 0 | 1
+       -keep 0 | 1 | false | true
+       -single 0 | 1 | false | true
        -charset charsetName
        -lineend lineEnding
        --
@@ -511,7 +559,8 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
 "
     exit
   }
-  array set options {-exact 0 -backup BAK -keep 0 -single 0 \
+  Mulster create mul
+  array set options {-mode 1 -backup BAK -keep 0 -single 0 \
     -charset {} -lineend {} fn {}}
   set infile [set outfile ""]
   set off 0
@@ -521,10 +570,10 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
       continue
     }
     switch -exact $opt {
-      -e - -exact   { set options(-exact) $val }
+      -m - -mode    { set options(-mode) [mul getSearchMode $val] }
       -b - -backup  { set options(-backup) $val }
-      -k - -keep    { set options(-keep) $val }
-      -s - -single  { set options(-single) $val }
+      -k - -keep    { set options(-keep) [mul getBoolean $val] }
+      -s - -single  { set options(-single) [mul getBoolean $val] }
       -c - -charset { set options(-charset) $val }
       -l - -lineend { set options(-lineend) $val }
       -i - -infile  { set infile $val }
@@ -540,16 +589,19 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
     }
   }
   if {$outfile eq "" && $infile ne ""} { set outfile $infile }
-  Mulster create mul $infile $outfile
-  mul mulster $options(fn) $options(-exact) $options(-backup) \
+  mul init $infile $outfile
+  mul mulster $options(fn) $options(-mode) $options(-backup) \
     $options(-keep) $options(-single) $options(-charset) $options(-lineend)
   mul destroy
 }
 
 #############################################################################
+#
 # for "Run me" of e_menu:
-#-ARGS0: -k 1 test/test12ini
-#-ARGS1: -e 1 -b 0 tasks/mulster-tke
-#-ARGS2: -e 1 -b 0 tasks/mulster-geany
-#ARGS2: -e 1 -b 0 tasks/mulster-ruff
+#
+#-ARGS0: -k 1 -mode glob test/test12ini
+#-ARGS1: -b 0 tasks/mulster-tke
+#-ARGS2: -b 0 tasks/mulster-geany
+#ARGS3: -b 0 tasks/mulster-ruff
+#
 #############################################################################
