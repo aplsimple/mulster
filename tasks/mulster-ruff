@@ -103,8 +103,8 @@ OUT=BEGIN
 /* width: max-content; --- to leave footsteps */ overflow: auto;
 <tr><td class='ruff_defitem'><code>
 </code></td><td class='ruff_defitem'>
-.yui-t2 .yui-b{float:left;width:9.
-.yui-t2 #yui-main .yui-b{margin-left:10.
+.yui-t2 .yui-b{float:left;width:8.0
+.yui-t2 #yui-main .yui-b{margin-left:9.0
 #3C4245
 zoom:0
 /*font-size: 108%;*/
