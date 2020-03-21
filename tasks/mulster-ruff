@@ -79,6 +79,18 @@ href="../mulster/index.html">mulster</a></div>
 OUT=END
 
 #############################################################################
+###################### Superfluous blank lines removed ######################
+
+IN=BEGIN
+
+
+IN=END
+
+OUT=BEGIN
+
+OUT=END
+
+#############################################################################
 ########################### String replacements #############################
 
 SINGLE=1
@@ -108,7 +120,7 @@ OUT=BEGIN
 </code></td><td class='ruff_defitem'>
 .yui-t2 .yui-b{float:left;width:7.7
 .yui-t2 #yui-main .yui-b{margin-left:8.7
-#3C4245
+#15539E
 zoom:0
 /*font-size: 108%;*/
 <a name=
@@ -131,24 +143,24 @@ SINGLE=0
 IN=BEGIN
 h2.ruff {
     font-variant: small-caps;
-    color: #3C4245;
+    color: #15539E;
 IN=END
 
 OUT=BEGIN
 h2.ruff {
     font-variant: small-caps;
-    color: #2A2E30;
+    color: #0C4182;
     font-weight: bold;
 OUT=END
 
 IN=BEGIN
 h3.ruff, h4.ruff, h5.ruff, h6.ruff {
-    color: #3C4245;
+    color: #15539E;
 IN=END
 
 OUT=BEGIN
 h3.ruff, h4.ruff, h5.ruff, h6.ruff {
-    color: #2A2E30;
+    color: #0C4182;
 OUT=END
 
 #############################################################################
