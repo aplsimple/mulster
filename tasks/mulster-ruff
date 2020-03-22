@@ -96,37 +96,39 @@ OUT=END
 SINGLE=1
 
 IN=BEGIN
+.yui-t2 .yui-b{float:left;width:13.
+.yui-t2 #yui-main .yui-b{margin-left:14.
 trimmer.html#::
 <h2 class='ruff'>
 <h4 class='ruffproc'>
 width: max-content;
 <tr><td class='ruff_defitem'>
 </td><td class='ruff_defitem'>
-.yui-t2 .yui-b{float:left;width:13.
-.yui-t2 #yui-main .yui-b{margin-left:14.
 #006666
 zoom:1
 font-size: 108%;
 <a style='text-decoration:none;' href=
 #ft {
 #eeeeee
+,tt{font-family:monospace;*font-size:108%;
 IN=END
 
 OUT=BEGIN
+.yui-t2 .yui-b{float:left;width:7.6
+.yui-t2 #yui-main .yui-b{margin-left:8.6
 #::
 <br><h2 class='ruff'>
 <br><h4 class='ruffproc'>
 /* width: max-content; --- to leave footsteps */ overflow: auto;
 <tr><td class='ruff_defitem'><code>
 </code></td><td class='ruff_defitem'>
-.yui-t2 .yui-b{float:left;width:7.7
-.yui-t2 #yui-main .yui-b{margin-left:8.7
 #0B3467
 zoom:0
 /*font-size: 108%;*/
 <a name=
 #ft { font-size: x-small; font-family: Arial, sans-serif;
 #f9f9f9
+,tt{font-family:Consolas,"Courier New",monospace;font-size:100%;
 OUT=END
 
 IN=BEGIN(2,0)
@@ -153,6 +155,31 @@ h2.ruff {
     font-variant: small-caps;
     color: #0B3467;
     font-weight: bold;
+OUT=END
+
+#############################################################################
+############################### Code font size ##############################
+
+IN=BEGIN
+    /* width: max-content; --- to leave footsteps */ overflow: auto;
+    font-size: smaller;
+IN=END
+
+OUT=BEGIN
+    /* width: max-content; --- to leave footsteps */ overflow: auto;
+OUT=END
+
+IN=BEGIN
+.ruff_synopsis {
+    border: thin solid #cccccc;
+    background: #f9f9f9;
+    font-size: smaller;
+IN=END
+
+OUT=BEGIN
+.ruff_synopsis {
+    border: thin solid #cccccc;
+    background: #f9f9f9;
 OUT=END
 
 #############################################################################
