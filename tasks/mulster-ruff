@@ -36,7 +36,7 @@ OUT=BEGIN
 <link rel="stylesheet" href="../../../en/zoo/style.css">
 <style>
 table{
-background-color: #EEEEEE;
+background-color: #f9f9f9;
 margin: 1%;
 padding: 1%;
 box-shadow: none;
@@ -109,6 +109,7 @@ zoom:1
 font-size: 108%;
 <a style='text-decoration:none;' href=
 #ft {
+#eeeeee
 IN=END
 
 OUT=BEGIN
@@ -120,11 +121,12 @@ OUT=BEGIN
 </code></td><td class='ruff_defitem'>
 .yui-t2 .yui-b{float:left;width:7.7
 .yui-t2 #yui-main .yui-b{margin-left:8.7
-#15539E
+#0B3467
 zoom:0
 /*font-size: 108%;*/
 <a name=
 #ft { font-size: x-small; font-family: Arial, sans-serif;
+#f9f9f9
 OUT=END
 
 IN=BEGIN(2,0)
@@ -136,35 +138,25 @@ OUT=BEGIN
 OUT=END
 
 #############################################################################
-############################## Headers colors ###############################
+################################# Headers ###################################
 
 SINGLE=0
 
 IN=BEGIN
 h2.ruff {
     font-variant: small-caps;
-    color: #15539E;
+    color: #0B3467;
 IN=END
 
 OUT=BEGIN
 h2.ruff {
     font-variant: small-caps;
-    color: #0C4182;
+    color: #0B3467;
     font-weight: bold;
 OUT=END
 
-IN=BEGIN
-h3.ruff, h4.ruff, h5.ruff, h6.ruff {
-    color: #15539E;
-IN=END
-
-OUT=BEGIN
-h3.ruff, h4.ruff, h5.ruff, h6.ruff {
-    color: #0C4182;
-OUT=END
-
 #############################################################################
-############################### Highlighting ################################
+############################## Syntax highlight #############################
 
 IN=BEGIN
 <!DOCTYPE html><html><head><meta charset="utf-8"/>
