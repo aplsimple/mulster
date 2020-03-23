@@ -37,10 +37,16 @@ OUT=BEGIN
 <style>
 table{
 background-color: #f9f9f9;
-margin: 1%;
-padding: 1%;
+margin: 0%;
+margin-bottom: 2%;
+padding: 0%;
 box-shadow: none;
 filter: none;
+}
+pre{
+margin: 0%;
+margin-bottom: 2%;
+padding: 0%;
 }
 </style>
 <link rel="icon" type="image/jpg" href="../../../zoo/favicon.jpg">
@@ -114,8 +120,8 @@ font-size: 108%;
 IN=END
 
 OUT=BEGIN
-.yui-t2 .yui-b{float:left;width:7.6
-.yui-t2 #yui-main .yui-b{margin-left:8.6
+.yui-t2 .yui-b{float:left;width:7.5
+.yui-t2 #yui-main .yui-b{margin-left:8.5
 #::
 <br><h2 class='ruff'>
 <br><h4 class='ruffproc'>
@@ -196,8 +202,6 @@ OUT=BEGIN
 <script>hljs.initHighlightingOnLoad();</script>
 OUT=END
 
-MODE=exact
-
 SINGLE=1
 
 IN=BEGIN
@@ -230,4 +234,39 @@ IN=END
 
 OUT=BEGIN
 }<br><br></code></pre></div>
+OUT=END
+
+MODE=re
+IN=BEGIN
+^    
+IN=END
+
+OUT=BEGIN
+  
+OUT=END
+
+#############################################################################
+########################### esp. for trimmer project ########################
+
+SINGLE=0
+MODE=exact0
+
+IN=BEGIN
+          if {[countCh  [set _ [string range $line 0 [lindex $s 0]-1]]  &quot;\&quot;&quot;] % 2 == 0} { ;# example of continued command
+IN=END
+
+OUT=BEGIN
+          if {[countCh \
+          [set _ [string range $line 0 [lindex $s 0]-1]] \
+          &quot;\&quot;&quot;] % 2 == 0} { ;# example of continued command
+OUT=END
+
+IN=BEGIN
+          puts $chano &quot;\n$line&quot;  ;# the ending &quot;;#&quot; is a comment continued  (example of continued comment)  (end of example)
+IN=END
+
+OUT=BEGIN
+          puts $chano &quot;\n$line&quot;  ;# the ending &quot;;#&quot; is a comment continued \
+             (example of continued comment) \
+             (end of example)
 OUT=END

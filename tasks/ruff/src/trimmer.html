@@ -292,6 +292,12 @@ pre {
 <div id='bd'><div id='yui-main'><div class='yui-b'><h1 class='ruff'><a name='::trimmer'></a>::trimmer<span class='tinylink'><a href='#top'>Top</a></span></h1>
 <div style='clear:both;'></div>
 <p class='ruff'>Trimming a Tcl source file off comments and whitespaces.</p>
+<h2 class='ruff'><a name='::trimmer-License'></a>License<span class='tinylink'><a href='trimmer.html#::trimmer'>trimmer</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<p class='ruff'>MIT.</p>
+<h2 class='ruff'><a name='::trimmer-Download'></a>Download<span class='tinylink'><a href='trimmer.html#::trimmer'>trimmer</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<p class='ruff'><a href="https://chiselapp.com/user/aplsimple/repository/trimmer/download" >trimmer.zip</a></p>
 <h2 class='ruff'><a name='::trimmer-Usage'></a>Usage<span class='tinylink'><a href='trimmer.html#::trimmer'>trimmer</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
 <pre class='ruff'>
@@ -364,9 +370,6 @@ tclsh trimmed/trim.tcl -f -o trimmed
 
 tclsh trimmed/trim_test.tcl -f -o trimmed
 </pre>
-<h2 class='ruff'><a name='::trimmer-License'></a>License<span class='tinylink'><a href='trimmer.html#::trimmer'>trimmer</a>, <a href='#top'>Top</a></span></h2>
-<div style='clear:both;'></div>
-<p class='ruff'>MIT.</p>
 <h2 class='ruff'><a name='::trimmer-Commands'></a>Commands<span class='tinylink'><a href='trimmer.html#::trimmer'>trimmer</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
 <h4 class='ruffproc'><a name='::trimmer::countCh'>countCh</a><span class='ns_scope'> [<a href="trimmer.html#::trimmer" title="::trimmer" class='ruff_cmd'>::trimmer</a>]</span><span class='tinylink'><a href='trimmer.html#::trimmer'>trimmer</a>, <a href='#top'>Top</a></span></h4>
@@ -377,7 +380,7 @@ tclsh trimmed/trim_test.tcl -f -o trimmed
 <tr><td class='ruff_defitem'><code>str</code></td><td class='ruff_defitem'>a string</td></tr>
 <tr><td class='ruff_defitem'><code>ch</code></td><td class='ruff_defitem'>a character</td></tr>
 </table>
-<h5 class='ruff'>Return value</h5><p class='ruff'>Returns a number of non-escaped occurences of character <em>char</em> in string <em>str</em>.</p>
+<h5 class='ruff'>Return value</h5><p class='ruff'>Returns a number of non-escaped occurences of character <em>ch</em> in string <em>str</em>.</p>
 <h5 class='ruff'>See also</h5><p class='ruff'><a href="https://wiki.tcl-lang.org/page/Reformatting+Tcl+code+indentation" >[wiki.tcl-lang.org</a>]</p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_1' href="javascript:toggleSource('1')">Show source</a></p>
 <div id='1' class='ruff_dyn_src'><pre>proc ::trimmer::countCh {str ch} {
@@ -387,7 +390,7 @@ tclsh trimmed/trim_test.tcl -f -o trimmed
     #   str - a string
     #   ch - a character
     #
-    # Returns a number of non-escaped occurences of character *char* in
+    # Returns a number of non-escaped occurences of character *ch* in
     # string *str*.
     #
     # See also:
@@ -447,7 +450,7 @@ tclsh trimmed/trim_test.tcl -f -o trimmed
           }
         }
         if {$braceST&gt;0} {  ;# check matching left/right braces
-          incr cbrc [expr {[countCh $line &quot;\{&quot;] - [countCh $line &quot;\}&quot;]}]
+          incr cbrc [ expr {[countCh $line &quot;\{&quot;] - [countCh $line &quot;\}&quot;]} ]
           if {$cbrc&lt;=0} {
             set brace [set braceST -1]
           } else {
@@ -456,7 +459,7 @@ tclsh trimmed/trim_test.tcl -f -o trimmed
           }
         }
         if {[regexp &quot;^\\s*;*#&quot; $line] || $ccmnt} {
-          set cc [expr {[string index $line end] eq &quot;\\&quot;}]
+          set cc [ expr {[string index $line end] eq &quot;\\&quot;} ]
           if {($ccmnt || $cc) &amp;&amp; $brace&lt;-1} { puts $chano $line }
           set ccmnt $cc  ;# comments continued
           continue
@@ -464,19 +467,25 @@ tclsh trimmed/trim_test.tcl -f -o trimmed
         set line [string trimleft $line &quot;\t\ &quot;]
         if {$line eq &quot;&quot;} continue
         foreach s [regexp -all -inline -indices &quot;;#&quot; $line] {
-          if {![countCh [string range $line 0 [set _ [lindex $s 0]]] &quot;\&quot;&quot;]%2} {
-            set ic $_   ;# if &quot;;#&quot; not in string, it begins a comment
-            break
+          if {[countCh  [set _ [string range $line 0 [lindex $s 0]-1]]  &quot;\&quot;&quot;] % 2 == 0} { ;# example of continued command
+            set ccmnt [ expr {[string index $line end] eq &quot;\\&quot;} ]
+            set line [ string trimright $_ ]
+            break   ;# the ending &quot;;#&quot; is a comment
           }
+        }
+        if {$ccmnt} {
+          set brace [set braceST -1]
+          puts $chano &quot;\n$line&quot;  ;# the ending &quot;;#&quot; is a comment continued  (example of continued comment)  (end of example)
+          continue
         }
       }
       if {$ic==0} continue  ;# for comments beginning with &quot;;#&quot;
       if {$ic&gt;0} { set line [string range $line 0 $ic-1] }
       set line [string trimright $line]
       set prevbrace $brace
-      set brace [expr {$line eq &quot;\}&quot; ? 1 : 0}]
+      set brace [ expr {$line eq &quot;\}&quot; ? 1 : 0} ]
       if {$prevbrace in {1 0} &amp;&amp; !$brace} { puts $chano &quot;&quot; }
-      if {[countCh $line &quot;\&quot;&quot;]%2} { set quoted [expr {!$quoted}] }
+      if {[countCh $line &quot;\&quot;&quot;]%2} { set quoted [ expr {!$quoted} ] }
       if {[set _ [string index $line end]] eq &quot;\{&quot;} {
         set brace 2           ;# line ending with \{ will join with next line
       } elseif {$_ eq &quot;\\&quot;} {
@@ -493,6 +502,9 @@ tclsh trimmed/trim_test.tcl -f -o trimmed
 </div><h1 class='ruff'><a name='::trimmer::batchio'></a>::trimmer::batchio<span class='tinylink'><a href='#top'>Top</a></span></h1>
 <div style='clear:both;'></div>
 <p class='ruff'>Processing a batch of input files to make appropriate output files.</p>
+<h2 class='ruff'><a name='::trimmer::batchio-License'></a>License<span class='tinylink'><a href='trimmer.html#::trimmer::batchio'>batchio</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<p class='ruff'>MIT.</p>
 <h2 class='ruff'><a name='::trimmer::batchio-Usage'></a>Usage<span class='tinylink'><a href='trimmer.html#::trimmer::batchio'>batchio</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
 <pre class='ruff'>
@@ -519,9 +531,6 @@ tclsh script.tcl [-i idir|ifile] [-o odir] [-r] [-f] [-n] [--] [app args]
 <pre class='ruff'>
 tclsh trim.tcl -i ./lib -o ./bin tclsh -f ./bin/main.tcl arg1 &quot;arg 2&quot;
 </pre>
-<h2 class='ruff'><a name='::trimmer::batchio-License'></a>License<span class='tinylink'><a href='trimmer.html#::trimmer::batchio'>batchio</a>, <a href='#top'>Top</a></span></h2>
-<div style='clear:both;'></div>
-<p class='ruff'>MIT.</p>
 <h2 class='ruff'><a name='::trimmer::batchio-Commands'></a>Commands<span class='tinylink'><a href='trimmer.html#::trimmer::batchio'>batchio</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
 <h4 class='ruffproc'><a name='::trimmer::batchio::doFile'>doFile</a><span class='ns_scope'> [<a href="trimmer.html#::trimmer::batchio" title="::trimmer::batchio" class='ruff_cmd'>::trimmer::batchio</a>]</span><span class='tinylink'><a href='trimmer.html#::trimmer::batchio'>batchio</a>, <a href='#top'>Top</a></span></h4>
@@ -903,9 +912,9 @@ tclsh trim.tcl -i ./lib -o ./bin tclsh -f ./bin/main.tcl arg1 &quot;arg 2&quot;
 
     puts &quot; [string repeat - 75]&quot;
 }</pre></div>
-</div></div></div><div class='yui-b navbox'><h1><a href='#::trimmer'>trimmer</a></h1><h2><a href='#::trimmer-Usage'>Usage</a></h2><h2><a href='#::trimmer-Limitations'>Limitations</a></h2><h2><a href='#::trimmer-License'>License</a></h2><h2><a href='#::trimmer-Commands'>Commands</a></h2><h4 class='tooltip'><a href='trimmer.html#::trimmer::countCh'>countCh</a><span class='tooltiptext'>Counts a character in a string.
+</div></div></div><div class='yui-b navbox'><h1><a href='#::trimmer'>trimmer</a></h1><h2><a href='#::trimmer-License'>License</a></h2><h2><a href='#::trimmer-Download'>Download</a></h2><h2><a href='#::trimmer-Usage'>Usage</a></h2><h2><a href='#::trimmer-Limitations'>Limitations</a></h2><h2><a href='#::trimmer-Commands'>Commands</a></h2><h4 class='tooltip'><a href='trimmer.html#::trimmer::countCh'>countCh</a><span class='tooltiptext'>Counts a character in a string.
 </span></h4><h4 class='tooltip'><a href='trimmer.html#::trimmer::trimFile'>trimFile</a><span class='tooltiptext'>Trims an input file and writes a result to an output file.
-</span></h4><h1><a href='#::trimmer::batchio'>trimmer::batchio</a></h1><h2><a href='#::trimmer::batchio-Usage'>Usage</a></h2><h2><a href='#::trimmer::batchio-License'>License</a></h2><h2><a href='#::trimmer::batchio-Commands'>Commands</a></h2><h4 class='tooltip'><a href='trimmer.html#::trimmer::batchio::doFile'>doFile</a><span class='tooltiptext'>Prepares and does a call of procedure to process two files.
+</span></h4><h1><a href='#::trimmer::batchio'>trimmer::batchio</a></h1><h2><a href='#::trimmer::batchio-License'>License</a></h2><h2><a href='#::trimmer::batchio-Usage'>Usage</a></h2><h2><a href='#::trimmer::batchio-Commands'>Commands</a></h2><h4 class='tooltip'><a href='trimmer.html#::trimmer::batchio::doFile'>doFile</a><span class='tooltiptext'>Prepares and does a call of procedure to process two files.
 </span></h4><h4 class='tooltip'><a href='trimmer.html#::trimmer::batchio::getFilesList'>getFilesList</a><span class='tooltiptext'>Gets a list of input files.
 </span></h4><h4 class='tooltip'><a href='trimmer.html#::trimmer::batchio::main'>main</a><span class='tooltiptext'>Main procedure of batchio.
 </span></h4><h4 class='tooltip'><a href='trimmer.html#::trimmer::batchio::onError'>onError</a><span class='tooltiptext'>Shows an error and optionally performs <em>exit</em>.

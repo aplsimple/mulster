@@ -276,7 +276,11 @@ oo::class create Mulster {
           ;# check a found ifnd-th bunch for the range (r1,r2)
           if {$ifnd>=$r1 && ($ifnd<=$r2 || !$r2)} {
             for {set io 0} {$io<$leno} {incr io} {
-              lappend lres [lindex $lout $io]
+              set stout [lindex $lout $io]
+              if {$mode==3} {
+                regsub -all [lindex $lin $io] $stc $stout stout
+              }
+              lappend lres $stout
             }
             incr ic $leni  ;# go to a line just following the 'lin' bunch
             incr _mulster(repls)
