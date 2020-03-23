@@ -256,9 +256,9 @@ IN=BEGIN
 IN=END
 
 OUT=BEGIN
-          if {[countCh \
-          [set _ [string range $line 0 [lindex $s 0]-1]] \
-          &quot;\&quot;&quot;] % 2 == 0} { ;# example of continued command
+        if {[countCh \
+        [set _ [string range $line 0 [lindex $s 0]-1]] \
+        &quot;\&quot;&quot;] % 2 == 0} { ;# example of continued command
 OUT=END
 
 IN=BEGIN
@@ -266,7 +266,7 @@ IN=BEGIN
 IN=END
 
 OUT=BEGIN
-          puts $chano &quot;\n$line&quot;  ;# the ending &quot;;#&quot; is a comment continued \
-             (example of continued comment) \
-             (end of example)
+        puts $chano &quot;\n$line&quot;  ;# the ending &quot;;#&quot; is a comment continued \
+           (example of continued comment) \
+           (end of example)
 OUT=END

@@ -278,7 +278,7 @@ oo::class create Mulster {
             for {set io 0} {$io<$leno} {incr io} {
               set stout [lindex $lout $io]
               if {$mode==3} {
-                regsub -all [lindex $lin $io] $stc $stout stout
+                regsub [lindex $lin $io] $stc $stout stout
               }
               lappend lres $stout
             }
