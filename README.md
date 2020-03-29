@@ -20,7 +20,7 @@ It would be useful when you need:
 
 It's called this way:
 
-    tclsh mulster.tcl ?options? fileini
+    tclsh mulster.tcl [options] fileini
 
 where:
 
@@ -30,13 +30,13 @@ where:
 
   * `-infile input-file-name` means a name of input file to be processed;
   
-  * `-outfile output-file-name` means a name of output file; if -outfile
+  * `-outfile output-file-name` means a name of output file; if `-outfile`
            is omitted, *output-file-name* equals to *input-file-name*;
 
-  * `-backup dir` means that the original input files are
-           backed up into the *dir* directory;
+  * `-backup dir` means the original input files to be
+           backed up to the *dir* directory;
   
-  * `-backup 0` means that the original input files are NOT backed up
+  * `-backup 0` means the original input files to be NOT backed up
            at all (by default they are backed up to BAK directory);
   
   * `-keep 1` means that input files' attributes/times will be
@@ -55,9 +55,19 @@ where:
 
   * `-mode 2` (or `glob` or `GLOB`) to match glob pattern
 
-  * `-mode 3` (or `regexp` or `re` or `REGEXP` or `RE`) to match regexp pattern
-  
-  * `--` switches options off (for fileini)
+  * `-mode 3` (`regexp, re, REGEXP, RE`) to match regexp pattern
+
+  * `-mode regexp--` to match regexp pattern and call `regsub`
+
+  * `-mode regexp-all` to match regexp pattern and call `regsub -all`
+
+  * `-mode regexp-nocase` to match regexp pattern and call `regsub -nocase`
+
+  * `-mode regexp-expanded` to match regexp pattern and call `regsub -expanded`
+
+  * `-mode regexp` can be combined, e.g. `-mode regexp-all-nocase`
+
+  * `--` switches options off (for *fileini*)
 
 The `-infile, -outfile, -mode, -backup, -keep, -single, -charset, -lineend` options can be redefined in *fileini*, e.g.
 
@@ -104,16 +114,18 @@ The *fileini* has the following structure:
     KEEP=false
     CHARSET=cp1252
     LINEEND=\r
+
     INFILE=input file2 name
     OUTFILE=output file2 name
+
     MODE=regexp
     SINGLE=1
     ...
 
-The INFILE= and OUTFILE= set the names of input & output files.
+The `INFILE=` and `OUTFILE=` set the names of input and output files.
 
-The names can be glob patterns, but OUTFILE= can contain only "*"
-that would be replaced with an appropriate INFILE= file name, e.g.:
+The `INFILE=` names can be glob patterns, but `OUTFILE=` can contain only "*"
+that would be replaced with an appropriate `INFILE=` file name, e.g.:
 
     INFILE=~/DOCS/HTML/*.html
     OUTFILE=~/DOCS/HTML/GENERATED/gen_*.html
@@ -121,15 +133,15 @@ that would be replaced with an appropriate INFILE= file name, e.g.:
 so that the input *~/DOCS/HTML/name1.html* would result in the output
 *~/DOCS/HTML/GENERATED/gen_name1.html*.
 
-If *input file name* is equal to *output file name* all modifications
+If *input file name* is equal to *output file name*, all modifications
 are performed on the same file.
 
-All strings between current IN=BEGIN and IN=END are replaced with
-strings between the next OUT=BEGIN and OUT=END. The sequence of
-INFILE=, OUTFILE=, IN=, OUT= [, IN=, OUT= ...] is set for each
+All strings between current `IN=BEGIN` and `IN=END` are replaced with
+strings between the next `OUT=BEGIN` and `OUT=END`. The sequence of
+`INFILE=, OUTFILE=, IN=, OUT= [, IN=, OUT= ...]` is set for each
 processed file.
 
-The IN=BEGIN(r1,r2) form means that a range of found matches should
+The `IN=BEGIN(r1,r2)` form means that a range of found matches should
 be processed as follows:
 
     IN=BEGIN(r1,r2) - r1-th match through r2-th one
@@ -153,7 +165,7 @@ All strings outside of
 
 are ignored (being sort of comments).
 
-For example, applying the following fileini:
+For example, applying the following *fileini*:
 
     INFILE=modul1.tcl
     OUTFILE=modul2.tcl
@@ -165,7 +177,7 @@ For example, applying the following fileini:
       proc3 $a $b $a2 $b2  ;# =====REPLACED
     OUT=END
 
-... to the modul1.tcl containing:
+... to the *modul1.tcl* containing:
 
     1st-comm
     2nd-comm
@@ -176,7 +188,7 @@ For example, applying the following fileini:
     proc1 $a $b
     proc2 $a2 $b2
 
-... we get the modul2.tcl containing:
+... we get the *modul2.tcl* containing:
 
     1st-comm
     2nd-comm
@@ -185,22 +197,22 @@ For example, applying the following fileini:
     #... other commands
     proc3 $a $b $a2 $b2  ;# =====REPLACED
 
-Note: if the mulster comes across BACKUP=, KEEP=, CHARSET=,
-LINEEND= or INFILE= option in fileini, it flushes all collected
+Note: if the mulster comes across `BACKUP=, KEEP=, CHARSET=,
+LINEEND=` or `INFILE=` option in *fileini*, it flushes all collected
 changes to the current output file and starts a new collection of
 changes for a new file.
 
 So, the order of options is important:
 
-  1. BACKUP=, KEEP=, CHARSET=, LINEEND= go first if they are set
+  1. `BACKUP=, KEEP=, CHARSET=, LINEEND=` go first if any
 
-  2. INFILE= and OUTFILE= go next
+  2. `INFILE=` and `OUTFILE=` go next
 
-  3. SINGLE=, MODE= go next if any (defined for every next IN=,OUT= blocks)
+  3. `SINGLE=, MODE=` go next if any (defined for every next `IN=, OUT=` blocks)
 
-  4. IN=BEGIN and IN=END go next
+  4. `IN=BEGIN` and `IN=END` go next
 
-  5. OUT=BEGIN and OUT=END go next
+  5. `OUT=BEGIN` and `OUT=END` go next
 
   6. (3) through (5) can be repeated
 
@@ -213,7 +225,7 @@ Examples:
     tclsh mulster.tcl -backup ~/BAK mulster3_ini
     tclsh mulster.tcl -mode glob -backup 0 -keep 1 mulster4_ini
 
-While using the -backup 0 option, please be careful. This mode is
+While using the `-backup 0` option, please be careful. This mode is
 well suitable when:
 
   - all your input files are not the same as output files;
@@ -224,8 +236,12 @@ well suitable when:
 
 Otherwise you would take risks of data loss.
 
-The mulster.tcl prints out a log of replacements made (as well as
+The *mulster.tcl* prints out a log of replacements made (as well as
 made not).
+
+The #-comments of *fileini* are printed as well. It's good for debugging.
+
+Also in *fileini*, you can set `MODE=debug` to print the current modes. Use `MODE=exit` to stop the processing.
 
 ---
 
@@ -261,15 +277,16 @@ before pushing my changes to SourceForge.
 These pull/push transactions and accompanying mulsterings are made
 with one click in a TKE plugin. I need only supervising a short log.
 
-The mulster.rar archive contains both appropriate *fileini* files to
-make the changes in Geany and TKE, which might be used as examples.
+There is a whole class of mulster use cases, namely using it for a fine tuning of generated documents. This way, e.g., trimmer.html and mulster.html had been created initially by Ruff! documentation generator to be processed by mulster afterwards.
+
+The mulster.zip archive contains fileini files (tasks/mulster-geany, tasks/mulster-tke, tasks/mulster-ruff) to make the appropriate changes in Geany, TKE and generated html documents.
 
 ---
 
 A little talk about using the mulster's code. It's implemented as
 oo::class and has two useful methods declared so:
 
- 1. method mulster {fileini {mode 1} {backup BAK} {keep 0} {single 0} {charset ""} {lineend ""}}
+ 1. *method main {fileini {mode 1} {backup BAK} {keep 0} {single 0} {charset ""} {lineend ""}}*
 
   where:
 
@@ -281,12 +298,17 @@ oo::class and has two useful methods declared so:
 
   *mode* = 2 (glob / GLOB) to match glob pattern
 
-  *mode* = 3 (regexp / re / REGEXP / RE) to match regexp pattern
+  *mode* = 3 (regexp, re, REGEXP, RE) to match regexp pattern
 
-  *backup* equals to:
+  *mode* = regexp-- to match regexp pattern and call *regsub*
 
-    0     - no input files' backuping
-    "dir" - backuping to "dir" directory
+  *mode* = regexp-all to match regexp pattern and call *regsub -all*
+
+  *mode* = regexp-nocase to match regexp pattern and call *regsub -nocase*
+
+  *mode* = regexp-expanded to match regexp pattern and call *regsub -expanded*
+
+  *backup* = 0 - means no input files' backuping; *dir* - backuping to "dir" directory
 
   *keep* - if 1, keeps input files' attributes/times in output files
 
@@ -298,13 +320,13 @@ oo::class and has two useful methods declared so:
 
   This method performs the above described operations.
 
- 2. method mulster1 {lcont lin lout {r1 0} {r2 0} {mode 1} {single 0}}
+ 2. *method mulsterList {lcont lin lout {r1 0} {r2 0} {mode 1} {single 0}}*
 
   This method performs in-memory replacements in a list (*lcont*)
   according to a list of input lines (*lin*) and a list of output
   lines (*lout*), in a range of replacements set with *r1* and *r2*.
   The range is described in *IN=BEGIN(r1,r2)* above. The *mode* and
-  *single* are described in *mulster* method above.
+  *single* are described in *main* method above.
 
 ---
 

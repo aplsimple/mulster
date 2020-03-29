@@ -515,7 +515,7 @@ tclsh script.tcl [-i idir|ifile] [-o odir] [-r] [-f] [-n] [--] [app args]
 <p class='ruff'>arguments are:</p>
 <table class='ruff_deflist'>
 <tr><td class='ruff_defitem'>-i idir</td><td class='ruff_defitem'>a directory of files to process (by default ./)</td></tr>
-<tr><td class='ruff_defitem'>-i ifile</td><td class='ruff_defitem'>a file listing .tcl files (#-comments disregarded)</td></tr>
+<tr><td class='ruff_defitem'>-i ifile</td><td class='ruff_defitem'>a file listing files to process (#-comments disregarded)</td></tr>
 <tr><td class='ruff_defitem'>-o odir</td><td class='ruff_defitem'>a directory of resulting files (by default ../release)</td></tr>
 <tr><td class='ruff_defitem'>app</td><td class='ruff_defitem'>an application to be run after trimming</td></tr>
 <tr><td class='ruff_defitem'>args</td><td class='ruff_defitem'>optional arguments of <em>app</em></td></tr>
@@ -524,7 +524,7 @@ tclsh script.tcl [-i idir|ifile] [-o odir] [-r] [-f] [-n] [--] [app args]
 <p class='ruff'>The command switches mean:</p>
 <ul class='ruff'>
 <li>If <code>-r</code> (or <code>--recursive</code>) is set, the input directories are processed recursively. By default, they are processed non-recursively.</li>
-<li>If <code>-f</code> (or <code>--force</code>) is set, the existing output file(s) will be rewritten. By default, the <em>trim.tcl</em> doesn't rewrite the existing file(s).</li>
+<li>If <code>-f</code> (or <code>--force</code>) is set, the existing output file(s) will be rewritten. By default, the existing file(s) aren't rewritten.</li>
 <li>If <code>-n</code> (or <code>--no</code>) is set, no real changes made, supposed changes shown only.</li>
 </ul>
 <p class='ruff'>Example:</p>

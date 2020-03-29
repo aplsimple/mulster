@@ -1,4 +1,3 @@
-
 #############################################################################
 # This provides replacements in a html file created by Ruff! doc generator.
 
@@ -120,8 +119,8 @@ font-size: 108%;
 IN=END
 
 OUT=BEGIN
-.yui-t2 .yui-b{float:left;width:7.5
-.yui-t2 #yui-main .yui-b{margin-left:8.5
+.yui-t2 .yui-b{float:left;width:8.
+.yui-t2 #yui-main .yui-b{margin-left:9.
 #::
 <br><h2 class='ruff'>
 <br><h4 class='ruffproc'>
@@ -136,6 +135,9 @@ zoom:0
 #f9f9f9
 ,tt{font-family:Consolas,"Courier New",monospace;font-size:100%;
 OUT=END
+
+#############################################################################
+###################### separate 2nd etc. namespaces #########################
 
 IN=BEGIN(2,0)
 <h1 class='ruff'>
@@ -206,37 +208,26 @@ SINGLE=1
 
 IN=BEGIN
 <pre class='ruff'>
-IN=END
-
-OUT=BEGIN
-<pre class='ruff'><code class="tcl">
-OUT=END
-
-IN=BEGIN
 class='ruff_dyn_src'><pre>
-IN=END
-
-OUT=BEGIN
-class='ruff_dyn_src'><pre><code class="tcl"><br>
-OUT=END
-
-IN=BEGIN
 </pre>
-IN=END
-
-OUT=BEGIN
-<br></code></pre>
-OUT=END
-
-IN=BEGIN
+<h3 class=
+<h4 class='ruffmethod
+<h4 class='ruffproc
 }<br></code></pre></div>
 IN=END
 
 OUT=BEGIN
+<pre class='ruff'><code class="tcl">
+class='ruff_dyn_src'><pre><code class="tcl"><br>
+<br></code></pre>
+<br><br><h3 class=
+<br><br><h4 class='ruffmethod
+<br><br><h4 class='ruffproc
 }<br><br></code></pre></div>
 OUT=END
 
-MODE=re
+MODE=regexp --
+
 IN=BEGIN
 ^    
 IN=END
@@ -246,10 +237,38 @@ OUT=BEGIN
 OUT=END
 
 #############################################################################
-########################### esp. for trimmer project ########################
 
 SINGLE=0
 MODE=exact0
+
+#############################################################################
+########################### esp. for mulster project ########################
+
+IN=BEGIN
+<tr><td class='ruff_defitem'><code><code>unknown</code></code></td><td class='ruff_defitem'>See [.unknown]</td></tr>
+<tr><td class='ruff_defitem'><code><code>variable</code></code></td><td class='ruff_defitem'>See [.variable]</td></tr>
+<tr><td class='ruff_defitem'><code><code>varname</code></code></td><td class='ruff_defitem'>See [.varname]</td></tr>
+IN=END
+
+OUT=BEGIN
+OUT=END
+
+IN=BEGIN
+<tr><td class='ruff_defitem'><code><code>&lt;cloned&gt;</code></code></td><td class='ruff_defitem'>See [.<cloned>]</td></tr>
+IN=END
+
+OUT=BEGIN
+OUT=END
+
+IN=BEGIN
+<tr><td class='ruff_defitem'><code><code>eval</code></code></td><td class='ruff_defitem'>See [.eval]</td></tr>
+IN=END
+
+OUT=BEGIN
+OUT=END
+
+#############################################################################
+########################### esp. for trimmer project ########################
 
 IN=BEGIN
           if {[countCh  [set _ [string range $line 0 [lindex $s 0]-1]]  &quot;\&quot;&quot;] % 2 == 0} { ;# example of continued command
@@ -269,4 +288,23 @@ OUT=BEGIN
         puts $chano &quot;\n$line&quot;  ;# the ending &quot;;#&quot; is a comment continued \
            (example of continued comment) \
            (end of example)
+OUT=END
+
+#############################################################################
+#################################### TESTS ##################################
+
+MODE=exit  # to skip tests
+
+MODE=debug
+
+SINGLE=1
+MODE=2
+#MODE=regexp -all-nocase-expanded
+
+IN=BEGIN
+*Mulst*
+IN=END
+
+OUT=BEGIN
+mulster1
 OUT=END
