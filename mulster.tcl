@@ -183,9 +183,9 @@ oo::class create mulster::Mulster {
     if {[string is integer $strmode]} {return $strmode}
     set mode 0
     switch -regexp -nocase -matchvar am $strmode {
-      ^1$ - ^exact$   {set mode 1}
-      ^2$ - ^glob$    {set mode 2}
-      ^3$ - ^regexp$ - ^re$ {set mode 3}
+      ^exact$         {set mode 1}
+      ^glob$          {set mode 2}
+      ^regexp$ - ^re$ {set mode 3}
       ^regexp\\s*(-.*)$ - ^re\\s*(-.*) {
         set am [split [string toupper [lindex $am 1]] " -"]
         if {"A" in $am || "ALL" in $am} { incr mode 4 }
