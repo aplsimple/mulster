@@ -55,21 +55,23 @@ namespace eval mulster {
 
   `fileini` is a file name of options
 
-  `mode` = 0 (exact0, EXACT0) to match exact, without leading/tailing spaces
+  `mode = 0` (exact0, EXACT0) to match exact, without leading/tailing spaces
 
-  `mode` = 1 (exact, EXACT) to match exact, with all their leading/tailing spaces
+  `mode = 1` (exact, EXACT) to match exact, with all their leading/tailing spaces
 
-  `mode` = 2 (glob, GLOB) to match glob pattern
+  `mode = 2` (glob, GLOB) to match glob pattern
 
-  `mode` = 3 (regexp, re, REGEXP, RE) to match regexp pattern
+  `mode = 3` (regexp, re, REGEXP, RE) to match regexp pattern
 
-  `mode` = regexp-- to match regexp pattern and call `regsub`
+  `mode = regexp--` to match regexp pattern and call `regsub`
+   i.e. to match regexp for `IN=` lines and substitute with `OUT=` lines,
+   at that `%IN=%` in `OUT=` line is substituted with source (`IN=`) line
 
-  `mode` = regexp-all to match regexp pattern and call `regsub -all`
+  `mode = regexp-all` to match regexp pattern and call `regsub -all`
 
-  `mode` = regexp-nocase to match regexp pattern and call `regsub -nocase`
+  `mode = regexp-nocase` to match regexp pattern and call `regsub -nocase`
 
-  `mode` = regexp-expanded to match regexp pattern and call `regsub -expanded`
+  `mode = regexp-expanded` to match regexp pattern and call `regsub -expanded`
 
   regexp `mode` can be combined, e.g. "regexp-all-nocase"
 
@@ -441,6 +443,10 @@ oo::class create mulster::Mulster {
             for {set io 0} {$io<$leno} {incr io} {
               set stout [lindex $lout $io]
               if {$mode>3} {
+                if {[string first "%IN=%" $stout]>=0} {
+                  lassign [regexp -inline [lindex $lin $io] $stc] _
+                  set stout [string map [list "%IN=%" $_] $stout]
+                }
                 set rinc [regsub {*}[my ReOptions $mode] \
                   [lindex $lin $io] $stc $stout stout]
               }

@@ -329,14 +329,14 @@ method main {fileini {mode 1} {backup BAK} {keep 0} {single 0} {charset &quot;&q
 </pre>
 <p class='ruff'>where:</p>
 <p class='ruff'><code>fileini</code> is a file name of options</p>
-<p class='ruff'><code>mode</code> = 0 (exact0, EXACT0) to match exact, without leading/tailing spaces</p>
-<p class='ruff'><code>mode</code> = 1 (exact, EXACT) to match exact, with all their leading/tailing spaces</p>
-<p class='ruff'><code>mode</code> = 2 (glob, GLOB) to match glob pattern</p>
-<p class='ruff'><code>mode</code> = 3 (regexp, re, REGEXP, RE) to match regexp pattern</p>
-<p class='ruff'><code>mode</code> = regexp-- to match regexp pattern and call <code>regsub</code></p>
-<p class='ruff'><code>mode</code> = regexp-all to match regexp pattern and call <code>regsub -all</code></p>
-<p class='ruff'><code>mode</code> = regexp-nocase to match regexp pattern and call <code>regsub -nocase</code></p>
-<p class='ruff'><code>mode</code> = regexp-expanded to match regexp pattern and call <code>regsub -expanded</code></p>
+<p class='ruff'><code>mode = 0</code> (exact0, EXACT0) to match exact, without leading/tailing spaces</p>
+<p class='ruff'><code>mode = 1</code> (exact, EXACT) to match exact, with all their leading/tailing spaces</p>
+<p class='ruff'><code>mode = 2</code> (glob, GLOB) to match glob pattern</p>
+<p class='ruff'><code>mode = 3</code> (regexp, re, REGEXP, RE) to match regexp pattern</p>
+<p class='ruff'><code>mode = regexp--</code> to match regexp pattern and call <code>regsub</code> i.e. to match regexp for <code>IN=</code> lines and substitute with <code>OUT=</code> lines, at that <code>%IN=%</code> in <code>OUT=</code> line is substituted with source (<code>IN=</code>) line</p>
+<p class='ruff'><code>mode = regexp-all</code> to match regexp pattern and call <code>regsub -all</code></p>
+<p class='ruff'><code>mode = regexp-nocase</code> to match regexp pattern and call <code>regsub -nocase</code></p>
+<p class='ruff'><code>mode = regexp-expanded</code> to match regexp pattern and call <code>regsub -expanded</code></p>
 <p class='ruff'>regexp <code>mode</code> can be combined, e.g. &quot;regexp-all-nocase&quot;</p>
 <p class='ruff'><code>backup 0</code> means no input files' backuping</p>
 <p class='ruff'><code>backup dir</code> means backuping to <em>dir</em> directory</p>
@@ -1179,6 +1179,10 @@ method mulsterList {lcont lin lout {r1 0} {r2 0} {mode 1} {single 0}}
             for {set io 0} {$io&lt;$leno} {incr io} {
               set stout [lindex $lout $io]
               if {$mode&gt;3} {
+                if {[string first &quot;%IN=%&quot; $stout]&gt;=0} {
+                  lassign [regexp -inline [lindex $lin $io] $stc] _
+                  set stout [string map [list &quot;%IN=%&quot; $_] $stout]
+                }
                 set rinc [regsub {*}[my ReOptions $mode]  [lindex $lin $io] $stc $stout stout]
               }
               lappend lres $stout

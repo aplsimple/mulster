@@ -438,7 +438,6 @@ tclsh trimmed/trim_test.tcl -f -o trimmed
     set brace [set braceST [set ccmnt -2]]
     set quoted 0
     while {[gets $chani line] &gt;= 0} {
-      set ic -1
       if {!$quoted} {      ;# it's not a multi-line quoted string
         if {$braceST&lt;1} {  ;# check a braced string at some important commands
           foreach {cmd a1} {set &quot;\\S&quot; variable &quot;\\S&quot;} {
@@ -460,7 +459,11 @@ tclsh trimmed/trim_test.tcl -f -o trimmed
         }
         if {[regexp &quot;^\\s*;*#&quot; $line] || $ccmnt} {
           set cc [ expr {[string index $line end] eq &quot;\\&quot;} ]
-          if {($ccmnt || $cc) &amp;&amp; $brace&lt;-1} { puts $chano $line }
+          if {($ccmnt || $cc) &amp;&amp; $brace&lt;-1} {
+            puts $chano $line  ;# permit 1st comments &amp; their continuations
+          } elseif {[regexp &quot;^\\s*;#&quot; $line]} {
+            puts $chano &quot;;&quot;  ;# this semicolon may be meaningful
+          }
           set ccmnt $cc  ;# comments continued
           continue
         }
@@ -479,8 +482,6 @@ tclsh trimmed/trim_test.tcl -f -o trimmed
           continue
         }
       }
-      if {$ic==0} continue  ;# for comments beginning with &quot;;#&quot;
-      if {$ic&gt;0} { set line [string range $line 0 $ic-1] }
       set line [string trimright $line]
       set prevbrace $brace
       set brace [ expr {$line eq &quot;\}&quot; ? 1 : 0} ]

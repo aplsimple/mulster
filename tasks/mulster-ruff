@@ -119,8 +119,8 @@ font-size: 108%;
 IN=END
 
 OUT=BEGIN
-.yui-t2 .yui-b{float:left;width:8.
-.yui-t2 #yui-main .yui-b{margin-left:9.
+.yui-t2 .yui-b{float:left;width:9.
+.yui-t2 #yui-main .yui-b{margin-left:10.
 #::
 <br><h2 class='ruff'>
 <br><h4 class='ruffproc'>
@@ -146,6 +146,29 @@ IN=END
 OUT=BEGIN
 <br><br><h1 class='ruff'>
 OUT=END
+
+#############################################################################
+######################## separate 2nd etc. classes ##########################
+
+IN=BEGIN(2,0)
+<h3><a href=
+IN=END
+
+OUT=BEGIN
+<hr><h3><a href=
+OUT=END
+
+MODE=regexp-all
+
+IN=BEGIN
+<h2><a href='#::.*-Classes'>Classes
+IN=END
+
+OUT=BEGIN
+<hr>%IN=%
+OUT=END
+
+MODE=exact
 
 #############################################################################
 ################################# Headers ###################################
