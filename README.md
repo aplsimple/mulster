@@ -59,6 +59,10 @@ where:
 
   * `-mode regexp--` to match regexp pattern and call `regsub`
 
+      Note: IN= line is to be found, OUT= line is to substitute, according to the regexp syntax accepted in Tcl.
+
+      Note: With regexp and regsub, only one line is of use to IN=/OUT= block.
+
   * `-mode regexp-all` to match regexp pattern and call `regsub -all`
 
   * `-mode regexp-nocase` to match regexp pattern and call `regsub -nocase`
@@ -301,6 +305,10 @@ oo::class and has two useful methods declared so:
   *mode* = 3 (regexp, re, REGEXP, RE) to match regexp pattern
 
   *mode* = regexp-- to match regexp pattern and call *regsub*
+
+      Note: IN= line is to be found, OUT= line is to substitute, according to the regexp syntax accepted in Tcl.
+
+      Note: With regexp and regsub, only one line is of use to IN=/OUT= block.
 
   *mode* = regexp-all to match regexp pattern and call *regsub -all*
 

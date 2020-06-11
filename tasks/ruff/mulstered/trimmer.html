@@ -860,8 +860,8 @@ tclsh trim.tcl -i ./lib -o ./bin tclsh -f ./bin/main.tcl arg1 &quot;arg 2&quot;
 <p class='ruff'>Shows an error and optionally performs <em>exit</em>.</p>
 <div class='ruff_synopsis'><span class='ruff_cmd'>onError</span> <span class='ruff_arg'>?err? ?doexit?</span></div>
 <h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
-<tr><td class='ruff_defitem'><code><code>err</code></code></td><td class='ruff_defitem'>optional error message (empty by default, to put the synopsis) Optional, default <code>&quot;&quot;</code>.</td></tr>
-<tr><td class='ruff_defitem'><code><code>doexit</code></code></td><td class='ruff_defitem'>optional boolean flag to perform <em>exit</em> (true by default) Optional, default <code>true</code>.</td></tr>
+<tr><td class='ruff_defitem'><code><code>err</code></code></td><td class='ruff_defitem'>optional error message (empty by default, to put the synopsis); <i>optional, default</i> <code>&quot;&quot;</code></td></tr>
+<tr><td class='ruff_defitem'><code><code>doexit</code></code></td><td class='ruff_defitem'>optional boolean flag to perform <em>exit</em> (true by default); <i>optional, default</i> <code>true</code></td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_6' href="javascript:toggleSource('6')">Show source</a></p>
 <div id='6' class='ruff_dyn_src'><pre><code class="tcl"><br>proc ::trimmer::batchio::onError {{err {}} {doexit true}} {

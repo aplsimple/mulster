@@ -161,11 +161,19 @@ OUT=END
 MODE=regexp-all
 
 IN=BEGIN
-<h2><a href='#::.*-Classes'>Classes
+<h2><a href='#::(.*)-Classes'>Classes
 IN=END
 
 OUT=BEGIN
-<hr>%IN=%
+<hr><h2><a href='#::\1-Classes'>Classes
+OUT=END
+
+IN=BEGIN
+[.,;]* Optional, default(.*)[.]
+IN=END
+
+OUT=BEGIN
+; <i>optional, default</i>\1
 OUT=END
 
 MODE=exact

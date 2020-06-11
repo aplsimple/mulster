@@ -64,8 +64,10 @@ namespace eval mulster {
   `mode = 3` (regexp, re, REGEXP, RE) to match regexp pattern
 
   `mode = regexp--` to match regexp pattern and call `regsub`
-   i.e. to match regexp for `IN=` lines and substitute with `OUT=` lines,
-   at that `%IN=%` in `OUT=` line is substituted with source (`IN=`) line
+
+      Note: IN= line is to be found, OUT= line is to substitute, according to the regexp syntax accepted in Tcl.
+
+      Note: With regexp and regsub, only one line is of use to IN=/OUT= block.
 
   `mode = regexp-all` to match regexp pattern and call `regsub -all`
 
@@ -290,7 +292,6 @@ oo::class create mulster::Mulster {
     #
     # See also:
     #   getSearchMode
-    #   OptionIs
 
     set mode [my getSearchMode $mode]
     set keep [my getBoolean $keep]
@@ -443,10 +444,6 @@ oo::class create mulster::Mulster {
             for {set io 0} {$io<$leno} {incr io} {
               set stout [lindex $lout $io]
               if {$mode>3} {
-                if {[string first "%IN=%" $stout]>=0} {
-                  lassign [regexp -inline [lindex $lin $io] $stc] _
-                  set stout [string map [list "%IN=%" $_] $stout]
-                }
                 set rinc [regsub {*}[my ReOptions $mode] \
                   [lindex $lin $io] $stc $stout stout]
               }
