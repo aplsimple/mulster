@@ -161,6 +161,14 @@ OUT=END
 MODE=regexp-all
 
 IN=BEGIN
+>(\S*)\ reference<
+IN=END
+
+OUT=BEGIN
+>::\1 reference<
+OUT=END
+
+IN=BEGIN
 <h2><a href='#::(.*)-Classes'>Classes
 IN=END
 

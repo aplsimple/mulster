@@ -74,6 +74,11 @@ div.navbox {
     color: white;
     padding: 3px 4px 2px 4px;
     font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+div.navbox:hover {
+    overflow: visible;
 }
 
 /* Note .navbox header css should be based on $header_levels */
@@ -381,7 +386,7 @@ tclsh trimmed/trim_test.tcl -f -o trimmed
 <tr><td class='ruff_defitem'><code>ch</code></td><td class='ruff_defitem'>a character</td></tr>
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns a number of non-escaped occurences of character <em>ch</em> in string <em>str</em>.</p>
-<h5 class='ruff'>See also</h5><p class='ruff'><a href="https://wiki.tcl-lang.org/page/Reformatting+Tcl+code+indentation" >[wiki.tcl-lang.org</a>]</p>
+<h5 class='ruff'>See also</h5><p class='ruff'><a href="https://wiki.tcl-lang.org/page/Reformatting+Tcl+code+indentation" >wiki.tcl-lang.org</a></p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_1' href="javascript:toggleSource('1')">Show source</a></p>
 <div id='1' class='ruff_dyn_src'><pre>proc ::trimmer::countCh {str ch} {
 
@@ -620,9 +625,9 @@ tclsh trim.tcl -i ./lib -o ./bin tclsh -f ./bin/main.tcl arg1 &quot;arg 2&quot;
 <tr><td class='ruff_defitem'><code>globPatt</code></td><td class='ruff_defitem'>glob pattern for files to be processed</td></tr>
 <tr><td class='ruff_defitem'><code>recursive</code></td><td class='ruff_defitem'>a boolean to scan directories recursively</td></tr>
 </table>
-<h5 class='ruff'>Return value</h5><p class='ruff'>Returns a list of <em>roots</em>, i.e. root directory names for scanned directories or &quot;&quot; for files included directly.</p>
 <h5 class='ruff'>Description</h5><p class='ruff'>If <em>idir</em> is a directory, it is scanned for files.</p>
 <p class='ruff'>If <em>idir</em> is a file, it should contain a list of directories (to scan for files to be included in the list) and/or files (to be included in the list directly).</p>
+<h5 class='ruff'>Return value</h5><p class='ruff'>Returns a list of <em>roots</em>, i.e. root directory names for scanned directories or &quot;&quot; for files included directly.</p>
 <h5 class='ruff'>See also</h5><p class='ruff'><a href="trimmer.html#::trimmer::batchio::recurseProc" title="recurseProc" class='ruff_cmd'>recurseProc</a></p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_4' href="javascript:toggleSource('4')">Show source</a></p>
 <div id='4' class='ruff_dyn_src'><pre>proc ::trimmer::batchio::getFilesList {ilistN idir globPatt recursive} {
@@ -913,7 +918,7 @@ tclsh trim.tcl -i ./lib -o ./bin tclsh -f ./bin/main.tcl arg1 &quot;arg 2&quot;
 
     puts &quot; [string repeat - 75]&quot;
 }</pre></div>
-</div></div></div><div class='yui-b navbox'><h1><a href='#::trimmer'>trimmer</a></h1><h2><a href='#::trimmer-License'>License</a></h2><h2><a href='#::trimmer-Download'>Download</a></h2><h2><a href='#::trimmer-Usage'>Usage</a></h2><h2><a href='#::trimmer-Limitations'>Limitations</a></h2><h2><a href='#::trimmer-Commands'>Commands</a></h2><h4 class='tooltip'><a href='trimmer.html#::trimmer::countCh'>countCh</a><span class='tooltiptext'>Counts a character in a string.
+</div></div></div><div class='yui-b navbox' ><h1><a href='#::trimmer'>trimmer</a></h1><h2><a href='#::trimmer-License'>License</a></h2><h2><a href='#::trimmer-Download'>Download</a></h2><h2><a href='#::trimmer-Usage'>Usage</a></h2><h2><a href='#::trimmer-Limitations'>Limitations</a></h2><h2><a href='#::trimmer-Commands'>Commands</a></h2><h4 class='tooltip'><a href='trimmer.html#::trimmer::countCh'>countCh</a><span class='tooltiptext'>Counts a character in a string.
 </span></h4><h4 class='tooltip'><a href='trimmer.html#::trimmer::trimFile'>trimFile</a><span class='tooltiptext'>Trims an input file and writes a result to an output file.
 </span></h4><h1><a href='#::trimmer::batchio'>trimmer::batchio</a></h1><h2><a href='#::trimmer::batchio-License'>License</a></h2><h2><a href='#::trimmer::batchio-Usage'>Usage</a></h2><h2><a href='#::trimmer::batchio-Commands'>Commands</a></h2><h4 class='tooltip'><a href='trimmer.html#::trimmer::batchio::doFile'>doFile</a><span class='tooltiptext'>Prepares and does a call of procedure to process two files.
 </span></h4><h4 class='tooltip'><a href='trimmer.html#::trimmer::batchio::getFilesList'>getFilesList</a><span class='tooltiptext'>Gets a list of input files.
@@ -922,5 +927,5 @@ tclsh trim.tcl -i ./lib -o ./bin tclsh -f ./bin/main.tcl arg1 &quot;arg 2&quot;
 </span></h4><h4 class='tooltip'><a href='trimmer.html#::trimmer::batchio::recurseProc'>recurseProc</a><span class='tooltiptext'>Applies a command to files of a directory, recursively.
 </span></h4><h4 class='tooltip'><a href='trimmer.html#::trimmer::batchio::synopsis'>synopsis</a><span class='tooltiptext'>Shows a syntax and a usage of namespace.
 </span></h4><h4 class='tooltip'><a href='trimmer.html#::trimmer::batchio::underLine'>underLine</a><span class='tooltiptext'>Puts out an underlining string.
-</span></h4></div></div><div id='ft'><div style='float: right;'>Document generated by Ruff!</div></div>
+</span></h4></div></div><div id='ft'><div style='float: right;'>Document generated by <a href='https://ruff.magicsplat.com'>Ruff!</a></div></div>
 </div></body></html>
