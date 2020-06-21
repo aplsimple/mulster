@@ -71,6 +71,8 @@ where:
 
   * `-mode regexp` can be combined, e.g. `-mode regexp-all-nocase`
 
+  * `-files 1` for OUT= lines to be file names to take the lines from
+
   * `--` switches options off (for *fileini*)
 
 The `-infile, -outfile, -mode, -backup, -keep, -single, -charset, -lineend` options can be redefined in *fileini*, e.g.

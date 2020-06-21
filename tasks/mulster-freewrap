@@ -1,0 +1,81 @@
+
+#############################################################################
+# This replaces 'source "file"' with the appropriate file's contents.
+# This prepares files to be processed by Freewrap.
+
+INFILE=../e_menu/s_menu.tcl
+OUTFILE=../freewrap/e_menu/s_menu.tcl
+
+FILES=1
+
+IN=BEGIN
+source [file join [file dirname [info script]] e_menu.tcl]
+IN=END
+
+OUT=BEGIN
+../e_menu/e_menu.tcl
+OUT=END
+
+IN=BEGIN
+    source [file join $::em::srcdir e_addon.tcl]
+IN=END
+
+OUT=BEGIN
+../e_menu/src/e_addon.tcl
+OUT=END
+
+IN=BEGIN
+if {[catch {source [file join $::em::srcdir e_help.tcl]} e]} {
+  set ::em::srcdir [file join [pwd] src]
+  if {[catch {source [file join $::em::srcdir e_help.tcl]} e2]} {
+    puts "$e\n\n$e2\n\nPossibly, there is an error in e_help.tcl"
+    exit
+  }
+}
+IN=END
+
+OUT=BEGIN
+../e_menu/src/e_help.tcl
+OUT=END
+
+IN=BEGIN
+if {![namespace exists apave]} {source [file join [file normalize [file dirname [info script]]] apaveinput.tcl]}
+IN=END
+
+OUT=BEGIN
+../e_menu/src/apaveinput.tcl
+OUT=END
+
+IN=BEGIN
+source [file join [file dirname [info script]] apavedialog.tcl]
+IN=END
+
+OUT=BEGIN
+../e_menu/src/apavedialog.tcl
+OUT=END
+
+IN=BEGIN
+source [file join [file dirname [info script]] apave.tcl]
+IN=END
+
+OUT=BEGIN
+../e_menu/src/apave.tcl
+OUT=END
+
+IN=BEGIN
+      source [file join $apaveDir apaveimg.tcl]
+IN=END
+
+OUT=BEGIN
+../e_menu/src/apaveimg.tcl
+OUT=END
+
+IN=BEGIN
+source [file join $::apave::apaveDir obbit.tcl]
+IN=END
+
+OUT=BEGIN
+../e_menu/src/obbit.tcl
+OUT=END
+
+#############################################################################

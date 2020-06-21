@@ -39,6 +39,7 @@ namespace eval mulster {
      -backup 0 | <dir>
      -keep 0 | 1 | false | true
      -single 0 | 1 | false | true
+     -files 0 | 1 | false | true
      -charset charsetName (e.g. cp1251)
      -lineend lineEnding (e.g. \r\n)
      --
@@ -49,7 +50,7 @@ namespace eval mulster {
 
  1. The `main` method performs the multi-line replacements. Declared as:
 
-     method main {fileini {mode 1} {backup BAK} {keep 0} {single 0} {charset ""} {lineend ""}}
+     method main {fileini {mode 1} {backup BAK} {keep 0} {single 0} {charset ""} {lineend ""} {files 0}}
 
   where:
 
@@ -89,9 +90,11 @@ namespace eval mulster {
 
   `lineend` sets characters to end lines, e.g. \r\n (by default \n)
 
+  `files` if 1, OUT= lines to be file names to take the lines from
+
  2. The `mulsterList` method performs in-memory replacements in a list. Declared as:
 
-     method mulsterList {lcont lin lout {r1 0} {r2 0} {mode 1} {single 0}}
+     method mulsterList {lcont lin lout {r1 0} {r2 0} {mode 1} {single 0} {files 0}}
 
   where:
 
@@ -103,7 +106,11 @@ namespace eval mulster {
 
   `r1` and `r2` set a range of replacements
 
-  `mode` and `single` are described in `main` method above.
+  `mode` is a search mode (as defined in getSearchMode method)
+
+  `single` if true, means a standard 'string for string' replacements
+
+  `files`  if true, output lines are taken from files
 
  The `mulsterList` method returns a list processed.
  }
@@ -155,6 +162,7 @@ oo::class create mulster::Mulster {
     set _MMM(SINGLE)    SINGLE=   ;# pattern for single mode
     set _MMM(CHARSET)   CHARSET=  ;# pattern for charset mode
     set _MMM(LINEEND)   LINEEND=  ;# pattern for lineend mode
+    set _MMM(FILES)     FILES=    ;# pattern for files
     set _MMM(GRP1) {(.+)}           ;# RE group for a file name
     set _MMM(GRP2) {\((.+),(.+)\)}  ;# RE groups for range
     set _MMM(DEBUG) false         ;# DEBUG mode
@@ -278,7 +286,7 @@ oo::class create mulster::Mulster {
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   method main {fileini {mode 1} {backup BAK} {keep 0} \
-  {single 0} {charset ""} {lineend ""}} {
+  {single 0} {charset ""} {lineend ""} {files 0}} {
 
     # Processes files according to the options of 'fileini' file.
     #
@@ -289,6 +297,7 @@ oo::class create mulster::Mulster {
     #   single - if 1, standard 'one string for one string' replacements
     #   charset - a charset of input files (e.g. cp1251)
     #   lineend - a line ending of input files (e.g. \r\n)
+    #   files - if 1, output lines are taken from files
     #
     # See also:
     #   getSearchMode
@@ -296,6 +305,7 @@ oo::class create mulster::Mulster {
     set mode [my getSearchMode $mode]
     set keep [my getBoolean $keep]
     set single [my getBoolean $single]
+    set fileon [my getBoolean $files]
     if {!($_MMM(fin) + $_MMM(fout))} { my InitIO }
     set state NONE
     set _MMM(st) [set comments ""]
@@ -337,6 +347,9 @@ oo::class create mulster::Mulster {
           # check for single state
           } elseif {[my OptionIs $_MMM(SINGLE) $_MMM(GRP1)]} {
             set single [my getBoolean $_MMM(match1)]
+          # check for fileon state
+          } elseif {[my OptionIs $_MMM(FILES) $_MMM(GRP1)]} {
+            set fileon [my getBoolean $_MMM(match1)]
           # check for input file
           } elseif {[my OptionIs $_MMM(IN_FILE) $_MMM(GRP1)]} {
             my FlushOut $mode $keep $charset $lineend $backup
@@ -353,7 +366,7 @@ oo::class create mulster::Mulster {
             my CheckFiles 1
             my CheckFiles 2
             lappend _MMM(inlist) [list $_MMM(match1) $_MMM(match2) \
-              $single $charset $lineend $mode $comments]
+              $single $fileon $charset $lineend $mode $comments]
             set comments ""
             set state IN
           # check for output lines beginning
@@ -395,7 +408,27 @@ oo::class create mulster::Mulster {
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  method mulsterList {lcont lin lout {r1 0} {r2 0} {mode 1} {single 0}} {
+  method FilesContents {lout} {
+
+    # Reads files' contents to make real 'lout' list.
+    #   lout - list of file names
+    # Returns a list of lines of files' contents.
+
+    set res [list]
+    foreach file $lout {
+      if {[catch {set chan [open $file]} err]} {
+        puts "Couldn't open $file\n    $err"
+      } else {
+        foreach line [split [read $chan] \n] {lappend res $line}
+        close $chan
+      }
+    }
+    return $res
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  method mulsterList {lcont lin lout {r1 0} {r2 0} {mode 1} {single 0} {files 0}} {
 
     # Performs replacements in a list.
     #
@@ -406,6 +439,7 @@ oo::class create mulster::Mulster {
     #   r2 - last index of replacements to do
     #   mode - a search mode (as defined in getSearchMode method)
     #   single - if true, means a standard 'string for string' replacements
+    #   files - if true, output lines are taken from files
     #
     # Returns a list with replacements made.
 
@@ -417,6 +451,7 @@ oo::class create mulster::Mulster {
     set lres [list]  ;# resulting list
     set sti0 [lindex $lin 0]
     if {$mode==0} {set sti0 [string trim $sti0]} ;# for a quick 1st check
+    if {$files} {set lout [my FilesContents $lout]}
     set leno [llength $lout]
     set lenc [llength $lcont]
     set ic [set ifnd 0]
@@ -609,11 +644,11 @@ oo::class create mulster::Mulster {
       set lin [lindex $_MMM(inlist) $il]
       set lout [lindex $_MMM(outlist) $il]
       # r1, r2, ... are options per a IN=/OUT= block
-      lassign $lin r1 r2 single charset lineend mode comments
+      lassign $lin r1 r2 single fileon charset lineend mode comments
       if {$comments ne ""} { puts $comments }
       # other options go after them
-      set lin [lrange $lin 7 end]
-      set lcont [my mulsterList $lcont $lin $lout $r1 $r2 $mode $single]
+      set lin [lrange $lin 8 end]
+      set lcont [my mulsterList $lcont $lin $lout $r1 $r2 $mode $single $fileon]
       set t [expr {$il+1}]
       puts -nonewline "Replacement #$t: "
       if {[string length $t$_MMM(repls)]>3} {set t "\t"} {set t "\t\t"} 
@@ -791,7 +826,7 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
     exit
   }
   mulster::Mulster create mul
-  array set options {-mode 1 -backup BAK -keep 0 -single 0 \
+  array set options {-mode 1 -backup BAK -keep 0 -single 0 -files 0 \
     -charset {} -lineend {} fn {}}
   set infile [set outfile ""]
   set off 0
@@ -805,6 +840,7 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
       -b - -backup  { set options(-backup) $val }
       -k - -keep    { set options(-keep) [mul getBoolean $val] }
       -s - -single  { set options(-single) [mul getBoolean $val] }
+      -f - -files   { set options(-files) [mul getBoolean $val] }
       -c - -charset { set options(-charset) $val }
       -l - -lineend { set options(-lineend) $val }
       -i - -infile  { set infile $val }
@@ -821,8 +857,8 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
   }
   if {$outfile eq "" && $infile ne ""} { set outfile $infile }
   mul init $infile $outfile
-  mul main $options(fn) $options(-mode) $options(-backup) \
-    $options(-keep) $options(-single) $options(-charset) $options(-lineend)
+  mul main $options(fn) $options(-mode) $options(-backup) $options(-keep) \
+    $options(-single) $options(-charset) $options(-lineend) $options(-files)
   mul destroy
 }
 
