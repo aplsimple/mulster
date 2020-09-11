@@ -366,6 +366,7 @@ padding: 0%;
 <li>file viewer/editor</li>
 <li>option cascade</li>
 <li>e_menu</li>
+<li>bartabs</li>
 </ul>
 <p class='ruff'>At last, a stand-alone dialog allows not only to ask &quot;OK/Cancel&quot; or &quot;Yes/No&quot; returning 1/0 but also to set environment variables to use in shell scripts.</p>
 <p class='ruff'>The <strong>apave</strong> originates from the old <strong>pave</strong> package, to comply with <a href="https://wiki.tcl-lang.org/page/How+to+build+good+packages" >How to build good packages</a> (&quot;avoid simple, obvious names for your namespace&quot;).</p>
@@ -1133,8 +1134,8 @@ set optvalue [::apave::getOption -tooltip {*}$options]
 <h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
 <tr><td class='ruff_defitem'><code><code>w</code></code></td><td class='ruff_defitem'>button's path</td></tr>
 <tr><td class='ruff_defitem'><code><code>tmo</code></code></td><td class='ruff_defitem'>timeout in sec.</td></tr>
-<tr><td class='ruff_defitem'><code><code>lbl</code></code></td><td class='ruff_defitem'>optional label, where seconds to wait are displayed</td></tr>
-<tr><td class='ruff_defitem'><code><code>lbltext</code></code></td><td class='ruff_defitem'>Not documented; <i>optional, default</i> <code>&quot;&quot;</code></td></tr>
+<tr><td class='ruff_defitem'><code><code>lbl</code></code></td><td class='ruff_defitem'>label widget, where seconds to wait are displayed</td></tr>
+<tr><td class='ruff_defitem'><code><code>lbltext</code></code></td><td class='ruff_defitem'>original text of label; <i>optional, default</i> <code>&quot;&quot;</code></td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_23' href="javascript:toggleSource('23')">Show source</a></p>
 <div id='23' class='ruff_dyn_src'><pre><code class="tcl"><br>method checkTimeoutButton {w tmo lbl {lbltext {}}} {
@@ -1142,7 +1143,8 @@ set optvalue [::apave::getOption -tooltip {*}$options]
   # Checks if the timeout button is alive &amp; focused; if not, cancels the timeout.
   #   w - button's path
   #   tmo - timeout in sec.
-  #   lbl - optional label, where seconds to wait are displayed
+  #   lbl - label widget, where seconds to wait are displayed
+  #   lbltext - original text of label
 
   if {[winfo exists $lbl]} {
     if {[focus] in [list $w &quot;&quot;]} {
@@ -1214,9 +1216,9 @@ set optvalue [::apave::getOption -tooltip {*}$options]
       if {[info exist $ftxvar] &amp;&amp;  [file exist [set res [file nativename $res]]]} {
         set $ftxvar [::apave::readTextFile $res]
         if {[winfo exist $txtnam]} {
-          my readonlyWidget $txtnam false
+          my readonlyWidget $txtnam no
           my displayTaggedText $txtnam $ftxvar
-          my readonlyWidget $txtnam true
+          my readonlyWidget $txtnam yes
           set wid [string range $txtnam 0 [string last . $txtnam]]$wid
           $wid configure -text &quot;$res&quot;
           ::tk::TextSetCursor $txtnam 1.0
@@ -1440,20 +1442,21 @@ pobj configure edge &quot;@@&quot;
     lassign [lindex $tags $i] tag opts
     $w tag add $tag $p1 $p2
   }
-  $w edit reset; $w edit modified false
+  $w edit reset; $w edit modified no
   if { $state ne &quot;normal&quot; } { $w configure -state $state }
   return
 }<br><br></code></pre></div>
 </div><br><br><h4 class='ruffmethod'><a name='::apave::APave::displayText'>displayText</a><span class='ns_scope'> [<a href="apave.html#::apave::APave" title="::apave::APave" class='ruff_cmd'>::apave::APave</a>]</span><span class='tinylink'><a href='apave.html#::apave::APave'>APave</a>, <a href='#top'>Top</a></span></h4>
 <div style='clear:both;'></div>
 <p class='ruff'>Sets the text widget's contents.</p>
-<div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT displayText</span> <span class='ruff_arg'>w conts</span></div>
+<div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT displayText</span> <span class='ruff_arg'>w conts ?pos?</span></div>
 <h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
 <tr><td class='ruff_defitem'><code><code>w</code></code></td><td class='ruff_defitem'>text widget's name</td></tr>
 <tr><td class='ruff_defitem'><code><code>conts</code></code></td><td class='ruff_defitem'>contents to be set in the widget</td></tr>
+<tr><td class='ruff_defitem'><code><code>pos</code></code></td><td class='ruff_defitem'>Not documented; <i>optional, default</i> <code>1.0</code></td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_29' href="javascript:toggleSource('29')">Show source</a></p>
-<div id='29' class='ruff_dyn_src'><pre><code class="tcl"><br>method displayText {w conts} {
+<div id='29' class='ruff_dyn_src'><pre><code class="tcl"><br>method displayText {w conts {pos 1.0}} {
 
   # Sets the text widget's contents.
   #   w - text widget's name
@@ -1463,7 +1466,8 @@ pobj configure edge &quot;@@&quot;
     $w configure -state normal
   }
   $w replace 1.0 end $conts
-  $w edit reset; $w edit modified false
+  $w edit reset; $w edit modified no
+  ::tk::TextSetCursor $w $pos
   if { $state ne &quot;normal&quot; } { $w configure -state $state }
   return
 }<br><br></code></pre></div>
@@ -1607,6 +1611,11 @@ pobj configure edge &quot;@@&quot;
   set options &quot;[subst $defopts] $options&quot;
   set attrs &quot;[subst $defattrs] $attrs&quot;
   switch -glob -- $nam3 {
+    &quot;bts&quot; {
+      if {[package versions bartabs] eq &quot;&quot;} {package require bartabs}
+      set attrs &quot;-bartabs {$attrs}&quot;
+      set widget &quot;ttk::frame&quot;
+    }
     &quot;but&quot; {
       set widget &quot;ttk::button&quot;
       my AddButtonIcon $name attrs
@@ -1644,7 +1653,13 @@ pobj configure edge &quot;@@&quot;
       set widget &quot;frame&quot;
       if {$disabled} {set attrs [::apave::removeOptions $attrs -state]}
     }
-    &quot;lab&quot; {set widget &quot;ttk::label&quot;}
+    &quot;lab&quot; {
+      set widget &quot;ttk::label&quot;
+      if {[::apave::parseOptions $attrs -state normal] eq &quot;disabled&quot;} {
+        set attrs &quot;-foreground grey $attrs&quot;
+        set attrs [::apave::removeOptions $attrs -state]
+      }
+    }
     &quot;laB&quot; {set widget &quot;label&quot;}
     &quot;lfr&quot; {set widget &quot;ttk::labelframe&quot;}
     &quot;lfR&quot; {
@@ -1733,12 +1748,12 @@ pobj configure edge &quot;@@&quot;
 <div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT makePopup</span> <span class='ruff_arg'>w ?isRO? ?istext? ?tearoff?</span></div>
 <h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
 <tr><td class='ruff_defitem'><code><code>w</code></code></td><td class='ruff_defitem'>widget's name</td></tr>
-<tr><td class='ruff_defitem'><code><code>isRO</code></code></td><td class='ruff_defitem'>flag for &quot;is it readonly&quot; <i>optional, default</i> <code>false</code></td></tr>
-<tr><td class='ruff_defitem'><code><code>istext</code></code></td><td class='ruff_defitem'>flag for &quot;is it a text&quot; <i>optional, default</i> <code>false</code></td></tr>
-<tr><td class='ruff_defitem'><code><code>tearoff</code></code></td><td class='ruff_defitem'>flag for &quot;-tearoff&quot; option; <i>optional, default</i> <code>false</code></td></tr>
+<tr><td class='ruff_defitem'><code><code>isRO</code></code></td><td class='ruff_defitem'>flag for &quot;is it readonly&quot; <i>optional, default</i> <code>no</code></td></tr>
+<tr><td class='ruff_defitem'><code><code>istext</code></code></td><td class='ruff_defitem'>flag for &quot;is it a text&quot; <i>optional, default</i> <code>no</code></td></tr>
+<tr><td class='ruff_defitem'><code><code>tearoff</code></code></td><td class='ruff_defitem'>flag for &quot;-tearoff&quot; option; <i>optional, default</i> <code>no</code></td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_34' href="javascript:toggleSource('34')">Show source</a></p>
-<div id='34' class='ruff_dyn_src'><pre><code class="tcl"><br>method makePopup {w {isRO false} {istext false} {tearoff false}} {
+<div id='34' class='ruff_dyn_src'><pre><code class="tcl"><br>method makePopup {w {isRO no} {istext no} {tearoff no}} {
 
   # Makes a popup menu for an editable widget.
   #   w - widget's name
@@ -1883,7 +1898,7 @@ pobj configure edge &quot;@@&quot;
 <tr><td class='ruff_defitem'><code>options</code></td><td class='ruff_defitem'>grid/pack options</td></tr>
 <tr><td class='ruff_defitem'><code>attrs</code></td><td class='ruff_defitem'>attributes of widget</td></tr>
 <tr><td class='ruff_defitem'><code>add</code></td><td class='ruff_defitem'>if set, replaces grid/pack with &quot;add&quot; command</td></tr>
-<tr><td class='ruff_defitem'><code>comm</code></td><td class='ruff_defitem'>a command executed after the creation of widget (&quot;~&quot; is its name)</td></tr>
+<tr><td class='ruff_defitem'><code>comm</code></td><td class='ruff_defitem'>a command executed after the creation of widget (&quot;%w&quot; is its name)</td></tr>
 </table>
 <p class='ruff'>First 3 items are mandatory, others are set at need.</p>
 <p class='ruff'>This method calls <em>paveWindow</em> in a cycle, to process a current &quot;win / lwidgets&quot; pair.</p>
@@ -1905,7 +1920,7 @@ pobj configure edge &quot;@@&quot;
   #   options - grid/pack options
   #   attrs - attributes of widget
   #   add - if set, replaces grid/pack with &quot;add&quot; command
-  #   comm - a command executed after the creation of widget (&quot;~&quot; is its name)
+  #   comm - a command executed after the creation of widget (&quot;%w&quot; is its name)
   # First 3 items are mandatory, others are set at need.
   #
   # This method calls *paveWindow* in a cycle, to process a current
@@ -1934,12 +1949,12 @@ pobj configure edge &quot;@@&quot;
 <div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT readonlyWidget</span> <span class='ruff_arg'>w ?on? ?popup?</span></div>
 <h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
 <tr><td class='ruff_defitem'><code><code>w</code></code></td><td class='ruff_defitem'>text widget's path</td></tr>
-<tr><td class='ruff_defitem'><code><code>on</code></code></td><td class='ruff_defitem'>&quot;on/off&quot; boolean flag; <i>optional, default</i> <code>true</code></td></tr>
-<tr><td class='ruff_defitem'><code><code>popup</code></code></td><td class='ruff_defitem'>&quot;make popup menu&quot; boolean flag; <i>optional, default</i> <code>true</code></td></tr>
+<tr><td class='ruff_defitem'><code><code>on</code></code></td><td class='ruff_defitem'>&quot;on/off&quot; boolean flag; <i>optional, default</i> <code>yes</code></td></tr>
+<tr><td class='ruff_defitem'><code><code>popup</code></code></td><td class='ruff_defitem'>&quot;make popup menu&quot; boolean flag; <i>optional, default</i> <code>yes</code></td></tr>
 </table>
 <h5 class='ruff'>See also</h5><p class='ruff'><a href="https://wiki.tcl-lang.org/page/Read-only+text+widget" >wiki.tcl-lang.org</a></p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_40' href="javascript:toggleSource('40')">Show source</a></p>
-<div id='40' class='ruff_dyn_src'><pre><code class="tcl"><br>method readonlyWidget {w {on true} {popup true}} {
+<div id='40' class='ruff_dyn_src'><pre><code class="tcl"><br>method readonlyWidget {w {on yes} {popup yes}} {
 
   # Switches on/off a widget's readonly state for a text widget.
   #   w - text widget's path
@@ -1949,7 +1964,7 @@ pobj configure edge &quot;@@&quot;
   #   [wiki.tcl-lang.org](https://wiki.tcl-lang.org/page/Read-only+text+widget)
 
   my TextCommandForChange $w &quot;&quot; $on
-  if {$popup} {my makePopup $w $on true}
+  if {$popup} {my makePopup $w $on yes}
   return
 }<br><br></code></pre></div>
 </div><br><br><h4 class='ruffmethod'><a name='::apave::APave::res'>res</a><span class='ns_scope'> [<a href="apave.html#::apave::APave" title="::apave::APave" class='ruff_cmd'>::apave::APave</a>]</span><span class='tinylink'><a href='apave.html#::apave::APave'>APave</a>, <a href='#top'>Top</a></span></h4>
@@ -1987,6 +2002,7 @@ pobj configure edge &quot;@@&quot;
   #
   # Returns a value of variable that controls an event cycle.
 
+  if {[winfo exists $win.dia]} {set win $win.dia}
   if {$result == &quot;get&quot;} {
     return [set ${_pav(ns)}PN::AR($win)]
   }
@@ -2025,7 +2041,8 @@ pobj configure edge &quot;@@&quot;
 <tr><td class='ruff_defitem'><code><code>win</code></code></td><td class='ruff_defitem'>window's name</td></tr>
 <tr><td class='ruff_defitem'><code><code>args</code></code></td><td class='ruff_defitem'>attributes of window set with &quot;-name value&quot; pairs</td></tr>
 </table>
-<h5 class='ruff'>Description</h5><p class='ruff'>Examples of &quot;-name value&quot; pairs:</p>
+<h5 class='ruff'>Description</h5><p class='ruff'>The &quot;-modal false&quot; option of 'args' allows to show the window as non-modal which may be needed in some cases.</p>
+<p class='ruff'>Examples of &quot;-name value&quot; pairs:</p>
 <table class='ruff_deflist'>
 <tr><td class='ruff_defitem'><code>-focus NAME</code></td><td class='ruff_defitem'>a name of focused widget</td></tr>
 <tr><td class='ruff_defitem'><code>-onclose PROC</code></td><td class='ruff_defitem'>a name of procedure being called  at closing window by &quot;X&quot; button; the procedure gets  the variable name that can be changed to 0  in order to close the window indeed</td></tr>
@@ -2038,6 +2055,8 @@ pobj configure edge &quot;@@&quot;
   # Shows a window as modal.
   #   win - window's name
   #   args - attributes of window set with &quot;-name value&quot; pairs
+  # The &quot;-modal false&quot; option of 'args' allows to show the window as
+  # non-modal which may be needed in some cases.
   #
   # Examples of &quot;-name value&quot; pairs:
   #  -focus NAME - a name of focused widget
@@ -2057,11 +2076,14 @@ pobj configure edge &quot;@@&quot;
   if {[set centerme [::apave::getOption -centerme {*}$args]] ne {}} {
     ;# forced centering relative to a caller's window
     if {[winfo exist $centerme]} {set root $centerme}
-    set args [::apave::removeOptions $args -centerme]
   }
-  if {[set ontop [::apave::getOption -ontop {*}$args]] ne {}} {
-    set args [::apave::removeOptions $args -ontop]
+  if {[set ontop [::apave::getOption -ontop {*}$args]] eq {}} {
+    set ontop no
   }
+  if {[set modal [::apave::getOption -modal {*}$args]] eq {}} {
+    set modal yes
+  }
+  set args [::apave::removeOptions $args -centerme -ontop -modal]
   array set opt  [list -focus &quot;&quot; -onclose &quot;&quot; -geometry &quot;&quot; -decor 0 -root $root {*}$args]
   lassign [split [wm geometry $root] x+] rw rh rx ry
   if {! $opt(-decor)} {
@@ -2095,7 +2117,7 @@ pobj configure edge &quot;@@&quot;
   }
   wm minsize $win [set w [winfo width $win]] [set h [winfo height $win]]
   if {$inpgeom == &quot;&quot;} {  ;# final geometrizing with actual sizes
-    if {$ry&lt;40 &amp;&amp; $root != &quot;.&quot;} {
+    if {($h/2-$ry-$rh/2)&gt;30 &amp;&amp; $root != &quot;.&quot;} {
       # ::tk::PlaceWindow needs correcting in rare cases, namely:
       # when 'root' is of less sizes than 'win' and at screen top
       wm geometry $win [my CenteredXY $rw $rh $rx $ry $w $h]
@@ -2106,7 +2128,7 @@ pobj configure edge &quot;@@&quot;
     wm geometry $win $inpgeom
   }
   bind $win &lt;Configure&gt; &quot;[namespace current]::WinResize $win&quot;
-  if {$ontop&gt;0} {
+  if {$ontop} {
     wm attributes $win -topmost 1
   }
   after 50 [list if &quot;\[winfo exist $opt(-focus)\]&quot; &quot;focus -force $opt(-focus)&quot;]
@@ -2114,9 +2136,9 @@ pobj configure edge &quot;@@&quot;
   if {![::iswindows]} {
     tkwait visibility $win
   }
-  grab set $win
+  if {$modal} {grab set $win}
   tkwait variable ${_pav(ns)}PN::AR($win)
-  grab release $win
+  if {$modal} {grab release $win}
   ::apave::modalsOpen [expr {[::apave::modalsOpen] - 1}]
   my GetOutputValues
   ::apave::shadowAllowed $shal ;# restore shadowing
@@ -2146,8 +2168,8 @@ pobj configure edge &quot;@@&quot;
 <h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
 <tr><td class='ruff_defitem'><code><code>w</code></code></td><td class='ruff_defitem'>button's path</td></tr>
 <tr><td class='ruff_defitem'><code><code>tmo</code></code></td><td class='ruff_defitem'>timeout in sec.</td></tr>
-<tr><td class='ruff_defitem'><code><code>lbl</code></code></td><td class='ruff_defitem'>optional label, where seconds to wait are displayed</td></tr>
-<tr><td class='ruff_defitem'><code><code>lbltext</code></code></td><td class='ruff_defitem'>Not documented; <i>optional, default</i> <code>&quot;&quot;</code></td></tr>
+<tr><td class='ruff_defitem'><code><code>lbl</code></code></td><td class='ruff_defitem'>label widget, where seconds to wait are displayed</td></tr>
+<tr><td class='ruff_defitem'><code><code>lbltext</code></code></td><td class='ruff_defitem'>original text of label; <i>optional, default</i> <code>&quot;&quot;</code></td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_45' href="javascript:toggleSource('45')">Show source</a></p>
 <div id='45' class='ruff_dyn_src'><pre><code class="tcl"><br>method timeoutButton {w tmo lbl {lbltext {}}} {
@@ -2155,7 +2177,8 @@ pobj configure edge &quot;@@&quot;
   # Invokes a button's action after a timeout.
   #   w - button's path
   #   tmo - timeout in sec.
-  #   lbl - optional label, where seconds to wait are displayed
+  #   lbl - label widget, where seconds to wait are displayed
+  #   lbltext - original text of label
 
   if {$tmo&gt;0} {
     catch {set lbl [my $lbl]}
@@ -2868,12 +2891,18 @@ pobj configure edge &quot;@@&quot;
   if {$iopts ne {}} {
     my initInput  ;# clear away all internal vars
   }
+  if {[string match &quot;*Mono*&quot; &quot;[font families]&quot;]} {
+    set Mfont &quot;Mono&quot;
+  } else {
+    set Mfont TkFixedFont ;#&quot;Courier&quot;
+  }
   set pady &quot;-pady 2&quot;
   if {[set focusopt [::apave::getOption -focus {*}$args]] ne &quot;&quot;} {
     set focusopt &quot;-focus $focusopt&quot;
   }
   lappend inopts [list fraM + T 1 98 &quot;-st nsew $pady -rw 1&quot;]
   set savedvv [list]
+  set frameprev &quot;&quot;
   foreach {name prompt valopts} $iopts {
     if {$name eq &quot;&quot;} continue
     lassign $prompt prompt gopts attrs
@@ -2883,25 +2912,24 @@ pobj configure edge &quot;@@&quot;
       lappend inopts [list fraM.$name - - - - &quot;pack -fill x $gopts&quot;]
       continue
     }
+    set toprev [::apave::getOption -toprev {*}$attrs]
+    set attrs [::apave::removeOptions $attrs -toprev]
     set tvar &quot;-tvar&quot;
     switch -- $typ {
       ch { set tvar &quot;-var&quot; }
       sp { set gopts &quot;$gopts -expand 0 -side left&quot;}
     }
-    if {[string match &quot;*Mono*&quot; &quot;[font families]&quot;]} {
-      set Mfont &quot;Mono&quot;
-    } else {
-      set Mfont TkFixedFont ;#&quot;Courier&quot;
-    }
+    set framename fraM.fra$name
     if {$typ in {lb te tb}} {  ;# the widgets sized vertically
-      lappend inopts [list fraM.fra$name - - - - &quot;pack -expand 1 -fill both&quot;]
+      lappend inopts [list $framename - - - - &quot;pack -expand 1 -fill both&quot;]
     } else {
-      lappend inopts [list fraM.fra$name - - - - &quot;pack -fill x&quot;]
+      lappend inopts [list $framename - - - - &quot;pack -fill x&quot;]
     }
     set vv [my VarName $name]
     set ff [my FieldName $name]
-    if {$typ ne &quot;la&quot;} {
-      if {$focusopt eq &quot;&quot;} {
+    if {$typ ne &quot;la&quot; &amp;&amp; $toprev eq &quot;&quot;} {
+      set takfoc [::apave::parseOptions $attrs -takefocus 1]
+      if {$focusopt eq &quot;&quot; &amp;&amp; $takfoc} {
         if {$typ in {fi di cl fo da}} {
           set _ en*$name  ;# 'entry-like mega-widgets'
         } elseif {$typ eq &quot;ft&quot;} {
@@ -2947,7 +2975,7 @@ pobj configure edge &quot;@@&quot;
       }
       fc {
         if {![info exist $vv]} {catch {set $vv &quot;&quot;}}
-        lappend inopts [list $ff - - - - &quot;pack -fill x $gopts&quot; &quot;-tvar $vv -values \{$valopts\} $attrs&quot;]
+        lappend inopts [list $ff - - - - &quot;pack -side left -expand 1 -fill x $gopts&quot; &quot;-tvar $vv -values \{$valopts\} $attrs&quot;]
       }
       op {
         set $vv $vsel
@@ -2979,11 +3007,27 @@ pobj configure edge &quot;@@&quot;
       }
       la {
         if {$prompt ne &quot;&quot;} { set prompt &quot;-t \&quot;$prompt\&quot; &quot; } ;# prompt as -text
-        lappend inopts [list $ff - - - - &quot;pack $gopts&quot; &quot;$prompt$attrs&quot;]
+        lappend inopts [list $ff - - - - &quot;pack -anchor w $gopts&quot; &quot;$prompt$attrs&quot;]
         continue
       }
+      bu - ch {
+        set prompt &quot;&quot;
+        if {$toprev eq &quot;&quot;} {
+          lappend inopts [list $ff - - - -  &quot;pack -side left -expand 1 -fill both $gopts&quot; &quot;$tvar $vv $attrs&quot;]
+        } else {
+          lappend inopts [list $frameprev.$name - - - -  &quot;pack -side left $gopts&quot; &quot;$tvar $vv $attrs&quot;]
+        }
+        if {$vv ne &quot;&quot;} {
+          if {![info exist $vv]} {
+            catch {
+              if {$vsel eq &quot;&quot;} {set vsel 0}
+              set $vv $vsel
+            }
+          }
+        }
+      }
       default {
-        lappend inopts [list $ff - - - - &quot;pack -side right -expand 1 -fill x $gopts&quot; &quot;$tvar $vv $attrs&quot;]
+        lappend inopts [list $ff - - - -  &quot;pack -side left -expand 1 -fill x $gopts&quot; &quot;$tvar $vv $attrs&quot;]
         if {$vv ne &quot;&quot;} {
           if {![info exist $vv]} {catch {set $vv $vsel}}
         }
@@ -2993,10 +3037,11 @@ pobj configure edge &quot;@@&quot;
       lassign $msgLab lab msg
       set lab [my parentWName [lindex $inopts end 0]].$lab
       if {$msg ne &quot;&quot;} {set msg &quot;-t {$msg}&quot;}
-      lappend inopts [list $lab - - - - &quot;pack -side right -expand 1 -fill x&quot; $msg]
+      lappend inopts [list $lab - - - - &quot;pack -side left -expand 1 -fill x&quot; $msg]
     }
     if {![info exist $vv]} {set $vv &quot;&quot;}
     lappend _savedvv $vv [set $vv]
+    set frameprev $framename
   }
   lassign [::apave::parseOptions $args -titleOK OK -titleCANCEL Cancel  -centerme &quot;&quot;] titleOK titleCANCEL centerme
   if {$titleCANCEL eq &quot;&quot;} {
@@ -3011,7 +3056,11 @@ pobj configure edge &quot;@@&quot;
   }
   set args [::apave::removeOptions $args -titleOK -titleCANCEL -centerme]
   lappend args {*}$focusopt
-  set res [my Query $icon $ttl {} &quot;butOK $titleOK 1 $butCancel&quot; butOK  $inopts [my PrepArgs $args] &quot;&quot; {*}$centerme]
+  if {[catch {  set res [my Query $icon $ttl {} &quot;butOK $titleOK 1 $butCancel&quot; butOK  $inopts [my PrepArgs $args] &quot;&quot; {*}$centerme]} e]} {
+    catch {destroy $_pdg(win).dia}  ;# Query's window
+    ::apave::paveObj ok err &quot;ERROR&quot; &quot;\n$e\n&quot;  -t 1 -head &quot;\nAPaveInput returned an error: \n&quot; -hfg red -weight bold
+    return 0
+  }
   if {[lindex $res 0]!=1} {  ;# restore old values if OK not chosen
     foreach {vn vv} $_savedvv {
       # tk_optionCascade (destroyed now) was tracing its variable =&gt; catch
@@ -3241,9 +3290,9 @@ pobj configure edge &quot;@@&quot;
   # If 'textfont' is set, this method sets it.
 
   if {$textfont ne &quot;&quot;} {
-    return [set ::apave::_CS_(textfont) $textfont]
+    return [set ::apave::_CS_(textFont) $textfont]
   } else {
-    return $::apave::_CS_(textfont)
+    return $::apave::_CS_(textFont)
   }
 }<br><br></code></pre></div>
 </div><br><br><h4 class='ruffmethod'><a name='::apave::ObjectTheming::configTooltip'>configTooltip</a><span class='ns_scope'> [<a href="apave.html#::apave::ObjectTheming" title="::apave::ObjectTheming" class='ruff_cmd'>::apave::ObjectTheming</a>]</span><span class='tinylink'><a href='apave.html#::apave::ObjectTheming'>ObjectTheming</a>, <a href='#top'>Top</a></span></h4>
@@ -3446,6 +3495,7 @@ pobj configure edge &quot;@@&quot;
     set ::apave::_CS_(old) $ncolor
     my themeWindow $win $fg $bg $fE $bE $fS $bS $grey $bg $cc $ht $hh $tfgI $tbgI $fM $bM
   }
+  catch {bartabs::drawAll}
   return [list $fg $bg $fE $bE $fS $bS $hh $gr $cc $ht $tfgI $tbgI $fM $bM]
 }<br><br></code></pre></div>
 </div><br><br><h4 class='ruffmethod'><a name='::apave::ObjectTheming::themeNonThemed'>themeNonThemed</a><span class='ns_scope'> [<a href="apave.html#::apave::ObjectTheming" title="::apave::ObjectTheming" class='ruff_cmd'>::apave::ObjectTheming</a>]</span><span class='tinylink'><a href='apave.html#::apave::ObjectTheming'>ObjectTheming</a>, <a href='#top'>Top</a></span></h4>
@@ -3514,7 +3564,6 @@ pobj configure edge &quot;@@&quot;
 
   if {[my csCurrent] == $::apave::_CS_(NONCS)} return
   lassign [my csGet] - fg - - - bgS fgS - - - - - - bg
-  $mnu configure -foreground $fg -background $bg
   my ThemePopup $mnu -foreground $fg -background $bg  -activeforeground $fgS -activebackground $bgS
 }<br><br></code></pre></div>
 </div><br><br><h4 class='ruffmethod'><a name='::apave::ObjectTheming::themeWindow'>themeWindow</a><span class='ns_scope'> [<a href="apave.html#::apave::ObjectTheming" title="::apave::ObjectTheming" class='ruff_cmd'>::apave::ObjectTheming</a>]</span><span class='tinylink'><a href='apave.html#::apave::ObjectTheming'>ObjectTheming</a>, <a href='#top'>Top</a></span></h4>
@@ -3641,6 +3690,9 @@ pobj configure edge &quot;@@&quot;
       my Ttk_style map $ts -foreground [list disabled $tfgD readonly $tfgD selected $tfgS]
       my Ttk_style map $ts -background [list disabled $tbgD readonly $tbgD selected $tbgS]
     }
+  }
+  foreach ts {TRadiobutton TCheckbutton} {
+    ttk::style map $ts -background [list focus $tbg2 !focus $tbg1]
   }
   # non-themed widgets of button and entry types
   foreach ts [my NonThemedWidgets button] {
