@@ -285,6 +285,20 @@ oo::class create mulster::Mulster {
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  method Topen {fname {charset "utf-8"} {fmode "r"}} {
+    # Opens a text file for read/write in utf-8.
+
+    set chan [open $fname $fmode]
+    if {$charset ne ""} {
+      chan configure $chan -encoding $charset
+    } else {
+      chan configure $chan -encoding utf-8
+    }
+    return $chan
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   method main {fileini {mode 1} {backup BAK} {keep 0} \
   {single 0} {charset ""} {lineend ""} {files 0}} {
 
@@ -311,7 +325,7 @@ oo::class create mulster::Mulster {
     set _MMM(st) [set comments ""]
     set _MMM(nl) 0
     set _MMM(fileini) $fileini
-    set chini [open $fileini]
+    set chini [my Topen $fileini]
     foreach _MMM(st) [split [read $chini] \n] {
       incr _MMM(nl)
       switch $state {
@@ -416,7 +430,7 @@ oo::class create mulster::Mulster {
 
     set res [list]
     foreach file $lout {
-      if {[catch {set chan [open $file]} err]} {
+      if {[catch {set chan [my Topen $file]} err]} {
         puts "Couldn't open $file\n    $err"
       } else {
         foreach line [split [read $chan] \n] {lappend res $line}
@@ -634,10 +648,7 @@ oo::class create mulster::Mulster {
     }
     set le [string map [list \\n \n \\r \r] $lineend]
     my BackupFile $backup $infile $charset $le
-    set chan [open $infile]
-    if {$charset ne ""} {
-      chan configure $chan -encoding $charset
-    }
+    set chan [my Topen $infile $charset]
     set lcont [split [read $chan] \n]
     close $chan
     for {set il 0} {$il<[llength $_MMM(inlist)]} {incr il} {
@@ -664,12 +675,9 @@ oo::class create mulster::Mulster {
         }
       }
     }
-    if {[catch {set chan [open $outfile w]} err]} {
+    if {[catch {set chan [my Topen $outfile $charset w]} err]} {
       puts "Couldn't create $outfile\n    $err"
     } else {
-      if {$charset ne ""} {
-        chan configure $chan -encoding $charset
-      }
       foreach stout $lcont {
         if {[incr iamidiotofFMD]>1} {
           if {$le eq ""} {
@@ -759,18 +767,12 @@ oo::class create mulster::Mulster {
 
     if {$backup!="0" && $backup!=""} {
       lassign [my FileAttributes $filename] attrs atime mtime
-      set chan [open $filename]
-      if {$charset ne ""} {
-        chan configure $chan -encoding $charset
-      }
+      set chan [my Topen $filename $charset]
       set cont [read $chan]
       close $chan
       catch {file mkdir $backup}
       set bakfile [file join $backup [file tail $filename]]
-      set chan [open $bakfile w]
-      if {$charset ne ""} {
-        chan configure $chan -encoding $charset
-      }
+      set chan [my Topen $bakfile $charset w]
       if {$le ne ""} {
         set cont [string map [list \n $le] $cont]
       }

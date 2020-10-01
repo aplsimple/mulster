@@ -1,7 +1,5 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"/>
 <link rel="stylesheet" href="../../../zoo/sh/styles/aplsimple.css">
-<script src="../../../zoo/sh/highlight.pack.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
 <title>::bartabs reference</title>
 <style>
 /*
@@ -350,17 +348,18 @@ padding: 0%;
 <p class='ruff'>However, only the <em>Bars</em> class is used to create bars along with tabs. It can be also used to deal with any bars and tabs, providing all necessary interface.</p>
 <p class='ruff'>The <em>Bar</em> does not create a real TclOO object, rather it provides <em>syntax sugar</em> for a convenient access to the bar methods.</p>
 <p class='ruff'>The <em>Tab</em> does not create a real TclOO object as well. It serves actually for structuring <em>bartabs</em> code as for tab methods. Thus, its methods are accessible through the <em>Bars</em> (&quot;real&quot; TclOO) and <em>Bar</em> (&quot;sugar&quot;) objects.</p>
+<p class='ruff'><hr></p>
 <p class='ruff'>A common work flow with <em>bartabs</em> looks like this:</p>
-<p class='ruff'>1) Firstly, we create a <em>Bars</em> object, e.g.</p>
+<p class='ruff'>Firstly, we create a <em>Bars</em> object, e.g.</p>
 <p class='ruff'><code>bartabs::Bars create NS::bars</code></p>
-<p class='ruff'>2) Then we create a <em>Bar</em> object, e.g.</p>
+<p class='ruff'>Then we create a <em>Bar</em> object, e.g.</p>
 <p class='ruff'><code>NS::bars create NS::bar $barOptions</code></p>
-<p class='ruff'>3) If a tab of the bar should be displayed (with its possible contents), we show the bar and select the current tab:</p>
+<p class='ruff'>If a tab of the bar should be displayed (with its possible contents), we show the bar and select the current tab:</p>
 <p class='ruff'><code>set TID [NS::bar tabID &quot;tab label&quot;]  ;# get the tab's ID by its label</code></p>
 <p class='ruff'><code>NS::bar $TID show  ;# show the bar and select the tab</code></p>
 <p class='ruff'>or just draw the bar without mind-breaking about a tab:</p>
 <p class='ruff'><code>NS::bar draw  ;# show the bar without selecting a tab</code></p>
-<p class='ruff'>4) The rest actions include:</p>
+<p class='ruff'>The rest actions include:</p>
 <ul class='ruff'>
 <li>responses to a selection of tab (through <code>-csel command</code> option of <em>Bar</em> object)</li>
 <li>responses to a deletion of tab (through <code>-cdel command</code> option of <em>Bar</em> object)</li>
@@ -407,11 +406,9 @@ padding: 0%;
 <p class='ruff'>instead of</p>
 <p class='ruff'><code>NS::bar [NS::bar tabID &quot;some tab&quot;] show ;# find and show the tab by its name</code></p>
 <p class='ruff'><hr></p>
-<p class='ruff'>Further details:</p>
-<ul class='ruff'>
-<li><a href="https://aplsimple.github.io/en/tcl/bartabs/index.html" >Documentation</a></li>
-<li><a href="https://aplsimple.github.io/en/tcl/bartabs/bartabs.html" >Reference</a></li>
-</ul>
+<p class='ruff'>More details:</p>
+<p class='ruff'><a href="https://aplsimple.github.io/en/tcl/bartabs" >Documentation</a></p>
+<p class='ruff'><a href="https://aplsimple.github.io/en/tcl/bartabs/bartabs.html" >Reference</a></p>
 <br><h2 class='ruff'><a name='::bartabs-Commands'></a>Commands<span class='tinylink'><a href='bartabs.html#::bartabs'>bartabs</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
 <br><br><br><h4 class='ruffproc'><a name='::bartabs::drawAll'>drawAll</a><span class='ns_scope'> [<a href="bartabs.html#::bartabs" title="::bartabs" class='ruff_cmd'>::bartabs</a>]</span><span class='tinylink'><a href='bartabs.html#::bartabs'>bartabs</a>, <a href='#top'>Top</a></span></h4>
@@ -419,10 +416,10 @@ padding: 0%;
 <p class='ruff'>Draws all bars. Used at updating themes etc.</p>
 <div class='ruff_synopsis'><span class='ruff_cmd'>drawAll</span> </div>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_1' href="javascript:toggleSource('1')">Show source</a></p>
-<div id='1' class='ruff_dyn_src'><pre><code class="tcl"><br>proc ::bartabs::drawAll {} {
+<div id='1' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::bartabs::drawAll {} {
 
   # Draws all bars. Used at updating themes etc.
-  foreach bar $bartabs::BarList {[lindex $bar 1] drawAll}
+  foreach bars $bartabs::BarsList {$bars drawAll}
 }<br><br></code></pre></div>
 </div><br><h2 class='ruff'><a name='::bartabs-Classes'></a>Classes<span class='tinylink'><a href='bartabs.html#::bartabs'>bartabs</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
@@ -456,7 +453,7 @@ padding: 0%;
 </table>
 <h5 class='ruff'>Description</h5><p class='ruff'>Return a list of values or one value if args is one option.</p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_2' href="javascript:toggleSource('2')">Show source</a></p>
-<div id='2' class='ruff_dyn_src'><pre><code class="tcl"><br>method cget {args} {
+<div id='2' class='ruff_dyn_src'><pre><br><code class="tcl">method cget {args} {
 
   # Gets values of options of bars &amp; tabs.
   #   args - list of options, e.g. {-tabcurrent -MyOpt}
@@ -485,7 +482,7 @@ padding: 0%;
 <p class='ruff'>Forgets (hides) the shown tabs.</p>
 <div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT clear</span> </div>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_3' href="javascript:toggleSource('3')">Show source</a></p>
-<div id='3' class='ruff_dyn_src'><pre><code class="tcl"><br>method clear {} {
+<div id='3' class='ruff_dyn_src'><pre><br><code class="tcl">method clear {} {
 
   # Forgets (hides) the shown tabs.
 
@@ -506,7 +503,7 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>args</code></code></td><td class='ruff_defitem'>list of pairs &quot;option value&quot;</td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_4' href="javascript:toggleSource('4')">Show source</a></p>
-<div id='4' class='ruff_dyn_src'><pre><code class="tcl"><br>method configure {args} {
+<div id='4' class='ruff_dyn_src'><pre><br><code class="tcl">method configure {args} {
 
   # Sets values of options for bars &amp; tabs.
   #   args - list of pairs &quot;option value&quot;
@@ -527,7 +524,7 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>upd</code></code></td><td class='ruff_defitem'>if &quot;yes&quot;, run &quot;update&quot; before redrawing; <i>optional, default</i> <code>yes</code></td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_5' href="javascript:toggleSource('5')">Show source</a></p>
-<div id='5' class='ruff_dyn_src'><pre><code class="tcl"><br>method draw {{upd yes}} {
+<div id='5' class='ruff_dyn_src'><pre><br><code class="tcl">method draw {{upd yes}} {
 
   # Draws the bar tabs at slight changes.
   #   upd - if &quot;yes&quot;, run &quot;update&quot; before redrawing
@@ -557,7 +554,7 @@ padding: 0%;
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns TID of new tab or &quot;&quot;.</p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_6' href="javascript:toggleSource('6')">Show source</a></p>
-<div id='6' class='ruff_dyn_src'><pre><code class="tcl"><br>method insertTab {txt {pos end} {img {}}} {
+<div id='6' class='ruff_dyn_src'><pre><br><code class="tcl">method insertTab {txt {pos end} {img {}}} {
 
   # Inserts a new tab into a bar.
   #   txt - tab's label
@@ -591,7 +588,7 @@ padding: 0%;
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns a list &quot;TID, text, visible, marked, selected, disabled&quot; for all or a list of TID for filtered.</p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_7' href="javascript:toggleSource('7')">Show source</a></p>
-<div id='7' class='ruff_dyn_src'><pre><code class="tcl"><br>method listFlag {{filter {}}} {
+<div id='7' class='ruff_dyn_src'><pre><br><code class="tcl">method listFlag {{filter {}}} {
 
   # Gets a list of TID + flags &quot;visible&quot;, &quot;marked&quot;, &quot;selected&quot;, &quot;disabled&quot;.
   #   filter - &quot;&quot; for all or &quot;v&quot;,&quot;m&quot;,&quot;s&quot;,&quot;d&quot; for visible, marked, selected, disabled
@@ -620,7 +617,7 @@ padding: 0%;
 <div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT listTab</span> </div>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns a list of TID, text, wb, wb1, wb2, pf.</p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_8' href="javascript:toggleSource('8')">Show source</a></p>
-<div id='8' class='ruff_dyn_src'><pre><code class="tcl"><br>method listTab {} {
+<div id='8' class='ruff_dyn_src'><pre><br><code class="tcl">method listTab {} {
 
   # Gets a list of tabs.
   # Returns a list of TID, text, wb, wb1, wb2, pf.
@@ -638,13 +635,14 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>Y</code></code></td><td class='ruff_defitem'>y coordinate of mouse pointer</td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_9' href="javascript:toggleSource('9')">Show source</a></p>
-<div id='9' class='ruff_dyn_src'><pre><code class="tcl"><br>method popList {X Y} {
+<div id='9' class='ruff_dyn_src'><pre><br><code class="tcl">method popList {X Y} {
 
   # Shows a menu of tabs.
   #   X - x coordinate of mouse pointer
   #   Y - y coordinate of mouse pointer
 
     set BID [my ID]
+    my $BID DestroyMoveWindow
     set wbar [my $BID cget -wbar]
     set popi $wbar.popupList
     catch {destroy $popi}
@@ -662,7 +660,7 @@ padding: 0%;
 <div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT remove</span> </div>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns &quot;yes&quot; at success.</p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_10' href="javascript:toggleSource('10')">Show source</a></p>
-<div id='10' class='ruff_dyn_src'><pre><code class="tcl"><br>method remove {} {
+<div id='10' class='ruff_dyn_src'><pre><br><code class="tcl">method remove {} {
 
   # Removes a bar.
   # Returns &quot;yes&quot; at success.
@@ -678,8 +676,6 @@ padding: 0%;
       if {[set bc [my $BID cget -BARCOM]] ne &quot;&quot;} {catch {rename $bc &quot;&quot;}}
       foreach tc [my $BID cget -TABCOM] {catch {rename [lindex $tc 1] &quot;&quot;}}
       dict unset btData $BID
-      set i [lsearch -index 0 $bartabs::BarList $BID]
-      set bartabs::BarList [lreplace $bartabs::BarList $i $i]
       return yes
     }
     return no
@@ -689,7 +685,7 @@ padding: 0%;
 <p class='ruff'>Scrolls tabs to the left.</p>
 <div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT scrollLeft</span> </div>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_11' href="javascript:toggleSource('11')">Show source</a></p>
-<div id='11' class='ruff_dyn_src'><pre><code class="tcl"><br>method scrollLeft {} {
+<div id='11' class='ruff_dyn_src'><pre><br><code class="tcl">method scrollLeft {} {
 
   # Scrolls tabs to the left.
 
@@ -709,7 +705,7 @@ padding: 0%;
 <p class='ruff'>Scrolls tabs to the right.</p>
 <div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT scrollRight</span> </div>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_12' href="javascript:toggleSource('12')">Show source</a></p>
-<div id='12' class='ruff_dyn_src'><pre><code class="tcl"><br>method scrollRight {} {
+<div id='12' class='ruff_dyn_src'><pre><br><code class="tcl">method scrollRight {} {
 
   # Scrolls tabs to the right.
 
@@ -733,7 +729,7 @@ padding: 0%;
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns TID or -1.</p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_13' href="javascript:toggleSource('13')">Show source</a></p>
-<div id='13' class='ruff_dyn_src'><pre><code class="tcl"><br>method tabID {txt} {
+<div id='13' class='ruff_dyn_src'><pre><br><code class="tcl">method tabID {txt} {
 
   # Gets TID by tab's label.
   #   txt - label
@@ -758,7 +754,7 @@ padding: 0%;
 <p class='ruff'>Updates the bar in hard way.</p>
 <div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT update</span> </div>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_14' href="javascript:toggleSource('14')">Show source</a></p>
-<div id='14' class='ruff_dyn_src'><pre><code class="tcl"><br>method update {} {
+<div id='14' class='ruff_dyn_src'><pre><br><code class="tcl">method update {} {
 
   # Updates the bar in hard way.
 
@@ -807,20 +803,23 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>args</code></code></td><td class='ruff_defitem'>Optional arguments.</td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_15' href="javascript:toggleSource('15')">Show source</a></p>
-<div id='15' class='ruff_dyn_src'><pre><code class="tcl"><br>method constructor {args} {
+<div id='15' class='ruff_dyn_src'><pre><br><code class="tcl">method constructor {args} {
 
   set btData [dict create]
   if {[llength [self next]]} { next {*}$args }
   oo::objdefine [self] &quot;method tab-1 {args} {return {-1}}&quot;
+  lappend bartabs::BarsList [self]
 }<br><br></code></pre></div>
 </div><br><br><h4 class='ruffmethod'><a name='::bartabs::Bars::destructor'>destructor</a><span class='ns_scope'> [<a href="bartabs.html#::bartabs::Bars" title="::bartabs::Bars" class='ruff_cmd'>::bartabs::Bars</a>]</span><span class='tinylink'><a href='bartabs.html#::bartabs::Bars'>Bars</a>, <a href='#top'>Top</a></span></h4>
 <div style='clear:both;'></div>
 <div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT destroy</span> </div>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_16' href="javascript:toggleSource('16')">Show source</a></p>
-<div id='16' class='ruff_dyn_src'><pre><code class="tcl"><br>method destructor {} {
+<div id='16' class='ruff_dyn_src'><pre><br><code class="tcl">method destructor {} {
 
   my removeAll
   unset btData
+  set i [lsearch -exact $bartabs::BarsList [self]]
+  set bartabs::BarsList [lreplace $bartabs::BarsList $i $i]
   if {[llength [self next]]} next
 }<br><br></code></pre></div>
 </div><br><br><h4 class='ruffmethod'><a name='::bartabs::Bars::create'>create</a><span class='ns_scope'> [<a href="bartabs.html#::bartabs::Bars" title="::bartabs::Bars" class='ruff_cmd'>::bartabs::Bars</a>]</span><span class='tinylink'><a href='bartabs.html#::bartabs::Bars'>Bars</a>, <a href='#top'>Top</a></span></h4>
@@ -833,7 +832,7 @@ padding: 0%;
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns BID.</p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_17' href="javascript:toggleSource('17')">Show source</a></p>
-<div id='17' class='ruff_dyn_src'><pre><code class="tcl"><br>method create {barCom {barOpts {}}} {
+<div id='17' class='ruff_dyn_src'><pre><br><code class="tcl">method create {barCom {barOpts {}}} {
 
   # Creates a bar.
   #   barCom - bar command's name or barOpts
@@ -867,7 +866,6 @@ padding: 0%;
       proc $barCom {args} &quot;return \[[self] $BID {*}\$args\]&quot;
       my $BID configure -BARCOM $barCom
     }
-    lappend bartabs::BarList [list $BID [self]]
     return $BID
 }<br><br></code></pre></div>
 </div><br><br><h4 class='ruffmethod'><a name='::bartabs::Bars::disableTab'>disableTab</a><span class='ns_scope'> [<a href="bartabs.html#::bartabs::Bars" title="::bartabs::Bars" class='ruff_cmd'>::bartabs::Bars</a>]</span><span class='tinylink'><a href='bartabs.html#::bartabs::Bars'>Bars</a>, <a href='#top'>Top</a></span></h4>
@@ -878,7 +876,7 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>args</code></code></td><td class='ruff_defitem'>list of TID</td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_18' href="javascript:toggleSource('18')">Show source</a></p>
-<div id='18' class='ruff_dyn_src'><pre><code class="tcl"><br>method disableTab {args} {
+<div id='18' class='ruff_dyn_src'><pre><br><code class="tcl">method disableTab {args} {
 
   # Disables tab(s).
   #   args - list of TID
@@ -893,7 +891,7 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>upd</code></code></td><td class='ruff_defitem'>if &quot;yes&quot;, run &quot;update&quot; before redrawing; <i>optional, default</i> <code>yes</code></td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_19' href="javascript:toggleSource('19')">Show source</a></p>
-<div id='19' class='ruff_dyn_src'><pre><code class="tcl"><br>method drawAll {{upd yes}} {
+<div id='19' class='ruff_dyn_src'><pre><br><code class="tcl">method drawAll {{upd yes}} {
 
   # Redraws all bars.
   #   upd - if &quot;yes&quot;, run &quot;update&quot; before redrawing
@@ -909,7 +907,7 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>args</code></code></td><td class='ruff_defitem'>list of TID or {}</td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_20' href="javascript:toggleSource('20')">Show source</a></p>
-<div id='20' class='ruff_dyn_src'><pre><code class="tcl"><br>method enableTab {args} {
+<div id='20' class='ruff_dyn_src'><pre><br><code class="tcl">method enableTab {args} {
 
   # Enables tab(s).
   #   args - list of TID or {}
@@ -925,7 +923,7 @@ padding: 0%;
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns true if the tab exists.</p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_21' href="javascript:toggleSource('21')">Show source</a></p>
-<div id='21' class='ruff_dyn_src'><pre><code class="tcl"><br>method isTab {TID} {
+<div id='21' class='ruff_dyn_src'><pre><br><code class="tcl">method isTab {TID} {
 
   # Checks if a tab exists.
   #   TID - tab ID
@@ -941,7 +939,7 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>args</code></code></td><td class='ruff_defitem'>list of TID</td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_22' href="javascript:toggleSource('22')">Show source</a></p>
-<div id='22' class='ruff_dyn_src'><pre><code class="tcl"><br>method markTab {args} {
+<div id='22' class='ruff_dyn_src'><pre><br><code class="tcl">method markTab {args} {
 
   # Marks tab(s).
   #   args - list of TID
@@ -958,7 +956,7 @@ padding: 0%;
 </table>
 <h5 class='ruff'>Description</h5><p class='ruff'>TID1 and TID2 must be of the same bar.</p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_23' href="javascript:toggleSource('23')">Show source</a></p>
-<div id='23' class='ruff_dyn_src'><pre><code class="tcl"><br>method moveTab {TID1 TID2} {
+<div id='23' class='ruff_dyn_src'><pre><br><code class="tcl">method moveTab {TID1 TID2} {
 
   # Changed a tab's position in bar.
   #   TID1 - TID of the moved tab
@@ -981,7 +979,7 @@ padding: 0%;
 <p class='ruff'>Removes all bars.</p>
 <div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT removeAll</span> </div>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_24' href="javascript:toggleSource('24')">Show source</a></p>
-<div id='24' class='ruff_dyn_src'><pre><code class="tcl"><br>method removeAll {} {
+<div id='24' class='ruff_dyn_src'><pre><br><code class="tcl">method removeAll {} {
 
   # Removes all bars.
 
@@ -995,7 +993,7 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>args</code></code></td><td class='ruff_defitem'>list of TID</td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_25' href="javascript:toggleSource('25')">Show source</a></p>
-<div id='25' class='ruff_dyn_src'><pre><code class="tcl"><br>method selectTab {args} {
+<div id='25' class='ruff_dyn_src'><pre><br><code class="tcl">method selectTab {args} {
 
   # Selects tab(s).
   #   args - list of TID
@@ -1010,7 +1008,7 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>args</code></code></td><td class='ruff_defitem'>list of TID or {}</td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_26' href="javascript:toggleSource('26')">Show source</a></p>
-<div id='26' class='ruff_dyn_src'><pre><code class="tcl"><br>method unmarkTab {args} {
+<div id='26' class='ruff_dyn_src'><pre><br><code class="tcl">method unmarkTab {args} {
 
   # Unmarks tab(s).
   #   args - list of TID or {}
@@ -1025,7 +1023,7 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>args</code></code></td><td class='ruff_defitem'>list of TID or {}</td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_27' href="javascript:toggleSource('27')">Show source</a></p>
-<div id='27' class='ruff_dyn_src'><pre><code class="tcl"><br>method unselectTab {args} {
+<div id='27' class='ruff_dyn_src'><pre><br><code class="tcl">method unselectTab {args} {
 
   # Unselects tab(s).
   #   args - list of TID or {}
@@ -1037,7 +1035,7 @@ padding: 0%;
 <p class='ruff'>Updates all bars in hard way.</p>
 <div class='ruff_synopsis'><span class='ruff_cmd'>OBJECT updateAll</span> </div>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_28' href="javascript:toggleSource('28')">Show source</a></p>
-<div id='28' class='ruff_dyn_src'><pre><code class="tcl"><br>method updateAll {} {
+<div id='28' class='ruff_dyn_src'><pre><br><code class="tcl">method updateAll {} {
 
   # Updates all bars in hard way.
 
@@ -1059,7 +1057,7 @@ padding: 0%;
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns &quot;1&quot; if the deletion was successful, otherwise 0 (no) or -1 (cancel).</p>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_29' href="javascript:toggleSource('29')">Show source</a></p>
-<div id='29' class='ruff_dyn_src'><pre><code class="tcl"><br>method close {{redraw yes}} {
+<div id='29' class='ruff_dyn_src'><pre><br><code class="tcl">method close {{redraw yes}} {
 
   # Closes a tab and updates the bar.
   #   redraw - if &quot;yes&quot;, update the bar and select the new tab
@@ -1094,7 +1092,7 @@ padding: 0%;
 <tr><td class='ruff_defitem'><code><code>anyway</code></code></td><td class='ruff_defitem'>if &quot;yes&quot;, refill the bar anyway (for choosing from menu); <i>optional, default</i> <code>no</code></td></tr>
 </table>
 <div class='ruff_source'><p class='ruff_source_link'><a id='l_30' href="javascript:toggleSource('30')">Show source</a></p>
-<div id='30' class='ruff_dyn_src'><pre><code class="tcl"><br>method show {{anyway no}} {
+<div id='30' class='ruff_dyn_src'><pre><br><code class="tcl">method show {{anyway no}} {
 
   # Shows a tab in a bar and sets it current.
   #   anyway - if &quot;yes&quot;, refill the bar anyway (for choosing from menu)
