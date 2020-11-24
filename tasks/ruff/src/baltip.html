@@ -1,0 +1,986 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"/>
+<title>baltip reference</title>
+<style>
+/*
+Copyright (c) 2009, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.7.0
+*/
+html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}input,button,textarea,select{*font-size:100%;}body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small;}select,input,button,textarea,button{font:99% arial,helvetica,clean,sans-serif;}table{font-size:inherit;font:100%;}pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%;}body{text-align:center;}#doc,#doc2,#doc3,#doc4,.yui-t1,.yui-t2,.yui-t3,.yui-t4,.yui-t5,.yui-t6,.yui-t7{margin:auto;text-align:left;width:57.69em;*width:56.25em;}#doc2{width:73.076em;*width:71.25em;}#doc3{margin:auto 10px;width:auto;}#doc4{width:74.923em;*width:73.05em;}.yui-b{position:relative;}.yui-b{_position:static;}#yui-main .yui-b{position:static;}#yui-main,.yui-g .yui-u .yui-g{width:100%;}.yui-t1 #yui-main,.yui-t2 #yui-main,.yui-t3 #yui-main{float:right;margin-left:-25em;}.yui-t4 #yui-main,.yui-t5 #yui-main,.yui-t6 #yui-main{float:left;margin-right:-25em;}.yui-t1 .yui-b{float:left;width:12.30769em;*width:12.00em;}.yui-t1 #yui-main .yui-b{margin-left:13.30769em;*margin-left:13.05em;}.yui-t2 .yui-b{float:left;width:13.8461em;*width:13.50em;}.yui-t2 #yui-main .yui-b{margin-left:14.8461em;*margin-left:14.55em;}.yui-t3 .yui-b{float:left;width:23.0769em;*width:22.50em;}.yui-t3 #yui-main .yui-b{margin-left:24.0769em;*margin-left:23.62em;}.yui-t4 .yui-b{float:right;width:13.8456em;*width:13.50em;}.yui-t4 #yui-main .yui-b{margin-right:14.8456em;*margin-right:14.55em;}.yui-t5 .yui-b{float:right;width:18.4615em;*width:18.00em;}.yui-t5 #yui-main .yui-b{margin-right:19.4615em;*margin-right:19.125em;}.yui-t6 .yui-b{float:right;width:23.0769em;*width:22.50em;}.yui-t6 #yui-main .yui-b{margin-right:24.0769em;*margin-right:23.62em;}.yui-t7 #yui-main .yui-b{display:block;margin:0 0 1em 0;}#yui-main .yui-b{float:none;width:auto;}.yui-gb .yui-u,.yui-g .yui-gb .yui-u,.yui-gb .yui-g,.yui-gb .yui-gb,.yui-gb .yui-gc,.yui-gb .yui-gd,.yui-gb .yui-ge,.yui-gb .yui-gf,.yui-gc .yui-u,.yui-gc .yui-g,.yui-gd .yui-u{float:left;}.yui-g .yui-u,.yui-g .yui-g,.yui-g .yui-gb,.yui-g .yui-gc,.yui-g .yui-gd,.yui-g .yui-ge,.yui-g .yui-gf,.yui-gc .yui-u,.yui-gd .yui-g,.yui-g .yui-gc .yui-u,.yui-ge .yui-u,.yui-ge .yui-g,.yui-gf .yui-g,.yui-gf .yui-u{float:right;}.yui-g div.first,.yui-gb div.first,.yui-gc div.first,.yui-gd div.first,.yui-ge div.first,.yui-gf div.first,.yui-g .yui-gc div.first,.yui-g .yui-ge div.first,.yui-gc div.first div.first{float:left;}.yui-g .yui-u,.yui-g .yui-g,.yui-g .yui-gb,.yui-g .yui-gc,.yui-g .yui-gd,.yui-g .yui-ge,.yui-g .yui-gf{width:49.1%;}.yui-gb .yui-u,.yui-g .yui-gb .yui-u,.yui-gb .yui-g,.yui-gb .yui-gb,.yui-gb .yui-gc,.yui-gb .yui-gd,.yui-gb .yui-ge,.yui-gb .yui-gf,.yui-gc .yui-u,.yui-gc .yui-g,.yui-gd .yui-u{width:32%;margin-left:1.99%;}.yui-gb .yui-u{*margin-left:1.9%;*width:31.9%;}.yui-gc div.first,.yui-gd .yui-u{width:66%;}.yui-gd div.first{width:32%;}.yui-ge div.first,.yui-gf .yui-u{width:74.2%;}.yui-ge .yui-u,.yui-gf div.first{width:24%;}.yui-g .yui-gb div.first,.yui-gb div.first,.yui-gc div.first,.yui-gd div.first{margin-left:0;}.yui-g .yui-g .yui-u,.yui-gb .yui-g .yui-u,.yui-gc .yui-g .yui-u,.yui-gd .yui-g .yui-u,.yui-ge .yui-g .yui-u,.yui-gf .yui-g .yui-u{width:49%;*width:48.1%;*margin-left:0;}.yui-g .yui-g .yui-u{width:48.1%;}.yui-g .yui-gb div.first,.yui-gb .yui-gb div.first{*margin-right:0;*width:32%;_width:31.7%;}.yui-g .yui-gc div.first,.yui-gd .yui-g{width:66%;}.yui-gb .yui-g div.first{*margin-right:4%;_margin-right:1.3%;}.yui-gb .yui-gc div.first,.yui-gb .yui-gd div.first{*margin-right:0;}.yui-gb .yui-gb .yui-u,.yui-gb .yui-gc .yui-u{*margin-left:1.8%;_margin-left:4%;}.yui-g .yui-gb .yui-u{_margin-left:1.0%;}.yui-gb .yui-gd .yui-u{*width:66%;_width:61.2%;}.yui-gb .yui-gd div.first{*width:31%;_width:29.5%;}.yui-g .yui-gc .yui-u,.yui-gb .yui-gc .yui-u{width:32%;_float:right;margin-right:0;_margin-left:0;}.yui-gb .yui-gc div.first{width:66%;*float:left;*margin-left:0;}.yui-gb .yui-ge .yui-u,.yui-gb .yui-gf .yui-u{margin:0;}.yui-gb .yui-gb .yui-u{_margin-left:.7%;}.yui-gb .yui-g div.first,.yui-gb .yui-gb div.first{*margin-left:0;}.yui-gc .yui-g .yui-u,.yui-gd .yui-g .yui-u{*width:48.1%;*margin-left:0;}.yui-gb .yui-gd div.first{width:32%;}.yui-g .yui-gd div.first{_width:29.9%;}.yui-ge .yui-g{width:24%;}.yui-gf .yui-g{width:74.2%;}.yui-gb .yui-ge div.yui-u,.yui-gb .yui-gf div.yui-u{float:right;}.yui-gb .yui-ge div.first,.yui-gb .yui-gf div.first{float:left;}.yui-gb .yui-ge .yui-u,.yui-gb .yui-gf div.first{*width:24%;_width:20%;}.yui-gb .yui-ge div.first,.yui-gb .yui-gf .yui-u{*width:73.5%;_width:65.5%;}.yui-ge div.first .yui-gd .yui-u{width:65%;}.yui-ge div.first .yui-gd div.first{width:32%;}#hd:after,#bd:after,#ft:after,.yui-g:after,.yui-gb:after,.yui-gc:after,.yui-gd:after,.yui-ge:after,.yui-gf:after{content:".";display:block;height:0;clear:both;visibility:hidden;}#hd,#bd,#ft,.yui-g,.yui-gb,.yui-gc,.yui-gd,.yui-ge,.yui-gf{zoom:1;}
+
+body{margin:10px;}h1{font-size:138.5%;}h2{font-size:123.1%;}h3{font-size:108%;}h1,h2,h3{margin:1em 0;}h1,h2,h3,h4,h5,h6,strong,dt{font-weight:bold;}optgroup{font-weight:normal;}abbr,acronym{border-bottom:1px dotted #000;cursor:help;}em{font-style:italic;}del{text-decoration:line-through;}blockquote,ul,ol,dl{margin:1em;}ol,ul,dl{margin-left:2em;}ol li{list-style:decimal outside;}ul li{list-style:disc outside;}dl dd{margin-left:1em;}th,td{border:1px solid #000;padding:.5em;}th{font-weight:bold;text-align:center;}caption{margin-bottom:.5em;text-align:center;}sup{vertical-align:super;}sub{vertical-align:sub;}p,fieldset,table,pre{margin-bottom:1em;}button,input[type="checkbox"],input[type="radio"],input[type="reset"],input[type="submit"]{padding:1px;}
+
+
+/* Ruff default CSS */
+
+body {
+  max-width: 70em;
+  margin: 0;
+}
+
+h1,h2 {
+  color: #888888;
+  margin-bottom: 0.5em;
+  margin-top: 0em;
+}
+
+#ft {
+  text-align: left;
+  border-top: 1px solid #006666;
+  color: #888888;
+  margin-top: 10px;
+}
+
+.banner h2 {
+  color: #006666;
+}
+
+#hd.banner {
+ font-family: "Times New Roman", serif;
+ font-size: 200%;
+ line-height: 64px;
+ border-bottom: thin solid #006666;
+ color: #006666;
+}
+
+p.linkline {
+    text-align: right;
+    font-size: smaller;
+    /*    margin-top: -1em; */
+    margin-bottom: 0;
+}
+
+.tinylink {
+    font-size: x-small;
+    font-variant: normal;
+    font-family: Arial, sans-serif;
+    float: right;
+    padding:2px;
+}
+
+h1 .tinylink a {
+    color: white;
+}
+
+#bd {
+font-family: Arial, sans-serif;
+font-size: 108%;
+}
+
+div.navbox {
+  /* margin-top: 1em; */
+    background-color: #006666;
+    color: white;
+    padding: 3px 4px 2px 4px;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+div.navbox:hover {
+    overflow: visible;
+}
+
+/* Note .navbox header css should be based on $header_levels */
+.navbox h1, .navbox h2, .navbox h3, .navbox h4, .navbox h5 {
+  font-size: 85%;
+  margin: 0px;
+  font-weight: normal;
+}
+.navbox h1 {
+    font-weight: bold; /* Override */
+}
+.navbox h2 {
+  padding-left: 1em;
+}
+.navbox h3 {
+  padding-left: 2em;
+}
+.navbox h4 {
+  padding-left: 2.5em;
+  font-weight: normal;
+}
+.navbox h5 {
+  padding-left: 3em;
+  font-weight: normal;
+}
+.navbox hr {
+  color: white;
+  margin-top:0.1em;
+  margin-bottom:0.1em;
+}
+
+.navbox a:link, .navbox a:visited, .navbox a:hover {
+  text-decoration: none;
+  color: white;
+  background-color: #006666;
+}
+
+.navbox a:hover {
+   font-weight: bold;
+}
+
+/* Tooltip text - see https://www.w3schools.com/css/css_tooltip.asp */
+.tooltip {
+    position: relative;
+    /* display: inline-block; */
+}
+
+.tooltip .tooltiptext {
+    width: 100%;
+    font-weight: bold;
+    background-color: white;
+    color: #006666;
+    text-align: left;
+    border: 1px solid #006666;
+    /* border-radius: 4px; */
+    position: absolute;
+    z-index: 1;
+    margin-left: 4px;
+    padding: 2px 3px;
+    visibility: hidden;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+span.ns_scope {
+    color: #aaaaaa;
+}
+
+span.ns_scope a:link, span.ns_scope a:visited {
+  text-decoration: none;
+  color: #aaaaaa;
+
+}
+
+li {
+  margin-top: 0.5em;
+}
+
+span.ns_scope a:hover {
+  text-decoration: none;
+  color: #666666;
+}
+
+table {
+  margin: 1em;
+  margin-top: 0.5em;
+  border: thin solid;
+  border-collapse: collapse;
+  border-color: #808080;
+  padding: 4px;
+}
+
+td {
+  border: thin solid;
+  border-color: #808080;
+  vertical-align: top;
+  font-size: 93%;
+  padding: 0.3em;
+  padding-top: 0.1em;
+}
+th {
+  border: thin solid;
+  border-color: #808080;
+  padding: 0.3em;
+  padding-top: 0.1em;
+  background-color: #CCCCCC;
+}
+
+dt, dd {
+   font-size: 93%;
+}
+
+h1.ruff {
+    background-color: #006666;
+    color: #ffffff;
+    padding-left: 0.2em;
+    font-family: "Times New Roman", serif;
+}
+h2.ruff {
+    font-variant: small-caps;
+    color: #006666;
+    font-family: "Times New Roman", serif;
+}
+
+h3.ruff, h4.ruff, h5.ruff, h6.ruff {
+    color: #006666;
+}
+h5.ruff {
+    font-style: italic;
+    font-weight: normal;
+}
+h6.ruff {
+    font-weight: normal;
+}
+h3.ruffclass, h3.ruffproc, h3.ruffmethod,
+h4.ruffclass, h4.ruffproc, h4.ruffmethod,
+h5.ruffclass, h5.ruffproc, h5.ruffmethod {
+    border-bottom: thin solid #006666;
+    color: #006666;
+    margin-bottom: 0.2em;
+}
+
+pre {
+    background-color: #eeeeee;
+    margin-top: 1em;
+    margin-left: 1em;
+    padding: 5px;
+    font-family: Consolas, "Courier New", monospace;
+    width: max-content;
+    font-size: smaller;
+    line-height: 1.2em;
+}
+
+.ruff_dyn_src {
+    display: none; /* Displayed via JS */
+}
+
+.ruff_synopsis {
+    border: thin solid #cccccc;
+    background: #eeeeee;
+    font-size: smaller;
+    font-family: Consolas, "Courier New", monospace;
+    padding: 5px;
+    margin: 0em 2em 1em;
+}
+.ruff_const, .ruff_cmd, ruff_defitem {
+    font-weight: bold;
+    font-family: Consolas, "Courier New", monospace;
+}
+.ruff_arg {
+    font-style: italic;
+    font-family: Consolas, "Courier New", monospace;
+}
+
+.ruff_source_link {
+    font-size: smaller;
+}
+</style>
+<script>function toggleSource( id )
+{
+    /* Copied from Rails */
+    var elem
+    var link
+
+    if( document.getElementById )
+    {
+        elem = document.getElementById( id )
+        link = document.getElementById( "l_" + id )
+    }
+    else if ( document.all )
+    {
+        elem = eval( "document.all." + id )
+        link = eval( "document.all.l_" + id )
+    }
+    else
+        return false;
+
+    if( elem.style.display == "block" )
+    {
+        elem.style.display = "none"
+        link.innerHTML = "Show source"
+    }
+    else
+    {
+        elem.style.display = "block"
+        link.innerHTML = "Hide source"
+    }
+}
+</script></head>
+<body><div id='doc3' class='yui-t2'><div id='hd' class='banner'>
+<a style='text-decoration:none;' href='baltip.html'>baltip reference</a>
+</div>
+<div id='bd'><div id='yui-main'><div class='yui-b'><h1 class='ruff'><a name='::baltip'></a>::baltip<span class='tinylink'><a href='#top'>Top</a></span></h1>
+<div style='clear:both;'></div>
+<p class='ruff'>It's a Tcl/Tk tip widget inspired by:</p>
+<ul class='ruff'>
+<li><a href="https://wiki.tcl-lang.org/page/Tklib+tooltip" >https://wiki.tcl-lang.org/page/Tklib+tooltip</a></li>
+<li><a href="https://wiki.tcl-lang.org/page/balloon+help" >https://wiki.tcl-lang.org/page/balloon+help</a></li>
+</ul>
+<p class='ruff'>The original code has been modified to make the tip:</p>
+<ul class='ruff'>
+<li>be faded/destroyed after an interval defined by a caller</li>
+<li>be enabled/disabled for all or specific widgets</li>
+<li>be displayed at the screen's edges</li>
+<li>be displayed with given opacity</li>
+<li>be displayed as a stand-alone balloon message at given coordinates</li>
+<li>have configure/cget etc. wrapped in Tcl ensemble for convenience</li>
+</ul>
+<p class='ruff'>The video introduction to <em>balltip</em> is presented by <a href="https://github.com/aplsimple/baltip/releases/download/baltip-1.0/baltip-1.0.mp4" >baltip-1.0.mp4</a> (11 Mb).</p>
+<p class='ruff'>Below are several pictures just to glance at <em>baltip</em>.</p>
+<p class='ruff'><em>Under the mouse pointer</em>. By default, the tips are displayed just under the mouse pointer.</p>
+<p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/baltip/files/btip3.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
+<p class='ruff'><em>Under the widget</em>. This button's tip is configured to be just under the button. As well as the text's tip. This feature is well fit for widgets positioned in a row (e.g. in toolbar, tabbar etc.).</p>
+<p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/baltip/files/btip1.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
+<p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/baltip/files/btip2.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
+<p class='ruff'><em>Tips of text tags</em>. The text tags can have their own tips.</p>
+<p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/baltip/files/btip4.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
+<p class='ruff'><em>Tips of menu items</em>. The menu items can have their own tips. The popup menus may be <em>tear-off</em> at that.</p>
+<p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/baltip/files/btip5.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
+<p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/baltip/files/btip6.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
+<p class='ruff'><em>Label of danger</em>. The labels are also tipped. This one is configured to be an alert.</p>
+<p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/baltip/files/btip7.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
+<p class='ruff'><em>Configurable tips</em>. The tip configuration can be global or local (for a specific tip).</p>
+<p class='ruff'>The configuring can include: font, colors, paddings, border, exposition time, opacity, bell.</p>
+<p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/baltip/files/btip8.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
+<p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/baltip/files/btip9.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
+<p class='ruff'><em>Balloon</em>. The balloon messages aren't related to any widgets. This one is configurated to appear at the top right corner, disappearing after a while.</p>
+<p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/baltip/files/btip10.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
+<h2 class='ruff'><a name='::baltip-Usage'></a>Usage<span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<p class='ruff'>The <em>baltip</em> usage is rather straightforward. Firstly we need <code>package require</code>:</p>
+<pre class='ruff'>
+  lappend auto_path &quot;dir_of_baltip&quot;
+  package require baltip
+</pre>
+<p class='ruff'>Then we set tips with <code>::baltip::tip</code> command for each appropriate widget:</p>
+<pre class='ruff'>
+  ::baltip::tip widgetpath text ?-option value?
+  # or this way:
+  ::baltip tip widgetpath text ?-option value?
+</pre>
+<p class='ruff'>For example, having a button <em>.win.but1</em>, we can set its tip this way:</p>
+<pre class='ruff'>
+  ::baltip tip .win.but1 &quot;It's a tip.\n2nd line of it.\n3rd.&quot;
+</pre>
+<p class='ruff'>To get all or specific settings of <em>baltip</em>:</p>
+<pre class='ruff'>
+  ::baltip::cget ?-option?
+  # or this way:
+  ::baltip cget ?-option?
+</pre>
+<p class='ruff'>To set some options:</p>
+<pre class='ruff'>
+  ::baltip::configure -option value ?-option value?
+  # or this way:
+  ::baltip config -option value ?-option value?
+</pre>
+<p class='ruff'><strong>Note</strong>: the options set with <code>configure</code> command are <em>global</em>, i.e. active for all tips. The options set with <code>tip</code> command are <em>local</em>, i.e. active for the specific tip.</p>
+<p class='ruff'>To disable all tips:</p>
+<pre class='ruff'>
+  ::baltip::configure -on false
+</pre>
+<p class='ruff'>To disable some specific tip:</p>
+<pre class='ruff'>
+  ::baltip::tip widgetpath &quot;&quot;
+  # or this way:
+  ::baltip::tip widgetpath &quot;old tip&quot; -on false
+</pre>
+<p class='ruff'>To hide some specific (suspended) tip forcedly:</p>
+<pre class='ruff'>
+  ::baltip::hide widgetpath
+</pre>
+<p class='ruff'>To update a tip's text and options:</p>
+<pre class='ruff'>
+  ::baltip::update widgetpath text ?options?
+</pre>
+<p class='ruff'>When you click on a widget with its tip being displayed, the tip is hidden. It is the default behavior of <em>baltip</em>, but sometimes you need to re-display the hidden tip. If the widget is a button, you can include the following command in <code>-command</code> of the button:</p>
+<pre class='ruff'>
+  ::baltip::repaint widgetpath
+</pre>
+<h2 class='ruff'><a name='::baltip-Balloon'></a>Balloon<span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<p class='ruff'>The <em>normal</em> tip has no <code>-geometry</code> option because it's calculated by <em>baltip</em>, to position the tip under its host widget.</p>
+<p class='ruff'>By means of <code>-geometry</code> option you get a balloon message unrelated to any visible widget: it's parented by the toplevel window. The <code>-geometry</code> option has +X+Y form where X and Y are coordinates of the balloon.</p>
+<p class='ruff'>For example:</p>
+<pre class='ruff'>
+  ::baltip::tip .win &quot;It's a balloon at +1+100 (+X+Y) coordinates&quot;  -geometry +1+100 -font {-weight bold -size 12}  -alpha 0.8 -fg white -bg black -per10 3000 -pause 1500 -fade 1500
+</pre>
+<p class='ruff'>The <code>-pause</code> and <code>-fade</code> options make the balloon fade at appearing and disappearing. The <code>-per10</code> option defines the balloon's duration: the more the longer.</p>
+<p class='ruff'>The <code>-geometry</code> value can include <code>W</code> and <code>H</code> <em>wildcards</em> meaning the width and the height of the balloon. This may be useful when you need to show a balloon at a window's edge and should use the balloon's dimensions which are available only after its creation. The X and Y coordinates are calculated by <em>baltip</em> as normal expressions. Of course, they should not include the &quot;+&quot; divider, but this restriction (if any) is easily overcome.</p>
+<p class='ruff'>For example:</p>
+<pre class='ruff'>
+  lassign [split [winfo geometry .win] x+] w h x y
+  set geom &quot;+([expr {$w+$x}]-W-4)+$y&quot;
+  set text &quot;The balloon at the right edge of the window&quot;
+  ::baltip tip .win $text -geometry $geom -pause 2000 -fade 2000
+</pre>
+<h2 class='ruff'><a name='::baltip-Options'></a>Options<span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<p class='ruff'>Below are listed the <em>baltip</em> options that are set with <code>tip</code> and <code>configure</code> and got with <code>cget</code>:</p>
+<table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><strong>-on</strong></td><td class='ruff_defitem'>switches all tips on/off;</td></tr>
+<tr><td class='ruff_defitem'><strong>-per10</strong></td><td class='ruff_defitem'>a time of exposition per 10 characters (in millisec.); &quot;0&quot; means &quot;eternal&quot;;</td></tr>
+<tr><td class='ruff_defitem'><strong>-fade</strong></td><td class='ruff_defitem'>a time of fading (in millisec.);</td></tr>
+<tr><td class='ruff_defitem'><strong>-pause</strong></td><td class='ruff_defitem'>a pause before displaying tips (in millisec.);</td></tr>
+<tr><td class='ruff_defitem'><strong>-alpha</strong></td><td class='ruff_defitem'>an opacity (from 0.0 to 1.0);</td></tr>
+<tr><td class='ruff_defitem'><strong>-fg</strong></td><td class='ruff_defitem'>foreground of tip;</td></tr>
+<tr><td class='ruff_defitem'><strong>-bg</strong></td><td class='ruff_defitem'>background of tip;</td></tr>
+<tr><td class='ruff_defitem'><strong>-bd</strong></td><td class='ruff_defitem'>borderwidth of tip;</td></tr>
+<tr><td class='ruff_defitem'><strong>-font</strong></td><td class='ruff_defitem'>font attributes;</td></tr>
+<tr><td class='ruff_defitem'><strong>-padx</strong></td><td class='ruff_defitem'>X padding for text;</td></tr>
+<tr><td class='ruff_defitem'><strong>-pady</strong></td><td class='ruff_defitem'>Y padding for text;</td></tr>
+<tr><td class='ruff_defitem'><strong>-padding</strong></td><td class='ruff_defitem'>padding for pack;</td></tr>
+<tr><td class='ruff_defitem'><strong>-under</strong></td><td class='ruff_defitem'>if &gt;= 0, sets the tip under the widget, else under the pointer;</td></tr>
+<tr><td class='ruff_defitem'><strong>-bell</strong></td><td class='ruff_defitem'>if true, rings at displaying.</td></tr>
+</table>
+<p class='ruff'>The following options are special:</p>
+<table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><strong>-global</strong></td><td class='ruff_defitem'>if true, applies the settings to all registered tips;</td></tr>
+<tr><td class='ruff_defitem'><strong>-force</strong></td><td class='ruff_defitem'>if true, forces the display by 'tip' command;</td></tr>
+<tr><td class='ruff_defitem'><strong>-index</strong></td><td class='ruff_defitem'>index of menu item to tip;</td></tr>
+<tr><td class='ruff_defitem'><strong>-tag</strong></td><td class='ruff_defitem'>name of text tag to tip;</td></tr>
+<tr><td class='ruff_defitem'><strong>-geometry</strong></td><td class='ruff_defitem'>geometry (+X+Y) of the balloon.</td></tr>
+</table>
+<p class='ruff'>If <code>-global yes</code> option is used alone, it applies all global options to all registered tips. If <code>-global yes</code> option is used along with other options, only those options are applied to all registered tips.</p>
+<p class='ruff'>Of course, all global options will be applied to all tips to be created after <code>::baltip configuration</code>. For example:</p>
+<pre class='ruff'>
+  ::baltip config -global yes  ;# applies all global options to all registered and to-be-created tips
+  ::baltip config -global yes -per10 2000  ;# applies `-per10` to all registered and to-be-created tips
+</pre>
+<p class='ruff'>The <code>-index</code> option may have numeric (0, 1, 2...) or symbolic form (active, end, none) to indicate a menu entry, e.g. in <code>-command</code> option. For example:</p>
+<pre class='ruff'>
+  ::baltip repaint .win.popupMenu -index active
+  ::baltip::tip .menu &quot;File actions&quot; -index 0
+</pre>
+<p class='ruff'>As seen in the above examples, <em>baltip</em> can be used as Tcl ensemble, so that the commands may be shortened.</p>
+<p class='ruff'>See more examples in <em>test.tcl</em> of <a href="https://chiselapp.com/user/aplsimple/repository/baltip/download" >baltip.zip</a>.</p>
+<p class='ruff'>Also, you can test <em>baltip</em> with <em>test2_pave.tcl</em> of <a href="https://chiselapp.com/user/aplsimple/repository/pave/download" >apave package</a>.</p>
+<h2 class='ruff'><a name='::baltip-Links'></a>Links<span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<ul class='ruff'>
+<li><a href="https://github.com/aplsimple/baltip/releases/download/baltip-1.0/baltip-1.0.mp4" >Demo of baltip v1.0</a></li>
+<li><a href="https://aplsimple.github.io/en/tcl/baltip/baltip.html" >Reference</a></li>
+<li><a href="https://chiselapp.com/user/aplsimple/repository/baltip/download" >Source</a> (baltip.zip)</li>
+</ul>
+<h2 class='ruff'><a name='::baltip-Commands'></a>Commands<span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<h4 class='ruffproc'><a name='::baltip::cget'>cget</a><span class='ns_scope'> [<a href="baltip.html#::baltip" title="::baltip" class='ruff_cmd'>::baltip</a>]</span><span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Gets the tip's option values.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>cget</span> <span class='ruff_arg'>?args?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>args</code></td><td class='ruff_defitem'>option names (if empty, returns all options)</td></tr>
+</table>
+<h5 class='ruff'>Return value</h5><p class='ruff'>Returns a list of &quot;name value&quot; pairs.</p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_1' href="javascript:toggleSource('1')">Show source</a></p>
+<div id='1' class='ruff_dyn_src'><pre>proc ::baltip::cget {args} {
+
+    # Gets the tip's option values.
+    #   args - option names (if empty, returns all options)
+    # Returns a list of &quot;name value&quot; pairs.
+
+    if {![llength $args]} {
+      lappend args -on -per10 -fade -pause -fg -bg -bd -padx -pady -padding  -font -alpha -text -index -tag -bell -under
+    }
+    set res [list]
+    foreach n $args {
+      set n [string range $n 1 end]
+      if {[info exists my::ttdata($n)]} {
+        lappend res -$n $my::ttdata($n)
+      }
+    }
+    return $res
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::configure'>configure</a><span class='ns_scope'> [<a href="baltip.html#::baltip" title="::baltip" class='ruff_cmd'>::baltip</a>]</span><span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Configurates the tip for all widgets.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>configure</span> <span class='ruff_arg'>?args?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>args</code></td><td class='ruff_defitem'>options (&quot;name value&quot; pairs)</td></tr>
+</table>
+<h5 class='ruff'>Return value</h5><p class='ruff'>Returns the list of -force, -geometry, -index, -tag option values.</p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_2' href="javascript:toggleSource('2')">Show source</a></p>
+<div id='2' class='ruff_dyn_src'><pre>proc ::baltip::configure {args} {
+
+    # Configurates the tip for all widgets.
+    #   args - options (&quot;name value&quot; pairs)
+    # Returns the list of -force, -geometry, -index, -tag option values.
+
+    set force no
+    set index -1
+    set geometry [set tag &quot;&quot;]
+    set global [expr {[dict exists $args -global] &amp;&amp; [dict get $args -global]}]
+    foreach {n v} $args {
+      set n1 [string range $n 1 end]
+      switch -glob -- $n {
+        -per10 - -fade - -pause - -fg - -bg - -bd - -alpha - -text -  -on - -padx - -pady - -padding - -bell - -under - -font {
+          set my::ttdata($n1) $v
+        }
+        -force - -geometry - -index - -tag - -global {set $n1 $v}
+        default {return -code error &quot;invalid option \&quot;$n\&quot;&quot;}
+      }
+      if {$global &amp;&amp; ($n ne &quot;-global&quot; || [llength $args]==2)} {
+        foreach k [array names my::ttdata -glob on,*] {
+          set w [lindex [split $k ,] 1]
+          set my::ttdata($n1,$w) $v
+        }
+      }
+    }
+    return [list $force $geometry $index $tag]
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::hide'>hide</a><span class='ns_scope'> [<a href="baltip.html#::baltip" title="::baltip" class='ruff_cmd'>::baltip</a>]</span><span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Destroys the tip's window.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>hide</span> <span class='ruff_arg'>?w?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>widget's path Optional, default <code>&quot;&quot;</code>.</td></tr>
+</table>
+<h5 class='ruff'>Return value</h5><p class='ruff'>Returns 1, if the window was really hidden.</p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_3' href="javascript:toggleSource('3')">Show source</a></p>
+<div id='3' class='ruff_dyn_src'><pre>proc ::baltip::hide {{w {}}} {
+
+    # Destroys the tip's window.
+    #   w - widget's path
+    # Returns 1, if the window was really hidden.
+
+    return [expr {![catch {destroy $w.w__BALTIP}]}]
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::repaint'>repaint</a><span class='ns_scope'> [<a href="baltip.html#::baltip" title="::baltip" class='ruff_cmd'>::baltip</a>]</span><span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Repaints a tip immediately.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>repaint</span> <span class='ruff_arg'>w ?args?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>widget's path</td></tr>
+<tr><td class='ruff_defitem'><code>args</code></td><td class='ruff_defitem'>options (incl. -index/-tag)</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_4' href="javascript:toggleSource('4')">Show source</a></p>
+<div id='4' class='ruff_dyn_src'><pre>proc ::baltip::repaint {w args} {
+
+    # Repaints a tip immediately.
+    #   w - widget's path
+    #  args - options (incl. -index/-tag)
+
+    if {[winfo exists $w] &amp;&amp; [info exists my::ttdata(optvals,$w)] &amp;&amp;  [dict exists $my::ttdata(optvals,$w) -text]} {
+      set optvals $::baltip::my::ttdata(optvals,$w)
+      lappend optvals {*}$args
+      after idle [list ::baltip::my::Show $w  [dict get $::baltip::my::ttdata(optvals,$w) -text] yes  {} $optvals]
+    }
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::tip'>tip</a><span class='ns_scope'> [<a href="baltip.html#::baltip" title="::baltip" class='ruff_cmd'>::baltip</a>]</span><span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Creates a tip for a widget.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>tip</span> <span class='ruff_arg'>w text ?args?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>the parent widget's path</td></tr>
+<tr><td class='ruff_defitem'><code>text</code></td><td class='ruff_defitem'>the tip text</td></tr>
+<tr><td class='ruff_defitem'><code>args</code></td><td class='ruff_defitem'>options (&quot;name value&quot; pairs)</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_5' href="javascript:toggleSource('5')">Show source</a></p>
+<div id='5' class='ruff_dyn_src'><pre>proc ::baltip::tip {w text args} {
+
+    # Creates a tip for a widget.
+    #   w - the parent widget's path
+    #   text - the tip text
+    #   args - options (&quot;name value&quot; pairs)
+
+    if {[winfo exists $w] || $w eq &quot;&quot;} {
+      set arrsaved [array get my::ttdata]
+      set optvals [::baltip::my::CGet {*}$args]
+      lassign $optvals forced geo index ttag
+      set optvals [lrange $optvals 4 end]
+      set my::ttdata(optvals,$w) [dict set optvals -text $text]
+      set my::ttdata(on,$w) [expr {[string length $text]}]
+      set my::ttdata(global,$w) no
+      if {$text ne &quot;&quot;} {
+        if {$forced || $geo ne &quot;&quot;} {::baltip::my::Show $w $text yes $geo $optvals}
+        if {$geo ne &quot;&quot;} {
+          array set my::ttdata $arrsaved  ;# balloon popup
+        } else {
+          set tags [bindtags $w]
+          if {[lsearch -exact $tags &quot;Tooltip$w&quot;] == -1} {
+            bindtags $w [linsert $tags end &quot;Tooltip$w&quot;]
+          }
+          bind Tooltip$w &lt;Any-Leave&gt;    [list ::baltip::hide $w]
+          bind Tooltip$w &lt;Any-KeyPress&gt; [list ::baltip::hide $w]
+          bind Tooltip$w &lt;Any-Button&gt;   [list ::baltip::hide $w]
+          if {$index&gt;-1} {
+            set my::ttdata($w,$index) $text
+            set my::ttdata(LASTMITEM) &quot;&quot;
+            bind $w &lt;&lt;MenuSelect&gt;&gt; [list + ::baltip::my::MenuTip $w %W $optvals]
+          } elseif {$ttag ne &quot;&quot;} {
+            set ::baltip::my::ttdata($w,$ttag) &quot;$text&quot;
+            $w tag bind $ttag &lt;Enter&gt; [list + ::baltip::my::TagTip $w $ttag $optvals]
+            foreach event {Leave KeyPress Button} {
+              $w tag bind $ttag &lt;$event&gt; [list + ::baltip::my::TagTip $w]
+            }
+          } else {
+            bind Tooltip$w &lt;Enter&gt; [list ::baltip::my::Show %W $text no $geo $optvals]
+          }
+        }
+      }
+    }
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::update'>update</a><span class='ns_scope'> [<a href="baltip.html#::baltip" title="::baltip" class='ruff_cmd'>::baltip</a>]</span><span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Updates tip's text and settings.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>update</span> <span class='ruff_arg'>w text ?args?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>widget's path</td></tr>
+<tr><td class='ruff_defitem'><code>text</code></td><td class='ruff_defitem'>tip's text</td></tr>
+<tr><td class='ruff_defitem'><code>args</code></td><td class='ruff_defitem'>tip's settings</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_6' href="javascript:toggleSource('6')">Show source</a></p>
+<div id='6' class='ruff_dyn_src'><pre>proc ::baltip::update {w text args} {
+
+    # Updates tip's text and settings.
+    #  w - widget's path
+    #  text - tip's text
+    #  args - tip's settings
+
+    set my::ttdata(text,$w) $text
+    foreach {k v} $args {set my::ttdata([string range $k 1 end],$w) $v}
+}</pre></div>
+</div><h1 class='ruff'><a name='::baltip::my'></a>::baltip::my<span class='tinylink'><a href='#top'>Top</a></span></h1>
+<div style='clear:both;'></div>
+<p class='ruff'>The <code>::baltip::my</code> namespace contains procedures for the &quot;internal&quot; usage by <em>baltip</em> package.</p>
+<p class='ruff'>All of them are upper-cased, in contrast with the UI procedures of <code>baltip</code> namespace.</p>
+<h2 class='ruff'><a name='::baltip::my-Commands'></a>Commands<span class='tinylink'><a href='baltip.html#::baltip::my'>my</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<h4 class='ruffproc'><a name='::baltip::my::CGet'>CGet</a><span class='ns_scope'> [<a href="baltip.html#::baltip::my" title="::baltip::my" class='ruff_cmd'>::baltip::my</a>]</span><span class='tinylink'><a href='baltip.html#::baltip::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Gets options' values, using local (args) and global (ttdata) settings.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>CGet</span> <span class='ruff_arg'>?args?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>args</code></td><td class='ruff_defitem'>local settings (&quot;name value&quot; pairs)</td></tr>
+</table>
+<h5 class='ruff'>Return value</h5><p class='ruff'>Returns the full list of settings (&quot;name value&quot; pairs, &quot;name&quot; without &quot;-&quot;)  in which special options go first.</p>
+<h5 class='ruff'>See also</h5><p class='ruff'><a href="baltip.html#::baltip::cget" title="cget" class='ruff_cmd'>cget</a>, <a href="baltip.html#::baltip::configure" title="configure" class='ruff_cmd'>configure</a></p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_7' href="javascript:toggleSource('7')">Show source</a></p>
+<div id='7' class='ruff_dyn_src'><pre>proc ::baltip::my::CGet {args} {
+
+    # Gets options' values, using local (args) and global (ttdata) settings.
+    #   args - local settings (&quot;name value&quot; pairs)
+    # Returns the full list of settings (&quot;name value&quot; pairs, &quot;name&quot; without &quot;-&quot;)  in which special options go first.
+    # See also: cget, configure
+
+    variable ttdata
+    set saved [array get ttdata]
+    set res [::baltip::configure {*}$args]
+    lappend res {*}[::baltip::cget]
+    array set ttdata $saved
+    return $res
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::my::Fade'>Fade</a><span class='ns_scope'> [<a href="baltip.html#::baltip::my" title="::baltip::my" class='ruff_cmd'>::baltip::my</a>]</span><span class='tinylink'><a href='baltip.html#::baltip::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Fades/unfades the tip's window.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Fade</span> <span class='ruff_arg'>w aint fint icount Un alpha show geo ?geos?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>the tip's window</td></tr>
+<tr><td class='ruff_defitem'><code>aint</code></td><td class='ruff_defitem'>interval for 'after'</td></tr>
+<tr><td class='ruff_defitem'><code>fint</code></td><td class='ruff_defitem'>interval for fading</td></tr>
+<tr><td class='ruff_defitem'><code>icount</code></td><td class='ruff_defitem'>counter of intervals</td></tr>
+<tr><td class='ruff_defitem'><code>Un</code></td><td class='ruff_defitem'>if equal to &quot;Un&quot;, unfades the tip</td></tr>
+<tr><td class='ruff_defitem'><code>alpha</code></td><td class='ruff_defitem'>value of -alpha option</td></tr>
+<tr><td class='ruff_defitem'><code>show</code></td><td class='ruff_defitem'>flag &quot;show the window&quot;</td></tr>
+<tr><td class='ruff_defitem'><code>geo</code></td><td class='ruff_defitem'>coordinates (+X+Y) of balloon</td></tr>
+<tr><td class='ruff_defitem'><code>geos</code></td><td class='ruff_defitem'>saved coordinates (+X+Y) of shown tip Optional, default <code>&quot;&quot;</code>.</td></tr>
+</table>
+<h5 class='ruff'>See also</h5><p class='ruff'><a href="baltip.html#::baltip::my::FadeNext" title="FadeNext" class='ruff_cmd'>FadeNext</a>, <a href="baltip.html#::baltip::my::UnFadeNext" title="UnFadeNext" class='ruff_cmd'>UnFadeNext</a></p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_8' href="javascript:toggleSource('8')">Show source</a></p>
+<div id='8' class='ruff_dyn_src'><pre>proc ::baltip::my::Fade {w aint fint icount Un alpha show geo {geos {}}} {
+
+    # Fades/unfades the tip's window.
+    #   w - the tip's window
+    #   aint - interval for 'after'
+    #   fint - interval for fading
+    #   icount - counter of intervals
+    #   Un - if equal to &quot;Un&quot;, unfades the tip
+    #   alpha - value of -alpha option
+    #   show - flag &quot;show the window&quot;
+    #   geo - coordinates (+X+Y) of balloon
+    #   geos - saved coordinates (+X+Y) of shown tip
+    # See also: FadeNext, UnFadeNext
+
+    update
+    if {[winfo exists $w]} {
+      after idle [list after $aint  [list ::baltip::my::${Un}FadeNext $w $aint $fint $icount $alpha $show $geo $geos]]
+    }
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::my::FadeNext'>FadeNext</a><span class='ns_scope'> [<a href="baltip.html#::baltip::my" title="::baltip::my" class='ruff_cmd'>::baltip::my</a>]</span><span class='tinylink'><a href='baltip.html#::baltip::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>A step to fade the tip's window.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>FadeNext</span> <span class='ruff_arg'>w aint fint icount alpha show geo ?geos?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>the tip's window</td></tr>
+<tr><td class='ruff_defitem'><code>aint</code></td><td class='ruff_defitem'>interval for 'after'</td></tr>
+<tr><td class='ruff_defitem'><code>fint</code></td><td class='ruff_defitem'>interval for fading</td></tr>
+<tr><td class='ruff_defitem'><code>icount</code></td><td class='ruff_defitem'>counter of intervals</td></tr>
+<tr><td class='ruff_defitem'><code>alpha</code></td><td class='ruff_defitem'>value of -alpha option</td></tr>
+<tr><td class='ruff_defitem'><code>show</code></td><td class='ruff_defitem'>flag &quot;show the window&quot;</td></tr>
+<tr><td class='ruff_defitem'><code>geo</code></td><td class='ruff_defitem'>coordinates (+X+Y) of balloon</td></tr>
+<tr><td class='ruff_defitem'><code>geos</code></td><td class='ruff_defitem'>saved coordinates (+X+Y) of shown tip Optional, default <code>&quot;&quot;</code>.</td></tr>
+</table>
+<h5 class='ruff'>See also</h5><p class='ruff'><a href="baltip.html#::baltip::my::Fade" title="Fade" class='ruff_cmd'>Fade</a></p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_9' href="javascript:toggleSource('9')">Show source</a></p>
+<div id='9' class='ruff_dyn_src'><pre>proc ::baltip::my::FadeNext {w aint fint icount alpha show geo {geos {}}} {
+
+    # A step to fade the tip's window.
+    #   w - the tip's window
+    #   aint - interval for 'after'
+    #   fint - interval for fading
+    #   icount - counter of intervals
+    #   alpha - value of -alpha option
+    #   show - flag &quot;show the window&quot;
+    #   geo - coordinates (+X+Y) of balloon
+    #   geos - saved coordinates (+X+Y) of shown tip
+    # See also: Fade
+
+    incr icount -1
+    if {$show} {ShowWindow $w}
+    set show 0
+    if {![winfo exists $w]} return
+    lassign [split [wm geometry $w] +] -&gt; X Y
+    if {$geos ne &quot;&quot; &amp;&amp; $geos ne &quot;+$X+$Y&quot;} return
+    set al [expr {min($alpha,($fint+$icount*1.5)/$fint)}]
+    if {$icount&lt;0} {
+      if {$al&gt;0} {
+        if {[catch {wm attributes $w -alpha $al}]} {set al 0}
+      }
+      if {$al&lt;=0 || ![winfo exists $w]} {
+        catch {destroy $w}
+        return
+      }
+    } elseif {$al&gt;0 &amp;&amp; $geo eq &quot;&quot;} {
+      catch {wm attributes $w -alpha $al}
+    }
+    Fade $w $aint $fint $icount {} $alpha $show $geo +$X+$Y
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::my::MenuTip'>MenuTip</a><span class='ns_scope'> [<a href="baltip.html#::baltip::my" title="::baltip::my" class='ruff_cmd'>::baltip::my</a>]</span><span class='tinylink'><a href='baltip.html#::baltip::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Shows a menu's tip.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>MenuTip</span> <span class='ruff_arg'>w wt optvals</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>the menu's path</td></tr>
+<tr><td class='ruff_defitem'><code>wt</code></td><td class='ruff_defitem'>the menu's path (incl. tearoff menu)</td></tr>
+<tr><td class='ruff_defitem'><code>optvals</code></td><td class='ruff_defitem'>settings of tip</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_10' href="javascript:toggleSource('10')">Show source</a></p>
+<div id='10' class='ruff_dyn_src'><pre>proc ::baltip::my::MenuTip {w wt optvals} {
+
+    # Shows a menu's tip.
+    #   w - the menu's path
+    #   wt - the menu's path (incl. tearoff menu)
+    #   optvals - settings of tip
+
+    variable ttdata
+    ::baltip::hide $w
+    set index [$wt index active]
+    set mit &quot;$w/$index&quot;
+    if {$index eq &quot;none&quot;} return
+    if {[info exists ttdata($w,$index)] &amp;&amp; ([::baltip::hide $w] ||  ![info exists ttdata(LASTMITEM)] || $ttdata(LASTMITEM) ne $mit)} {
+      set text $ttdata($w,$index)
+      ::baltip::my::Show $w $text no {} $optvals
+    }
+    set ttdata(LASTMITEM) $mit
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::my::Show'>Show</a><span class='ns_scope'> [<a href="baltip.html#::baltip::my" title="::baltip::my" class='ruff_cmd'>::baltip::my</a>]</span><span class='tinylink'><a href='baltip.html#::baltip::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Creates and shows the tip's window.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Show</span> <span class='ruff_arg'>w text force geo optvals</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>the widget's path</td></tr>
+<tr><td class='ruff_defitem'><code>text</code></td><td class='ruff_defitem'>the tip text</td></tr>
+<tr><td class='ruff_defitem'><code>force</code></td><td class='ruff_defitem'>if true, re-displays the existing tip</td></tr>
+<tr><td class='ruff_defitem'><code>geo</code></td><td class='ruff_defitem'>being +X+Y, sets the tip coordinates</td></tr>
+<tr><td class='ruff_defitem'><code>optvals</code></td><td class='ruff_defitem'>settings (&quot;option value&quot; pairs)</td></tr>
+</table>
+<h5 class='ruff'>See also</h5><p class='ruff'><a href="baltip.html#::baltip::my::Fade" title="Fade" class='ruff_cmd'>Fade</a>, <a href="baltip.html#::baltip::my::ShowWindow" title="ShowWindow" class='ruff_cmd'>ShowWindow</a>, <a href="baltip.html#::baltip::update" title="::baltip::update" class='ruff_cmd'>::baltip::update</a></p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_11' href="javascript:toggleSource('11')">Show source</a></p>
+<div id='11' class='ruff_dyn_src'><pre>proc ::baltip::my::Show {w text force geo optvals} {
+
+    # Creates and shows the tip's window.
+    #   w - the widget's path
+    #   text - the tip text
+    #   force - if true, re-displays the existing tip
+    #   geo - being +X+Y, sets the tip coordinates
+    #   optvals - settings (&quot;option value&quot; pairs)
+    # See also: Fade, ShowWindow, ::baltip::update
+
+    variable ttdata
+    if {$w ne &quot;&quot; &amp;&amp; ![winfo exists $w]} return
+    set win $w.w__BALTIP
+    set px [winfo pointerx .]
+    set py [winfo pointery .]
+    if {$geo ne &quot;&quot;} {                    ;# balloons not related to widgets
+      array set data $optvals
+    } elseif {$ttdata(global,$w)} {      ;# flag 'use global settings'
+      array set data [::baltip::cget]
+    } else {
+      array set data $optvals
+      foreach k [array names ttdata -glob *,$w] {
+        set n1 [lindex [split $k ,] 0]   ;# settings set by 'update'
+        if {$n1 eq &quot;text&quot;} {
+          set text $ttdata($k)           ;# tip's text
+        } else {
+          set data(-$n1) $ttdata($k)     ;# tip's options
+        }
+      }
+    }
+    if {!$force &amp;&amp; $geo eq &quot;&quot; &amp;&amp; [winfo class $w] ne &quot;Menu&quot; &amp;&amp;  ([winfo exists $win] || ![info exists ttdata(on,$w)] || !$ttdata(on,$w) ||  ![string match $w [winfo containing $px $py]])} {
+      return
+    }
+    ::baltip::hide $w
+    set icount [string length [string trim $text]]
+    if {!$icount || (!$ttdata(on) &amp;&amp; !$data(-on))} return
+    lappend ttdata(REGISTERED) $w
+    foreach wold [lrange $ttdata(REGISTERED) 0 end-1] {::baltip::hide $wold}
+    if {$data(-fg) eq &quot;&quot; || $data(-bg) eq &quot;&quot;} {
+      set data(-fg) black
+      set data(-bg) #FBFB95
+    }
+    toplevel $win -bg $data(-bg) -class Tooltip$w
+    catch {wm withdraw $win}
+    wm overrideredirect $win 1
+    wm attributes $win -topmost 1
+    pack [label $win.label -text $text -justify left -relief solid  -bd $data(-bd) -bg $data(-bg) -fg $data(-fg) -font $data(-font)  -padx $data(-padx) -pady $data(-pady)] -padx $data(-padding) -pady $data(-padding)
+    # defeat rare artifact by passing mouse over a tip to destroy it
+    bindtags $win &quot;Tooltip$win&quot;
+    bind $win &lt;Any-Enter&gt;  [list ::baltip::hide $w]
+    bind Tooltip$win &lt;Any-Enter&gt;  [list ::baltip::hide $w]
+    bind Tooltip$win &lt;Any-Button&gt; [list ::baltip::hide $w]
+    set aint 20
+    set fint [expr {int($data(-fade)/$aint)}]
+    set icount [expr {int($data(-per10)/$aint*$icount/10.0)}]
+    set icount [expr {max(1000/$aint+1,$icount)}] ;# 1 sec. be minimal
+    set ttdata(winGEO,$win) $geo
+    set ttdata(winUNDER,$win) $data(-under)
+    if {$icount} {
+      if {$geo eq &quot;&quot;} {
+        catch {wm attributes $win -alpha $data(-alpha)}
+      } else {
+        ::baltip::my::Fade $win $aint [expr {round(1.0*$data(-pause)/$aint)}]  0 Un $data(-alpha) 1 $geo
+      }
+      if {$force} {
+        ::baltip::my::Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo
+      } else {
+        after $data(-pause) [list  ::baltip::my::Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo]
+      }
+    } else {
+      # just showing, no fading
+      after $data(-pause) [list ::baltip::my::ShowWindow $win]
+    }
+    if {$data(-bell)} [list after [expr {$data(-pause)/4}] bell]
+    array unset data
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::my::ShowWindow'>ShowWindow</a><span class='ns_scope'> [<a href="baltip.html#::baltip::my" title="::baltip::my" class='ruff_cmd'>::baltip::my</a>]</span><span class='tinylink'><a href='baltip.html#::baltip::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Shows a window of tip.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>ShowWindow</span> <span class='ruff_arg'>win</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>win</code></td><td class='ruff_defitem'>the tip's window</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_12' href="javascript:toggleSource('12')">Show source</a></p>
+<div id='12' class='ruff_dyn_src'><pre>proc ::baltip::my::ShowWindow {win} {
+
+    # Shows a window of tip.
+    #   win - the tip's window
+
+    if {![winfo exists $win]} return
+    variable ttdata
+    set geo $ttdata(winGEO,$win)
+    set under $ttdata(winUNDER,$win)
+    set w [winfo parent $win]
+    set px [winfo pointerx .]
+    set py [winfo pointery .]
+    set width [winfo reqwidth $win.label]
+    set height [winfo reqheight $win.label]
+    set ady 0
+    if {[catch {set wheight [winfo height $w]}]} {
+      set wheight 0
+    } else {
+      for {set i 0} {$i&lt;$wheight} {incr i} {  ;# find the widget's bottom
+        incr py
+        incr ady
+        if {![string match $w [winfo containing $px $py]]} break
+      }
+    }
+    if {$geo eq &quot;&quot;} {
+      set x [expr {max(1,$px - round($width / 2.0))}]
+      set y [expr {$under&gt;=0 ? ($py + $under) : ($py - $under - $ady)}]
+    } else {
+      lassign [split $geo +] -&gt; x y
+      set x [expr [string map &quot;W $width&quot; $x]]  ;# W to shift horizontally
+      set y [expr [string map &quot;H $height&quot; $y]] ;# H to shift vertically
+      set py [expr {$y-16}]
+    }
+    # check for edges of screen incl. decors
+    set scrw [winfo screenwidth .]
+    set scrh [winfo screenheight .]
+    if {($x + $width) &gt; $scrw}  {set x [expr {$scrw - $width - 1}]}
+    if {($y + $height) &gt; ($scrh-36)} {set y [expr {$py - $wheight - $height}]}
+    wm geometry $win [join  &quot;$width x $height + $x + $y&quot; {}]
+    catch {wm deiconify $win ; raise $win}
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::my::TagTip'>TagTip</a><span class='ns_scope'> [<a href="baltip.html#::baltip::my" title="::baltip::my" class='ruff_cmd'>::baltip::my</a>]</span><span class='tinylink'><a href='baltip.html#::baltip::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Shows a text tag's tip.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>TagTip</span> <span class='ruff_arg'>w ?tag? ?optvals?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>the text's path</td></tr>
+<tr><td class='ruff_defitem'><code>tag</code></td><td class='ruff_defitem'>the tag's name Optional, default <code>&quot;&quot;</code>.</td></tr>
+<tr><td class='ruff_defitem'><code>optvals</code></td><td class='ruff_defitem'>settings of tip Optional, default <code>&quot;&quot;</code>.</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_13' href="javascript:toggleSource('13')">Show source</a></p>
+<div id='13' class='ruff_dyn_src'><pre>proc ::baltip::my::TagTip {w {tag {}} {optvals {}}} {
+
+    # Shows a text tag's tip.
+    #   w - the text's path
+    #   tag - the tag's name
+    #   optvals - settings of tip
+
+    variable ttdata
+    ::baltip::hide $w
+    if {$tag eq &quot;&quot;} return
+    ::baltip::my::Show $w $ttdata($w,$tag) no {} $optvals
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::baltip::my::UnFadeNext'>UnFadeNext</a><span class='ns_scope'> [<a href="baltip.html#::baltip::my" title="::baltip::my" class='ruff_cmd'>::baltip::my</a>]</span><span class='tinylink'><a href='baltip.html#::baltip::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>A step to unfade the balloon's window.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>UnFadeNext</span> <span class='ruff_arg'>w aint fint icount alpha show geo ?geos?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>the tip's window</td></tr>
+<tr><td class='ruff_defitem'><code>aint</code></td><td class='ruff_defitem'>interval for 'after'</td></tr>
+<tr><td class='ruff_defitem'><code>fint</code></td><td class='ruff_defitem'>interval for fading</td></tr>
+<tr><td class='ruff_defitem'><code>icount</code></td><td class='ruff_defitem'>counter of intervals</td></tr>
+<tr><td class='ruff_defitem'><code>alpha</code></td><td class='ruff_defitem'>value of -alpha option</td></tr>
+<tr><td class='ruff_defitem'><code>show</code></td><td class='ruff_defitem'>not used (here just for compliance with Fade)</td></tr>
+<tr><td class='ruff_defitem'><code>geo</code></td><td class='ruff_defitem'>not used (here just for compliance with Fade)</td></tr>
+<tr><td class='ruff_defitem'><code>geos</code></td><td class='ruff_defitem'>not used (here just for compliance with Fade) Optional, default <code>&quot;&quot;</code>.</td></tr>
+</table>
+<h5 class='ruff'>See also</h5><p class='ruff'><a href="baltip.html#::baltip::my::Fade" title="Fade" class='ruff_cmd'>Fade</a></p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_14' href="javascript:toggleSource('14')">Show source</a></p>
+<div id='14' class='ruff_dyn_src'><pre>proc ::baltip::my::UnFadeNext {w aint fint icount alpha show geo {geos {}}} {
+
+    # A step to unfade the balloon's window.
+    #   w - the tip's window
+    #   aint - interval for 'after'
+    #   fint - interval for fading
+    #   icount - counter of intervals
+    #   alpha - value of -alpha option
+    #   show - not used (here just for compliance with Fade)
+    #   geo - not used (here just for compliance with Fade)
+    #   geos - not used (here just for compliance with Fade)
+    # See also: Fade
+
+    incr icount
+    set al [expr {min($alpha,$icount*1.5/$fint)}]
+    if {$al&lt;$alpha &amp;&amp; [catch {wm attributes $w -alpha $al}]} {set al 1}
+    if {$show} {
+      ShowWindow $w
+      set show 0
+    }
+    if {[winfo exists $w] &amp;&amp; $al&lt;$alpha} {
+      Fade $w $aint $fint $icount Un $alpha 0 $geo
+    }
+}</pre></div>
+</div></div></div><div class='yui-b navbox' ><h1><a href='#::baltip'>baltip</a></h1><h2><a href='#::baltip-Usage'>Usage</a></h2><h2><a href='#::baltip-Balloon'>Balloon</a></h2><h2><a href='#::baltip-Options'>Options</a></h2><h2><a href='#::baltip-Links'>Links</a></h2><h2><a href='#::baltip-Commands'>Commands</a></h2><h4 class='tooltip'><a href='baltip.html#::baltip::cget'>cget</a><span class='tooltiptext'>Gets the tip's option values.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::configure'>configure</a><span class='tooltiptext'>Configurates the tip for all widgets.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::hide'>hide</a><span class='tooltiptext'>Destroys the tip's window.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::repaint'>repaint</a><span class='tooltiptext'>Repaints a tip immediately.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::tip'>tip</a><span class='tooltiptext'>Creates a tip for a widget.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::update'>update</a><span class='tooltiptext'>Updates tip's text and settings.
+</span></h4><h1><a href='#::baltip::my'>baltip::my</a></h1><h2><a href='#::baltip::my-Commands'>Commands</a></h2><h4 class='tooltip'><a href='baltip.html#::baltip::my::CGet'>CGet</a><span class='tooltiptext'>Gets options' values, using local (args) and global (ttdata) settings.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::my::Fade'>Fade</a><span class='tooltiptext'>Fades/unfades the tip's window.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::my::FadeNext'>FadeNext</a><span class='tooltiptext'>A step to fade the tip's window.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::my::MenuTip'>MenuTip</a><span class='tooltiptext'>Shows a menu's tip.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::my::Show'>Show</a><span class='tooltiptext'>Creates and shows the tip's window.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::my::ShowWindow'>ShowWindow</a><span class='tooltiptext'>Shows a window of tip.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::my::TagTip'>TagTip</a><span class='tooltiptext'>Shows a text tag's tip.
+</span></h4><h4 class='tooltip'><a href='baltip.html#::baltip::my::UnFadeNext'>UnFadeNext</a><span class='tooltiptext'>A step to unfade the balloon's window.
+</span></h4></div></div><div id='ft'><div style='float: right;'>Document generated by <a href='https://ruff.magicsplat.com'>Ruff!</a></div></div>
+</div></body></html>

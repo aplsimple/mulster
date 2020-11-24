@@ -6,6 +6,8 @@
 INFILE=../e_menu/s_menu.tcl
 OUTFILE=../freewrap/e_menu/s_menu.tcl
 
+####### Replacing a string with e_menu.tcl contents #######
+
 FILES=1
 
 IN=BEGIN
@@ -14,6 +16,35 @@ IN=END
 
 OUT=BEGIN
 ../e_menu/e_menu.tcl
+OUT=END
+
+####### Replacing strings with strings #######
+
+FILES=0
+
+IN=BEGIN
+    if {$solo} {
+      catch {source [file join $::em::srcdir baltip baltip.tcl]}
+    } else {
+      append em_version " / [file tail $::argv0]"
+    }
+IN=END
+
+OUT=BEGIN
+../e_menu/src/baltip/baltip.tcl !!!!!!!!!!!!!!!!!!!!!!
+append em_version " / [file tail $::argv0]"
+OUT=END
+
+####### Replacing strings with files' contents #######
+
+FILES=1
+
+IN=BEGIN
+../e_menu/src/baltip/baltip.tcl !!!!!!!!!!!!!!!!!!!!!!
+IN=END
+
+OUT=BEGIN
+../e_menu/src/baltip/baltip.tcl
 OUT=END
 
 IN=BEGIN

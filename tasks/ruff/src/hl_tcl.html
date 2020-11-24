@@ -336,21 +336,21 @@ pre {
 <li>tricky with those above mentioned Tcl lines</li>
 <li>doesn't highlight ttk commands (Tk only) and TclOO</li>
 <li>tries to highlight every bit of Tcl, e.g. <code>set set set</code> is highlighted as three <code>set</code> commands ;)</li>
-<li>as a result, much more florid than others</li>
+<li>as a result, much more florid than most of others</li>
 </ul>
-<p class='ruff'><a href="https://kate-editor.org" title="Kate editor">Kate</a>. As nearly good as Geany, still doesn't highlight ttk and TclOO.</p>
+<p class='ruff'><a href="https://kate-editor.org" title="Kate editor">Kate</a>. As nearly good as Geany. As nearly florid as Vim (<code>set set set</code>). Doesn't highlight ttk and TclOO.</p>
 <p class='ruff'><a href="https://github.com/phase1geo/tke/" title="TKE editor">TKE</a>. Written in Tcl/Tk, it might be the best of all to highlight the Tcl/Tk. In spite of its suspended state it still can. Issues with highlighting strings and the performance.</p>
 <p class='ruff'><a href="http://mate-desktop.org" title="Pluma editor">Pluma</a> and <a href="https://wiki.gnome.org/Apps/Gedit" title="Gedit editor">Gedit</a> seem to use the same Tcl highlighting engine that gives rather good results. Still, the mentioned above drawbacks are here too. And no highlighting of tk, ttk, TclOO.</p>
 <p class='ruff'><a href="https://notepad-plus-plus.org/" title="Notepad++ official site">Notepad++</a>. Very fast Tcl highlighter. And very basic. All the same drawbacks. No highlighting of tk, ttk, TclOO. <em>Plus</em> an obsolete version of Tcl, i.e. no highlighting <code>lset, lassign</code> etc.</p>
 <h2 class='ruff'><a name='::hl_tcl-What_can_we_do_'></a>What can we do?<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
-<p class='ruff'>To develop an ideal (correct and fast) Tcl/Tk highlighter, we would have to dive into Tcl core. Though, no hopes to achieve this ideal through repeating the core in Tcl/Tk or with massively using the regular expressions.</p>
+<p class='ruff'>To develop an ideal (correct and fast) Tcl/Tk highlighter, we would have to dive into Tcl core. Though, no hopes to achieve the ideal through repeating the core in Tcl/Tk or massively using the regular expressions.</p>
 <p class='ruff'>That said, while implementing Tcl/Tk highlighter <em>in pure Tcl/Tk</em>, we might hope to achieve a reasonable compromise between the performance and the elimination of blunders.</p>
 <p class='ruff'>It seems <em>hl_tcl</em> got close to this compromise. Specifically, it provides:</p>
 <ul class='ruff'>
 <li>special highlighting for Tcl and TclOO commands</li>
 <li>special highlighting for Tk and ttk commands</li>
-<li>special highlighting for declarations <code>proc, method, oo::class</code> etc.  and <code>return</code></li>
+<li>special highlighting for declarations <code>proc, method, oo::class</code> etc. as well as <code>return, yield</code></li>
 <li>special highlighting for <code>#comments</code>, <code>$variables</code>, <code>&quot;strings&quot;</code>, <code>-options</code></li>
 <li>in-line comments being recognized and thus highlighted only after <code>;#</code></li>
 <li>proper handling of most <code>regexp</code> and <code>regsub</code> expressions containing a quote</li>
@@ -400,9 +400,10 @@ pre {
 <li><em>-readonly</em> - flag &quot;text is read-only&quot; (default &quot;no&quot;)</li>
 <li><em>-multiline</em> - flag &quot;multi-line strings&quot; (default &quot;yes&quot;)</li>
 <li><em>-cmd</em> - command to watch editing/viewing (default &quot;&quot;)</li>
-<li><em>-seen</em> - number of first lines seen at start (default 99999999)</li>
+<li><em>-seen</em> - number of first lines seen at start (default 500)</li>
 <li><em>-optRE</em> - flag &quot;use a regular expression to highlight options&quot; (default &quot;yes&quot;)</li>
 </ul>
+<p class='ruff'><strong>Note</strong>: <code>-seen 500</code> and <code>-multiline no</code> can improve the performance a lot. It's recommended to use <code>-seen 500</code> (or any other reasonable limit, e.g. <code>-seen 200</code>) at any rate, except for static html pages.</p>
 <p class='ruff'>The rest of <em>hl_tcl</em> procedures are:</p>
 <ul class='ruff'>
 <li><strong><code>hl_all</code></strong> updates all highlighted existing text widgets, e.g. at changing a color scheme of application</li>
@@ -422,14 +423,22 @@ pre {
 </pre>
 <p class='ruff'>In this example, the html files are located in <code>~/UTILS/mulster/tasks/ruff/src</code>.</p>
 <p class='ruff'>Perhaps, you would want to modify the <em>tcl_html.tcl</em>, this way:</p>
-<p class='ruff'>1. replace <code>&lt;code class=&quot;tcl&quot;&gt;</code> with html tags <em>starting</em> the Tcl code in your html files</p>
-<p class='ruff'>2. replace <code>&lt;/code&gt;</code> with html tags <em>finishing</em> the Tcl code in your html files</p>
+<ul class='ruff'>
+<li>replace <code>&quot;no&quot;</code> with <code>&quot;yes&quot;</code> for dark html pages</li>
+<li>replace <code>&lt;code class=&quot;tcl&quot;&gt;</code> with html tags <em>starting</em> the Tcl code in your html files</li>
+<li>replace <code>&lt;/code&gt;</code> with html tags <em>finishing</em> the Tcl code in your html files</li>
+</ul>
+<p class='ruff'>These are arguments of <code>::hl_tcl_html::highlight</code> procedure.</p>
+<p class='ruff'>The tag pairs can be multiple if the html pages contain them, e.g.</p>
+<pre class='ruff'>
+  ::hl_tcl_html::highlight $fhtml &quot;no&quot;  {&lt;code class=&quot;tcl&quot;&gt;} {&lt;/code&gt;}  {&lt;pre class=&quot;code&quot;&gt;} {&lt;/pre&gt;}
+</pre>
 <h2 class='ruff'><a name='::hl_tcl-Links'></a>Links<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
 <ul class='ruff'>
 <li><a href="https://aplsimple.github.io/en/tcl/hl_tcl/hl_tcl.html" >Reference</a></li>
 <li><a href="https://chiselapp.com/user/aplsimple/repository/hl_tcl/download" >Source</a> (hl_tcl.zip)</li>
-<li><a href="https://github.com/aplsimple/hl_tcl/releases/download/hl_tcl-0.4.2/hl_tcl-0.4.2.mp4" >Demo</a> (16 Mb)</li>
+<li><a href="https://github.com/aplsimple/hl_tcl/releases/download/hl_tcl-0.6.1/hl_tcl-0.6.1.mp4" >Demo of hl_tcl v0.6.1</a> (25 Mb)</li>
 </ul>
 <p class='ruff'>Note that <a href="https://aplsimple.github.io/en/tcl/hl_tcl/hl_tcl.html" >hl_tcl</a> is still disposed to update.</p>
 <h2 class='ruff'><a name='::hl_tcl-Commands'></a>Commands<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
@@ -504,7 +513,7 @@ pre {
     # This procedure has to be called before writing a text in the text widget.
 
     set ::hl_tcl::my::data(REG_TXT,$txt) &quot;&quot;  ;# disables Modified at changing the text
-    foreach {opt val} {-dark 0 -readonly 0 -cmd &quot;&quot; -optRE 1 -multiline 1 -seen 99999999} {
+    foreach {opt val} {-dark 0 -readonly 0 -cmd &quot;&quot; -optRE 1 -multiline 1 -seen 500} {
       if {[dict exists $args $opt]} {set val [dict get $args $opt]}
       set ::hl_tcl::my::data([string toupper [string range $opt 1 end]],$txt) $val
     }
@@ -513,11 +522,15 @@ pre {
       set ::hl_tcl::my::data(SETCOLORS,$txt) 1
     } else {
       if {![info exists ::hl_tcl::my::data(COLORS,$txt)]}  {
+        set clrCURL &quot;&quot;
+        catch {set clrCURL [lindex [::apave::paveObj csGet] 3]}
         if {$::hl_tcl::my::data(DARK,$txt)} {
-          set ::hl_tcl::my::data(COLORS,$txt) [list  orange #A17970 lightgreen #f1b479 #76a396 #d485d4 #b9b96e]
-          # $clrCOM $clrCOMTK $clrSTR $clrVAR $clrCMN $clrPROC $clrOPT
+          if {$clrCURL eq &quot;&quot;} {set clrCURL #29383c}
+          set ::hl_tcl::my::data(COLORS,$txt) [list  orange #A17970 lightgreen #f1b479 #76a396 #d485d4 #b9b96e $clrCURL]
+          # $clrCOM $clrCOMTK $clrSTR $clrVAR $clrCMN $clrPROC $clrOPT $clrCURL
         } else {
-          set ::hl_tcl::my::data(COLORS,$txt) [list  &quot;#923B23&quot; #7A040E  #035103 #4A181B #646464 #A106A1 #463e11]
+          if {$clrCURL eq &quot;&quot;} {set clrCURL #efe0cd}
+          set ::hl_tcl::my::data(COLORS,$txt) [list  &quot;#923B23&quot; #7A040E  #035103 #4A181B #646464 #A106A1 #463e11 $clrCURL]
         }
       }
     }
@@ -527,7 +540,7 @@ pre {
       set ::hl_tcl::my::data(FONT,$txt) [font configure TkFixedFont]
       dict set ::hl_tcl::my::data(FONT,$txt) -size 12
     }
-    hl_readonly $txt no
+    hl_readonly $txt $::hl_tcl::my::data(READONLY,$txt)
 }</pre></div>
 </div><h4 class='ruffproc'><a name='::hl_tcl::hl_readonly'>hl_readonly</a><span class='ns_scope'> [<a href="hl_tcl.html#::hl_tcl" title="::hl_tcl" class='ruff_cmd'>::hl_tcl</a>]</span><span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h4>
 <div style='clear:both;'></div>
@@ -595,16 +608,19 @@ pre {
     $txt tag add tagSTD 1.0 end
     dict set font1 -weight bold
     dict set font2 -slant italic
-    lassign $::hl_tcl::my::data(COLORS,$txt)  clrCOM clrCOMTK clrSTR clrVAR clrCMN clrPROC clrOPT
-    $txt tag config tagCOM -font &quot;$font1&quot; -foreground $clrCOM
-    $txt tag config tagCOMTK -font &quot;$font1&quot; -foreground $clrCOMTK
-    $txt tag config tagSTR -font &quot;$font0&quot; -foreground $clrSTR
-    $txt tag config tagVAR -font &quot;$font0&quot; -foreground $clrVAR
-    $txt tag config tagCMN -font &quot;$font2&quot; -foreground $clrCMN
-    $txt tag config tagPROC -font &quot;$font1&quot; -foreground $clrPROC
-    $txt tag config tagOPT -font &quot;$font0&quot; -foreground $clrOPT
-    $txt tag config tagBRACKET -font &quot;$font1&quot; -foreground $clrPROC
-    $txt tag config tagBRACKETERR -foreground white -background red
+    lassign $::hl_tcl::my::data(COLORS,$txt)  clrCOM clrCOMTK clrSTR clrVAR clrCMN clrPROC clrOPT clrCURL
+    $txt tag configure tagCOM -font &quot;$font1&quot; -foreground $clrCOM
+    $txt tag configure tagCOMTK -font &quot;$font1&quot; -foreground $clrCOMTK
+    $txt tag configure tagSTR -font &quot;$font0&quot; -foreground $clrSTR
+    $txt tag configure tagVAR -font &quot;$font0&quot; -foreground $clrVAR
+    $txt tag configure tagCMN -font &quot;$font2&quot; -foreground $clrCMN
+    $txt tag configure tagPROC -font &quot;$font1&quot; -foreground $clrPROC
+    $txt tag configure tagOPT -font &quot;$font0&quot; -foreground $clrOPT
+    $txt tag configure tagBRACKET -font &quot;$font1&quot; -foreground $clrPROC
+    $txt tag configure tagBRACKETERR -foreground white -background red
+    $txt tag configure tagCURLINE -background $clrCURL
+    $txt tag raise sel
+    $txt tag raise tagBRACKETERR
     my::HighlightAll $txt
     if {![info exists ::hl_tcl::my::data(BIND_TXT,$txt)]} {
       bind $txt &lt;KeyPress&gt; [list + [namespace current]::my::MemPos $txt]
@@ -614,7 +630,6 @@ pre {
       }
       set ::hl_tcl::my::data(BIND_TXT,$txt) yes
     }
-    set ::hl_tcl::my::data(REG_TXT,$txt) &quot;1&quot;
     set ro $::hl_tcl::my::data(READONLY,$txt)
     set com2 $::hl_tcl::my::data(CMD,$txt)
     set txtattrs [list $txt $ro $com2]
@@ -653,6 +668,108 @@ pre {
     upvar 1 $kName k $lineName line $iName i
     return [expr {[set k [string first &quot;#&quot; $line $i]]&gt;-1 &amp;&amp;  ([string trimleft [string range $line 0 $k-1]] eq &quot;&quot; || [string index  [string trimright [string range $line $i $k-1]] end] eq &quot;;&quot;)}]
 }</pre></div>
+</div><h4 class='ruffproc'><a name='::hl_tcl::my::CoroHighlightAll'>CoroHighlightAll</a><span class='ns_scope'> [<a href="hl_tcl.html#::hl_tcl::my" title="::hl_tcl::my" class='ruff_cmd'>::hl_tcl::my</a>]</span><span class='tinylink'><a href='hl_tcl.html#::hl_tcl::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Highlights all of a text as a coroutine.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>CoroHighlightAll</span> <span class='ruff_arg'>txt</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>txt</code></td><td class='ruff_defitem'>text widget's path</td></tr>
+</table>
+<h5 class='ruff'>See also</h5><p class='ruff'><a href="hl_tcl.html#::hl_tcl::my::HighlightAll" title="HighlightAll" class='ruff_cmd'>HighlightAll</a></p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_6' href="javascript:toggleSource('6')">Show source</a></p>
+<div id='6' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::CoroHighlightAll {txt} {
+
+    # Highlights all of a text as a coroutine.
+    #   txt - text widget's path
+    # See also: HighlightAll
+
+    set tlen [lindex [split [$txt index end] .] 0]
+    RemoveTags $txt 1.0 end
+    set maxl [expr {min($::hl_tcl::my::data(SEEN,$txt),$tlen)}]
+    set maxl [expr {min($::hl_tcl::my::data(SEEN,$txt),$tlen)}]
+    for {set currQtd [set ln [set lnseen 0]]} {$ln&lt;=$tlen} {} {
+      set currQtd [HighlightLine $txt $ln $currQtd]
+      incr ln
+      if {[incr lnseen]&gt;$::hl_tcl::my::data(SEEN,$txt)} {
+        set lnseen 0
+        after idle after 1 [info coroutine]
+        yield
+      }
+    }
+    set ::hl_tcl::my::data(REG_TXT,$txt) &quot;1&quot;
+    return
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::hl_tcl::my::CoroModified'>CoroModified</a><span class='ns_scope'> [<a href="hl_tcl.html#::hl_tcl::my" title="::hl_tcl::my" class='ruff_cmd'>::hl_tcl::my</a>]</span><span class='tinylink'><a href='hl_tcl.html#::hl_tcl::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Handles modifications of text.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>CoroModified</span> <span class='ruff_arg'>txt ?i1? ?i2?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>txt</code></td><td class='ruff_defitem'>text widget's path</td></tr>
+<tr><td class='ruff_defitem'><code>i1</code></td><td class='ruff_defitem'>Not documented. Optional, default <code>-1</code>.</td></tr>
+<tr><td class='ruff_defitem'><code>i2</code></td><td class='ruff_defitem'>Not documented. Optional, default <code>-1</code>.</td></tr>
+</table>
+<h5 class='ruff'>See also</h5><p class='ruff'><a href="hl_tcl.html#::hl_tcl::my::Modified" title="Modified" class='ruff_cmd'>Modified</a></p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_7' href="javascript:toggleSource('7')">Show source</a></p>
+<div id='7' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::CoroModified {txt {i1 -1} {i2 -1}} {
+
+    # Handles modifications of text.
+    #   txt - text widget's path
+    # See also: Modified
+
+    variable data
+    # current line:
+    set ln [expr {int([$txt index insert])}]
+    # ending line:
+    set endl [expr {int([$txt index end])}]
+    # range of change:
+    if {$i1!=-1} {
+      set dl [expr {abs($i2-$i1)}]
+      set ln $i1
+    } else {
+      set dl [expr {abs(int($data(CUR_LEN,$txt)) - $endl)}]
+    }
+    # begin and end of changes:
+    set ln1 [expr {max(($ln-$dl),1)}]
+    set ln2 [expr {min(($ln+$dl),$endl)}]
+    lassign [CountQSH $txt $ln] cntq cnts ccmnt
+    # flag &quot;highlight to the end&quot;:
+    set bf1 [expr {abs($ln-int($data(CUR_POS,$txt)))&gt;1 || $dl&gt;1  || $cntq!=$data(CNT_QUOTE,$txt)  || $cnts!=$data(CNT_SLASH,$txt)  || $ccmnt!=$data(CNT_COMMENT,$txt)}]
+    if {$bf1 &amp;&amp; !$data(MULTILINE,$txt)} {
+      set lnt1 $ln
+      set lnt2 [expr {$ln+1}]
+      while {$ln2&lt;$endl &amp;&amp; $lnt1&lt;$endl &amp;&amp; $lnt2&lt;=$endl &amp;&amp; (  [$txt get &quot;$lnt1.end -1 char&quot; $lnt1.end] in {\\ \&quot;} ||
+      [$txt get &quot;$lnt2.end -1 char&quot; $lnt2.end] in {\\ \&quot;})} {
+        incr lnt1 ;# next lines be handled too, if ended with &quot;\\&quot;
+        incr lnt2
+        incr ln2
+      }
+    }
+    set tSTR [$txt tag ranges tagSTR]
+    set tCMN [$txt tag ranges tagCMN]
+    if {$ln1==1} {
+      set currQtd 0
+    } else {
+      set currQtd [LineState $txt $tSTR $tCMN &quot;$ln1.0 -1 chars&quot;]
+    }
+    set lnseen 0
+    while {$ln1&lt;=$ln2} {
+      if {$ln1==$ln2} {
+        set bf2 [LineState $txt $tSTR $tCMN &quot;$ln1.end +1 chars&quot;]
+      }
+      RemoveTags $txt $ln1.0 $ln1.end
+      set currQtd [HighlightLine $txt $ln1 $currQtd]
+      if {$ln1==$ln2 &amp;&amp; ($bf1 || $bf2!=$currQtd) &amp;&amp; $data(MULTILINE,$txt)} {
+        set ln2 $endl  ;# run to the end
+      }
+      if {[incr lnseen]&gt;$::hl_tcl::my::data(SEEN,$txt)} {
+        set lnseen 0
+        after idle after 1 [info coroutine]
+        yield
+      }
+      incr ln1
+    }
+    return
+}</pre></div>
 </div><h4 class='ruffproc'><a name='::hl_tcl::my::CountChar'>CountChar</a><span class='ns_scope'> [<a href="hl_tcl.html#::hl_tcl::my" title="::hl_tcl::my" class='ruff_cmd'>::hl_tcl::my</a>]</span><span class='tinylink'><a href='hl_tcl.html#::hl_tcl::my'>my</a>, <a href='#top'>Top</a></span></h4>
 <div style='clear:both;'></div>
 <p class='ruff'>Counts a character in a string.</p>
@@ -663,8 +780,8 @@ pre {
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns a number of non-escaped occurences of character <em>ch</em> in string <em>str</em>.</p>
 <h5 class='ruff'>See also</h5><p class='ruff'><a href="https://wiki.tcl-lang.org/page/Reformatting+Tcl+code+indentation" >wiki.tcl-lang.org</a></p>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_6' href="javascript:toggleSource('6')">Show source</a></p>
-<div id='6' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::CountChar {str ch} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_8' href="javascript:toggleSource('8')">Show source</a></p>
+<div id='8' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::CountChar {str ch} {
 
     # Counts a character in a string.
     #   str - a string
@@ -699,8 +816,8 @@ pre {
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns a number of ANY occurences of character <em>ch</em> in string <em>str</em>.</p>
 <h5 class='ruff'>See also</h5><p class='ruff'><a href="hl_tcl.html#::hl_tcl::my::CountChar" title="my::CountChar" class='ruff_cmd'>my::CountChar</a></p>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_7' href="javascript:toggleSource('7')">Show source</a></p>
-<div id='7' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::CountChar2 {str ch {plistName {}}} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_9' href="javascript:toggleSource('9')">Show source</a></p>
+<div id='9' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::CountChar2 {str ch {plistName {}}} {
 
     # Counts a character in a string.
     #   str - a string
@@ -731,8 +848,8 @@ pre {
 <tr><td class='ruff_defitem'><code>txt</code></td><td class='ruff_defitem'>text widget's path</td></tr>
 <tr><td class='ruff_defitem'><code>ln</code></td><td class='ruff_defitem'>line's index</td></tr>
 </table>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_8' href="javascript:toggleSource('8')">Show source</a></p>
-<div id='8' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::CountQSH {txt ln} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_10' href="javascript:toggleSource('10')">Show source</a></p>
+<div id='10' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::CountQSH {txt ln} {
 
     # Counts quotes, slashes, hashes in a line
     #   txt - text widget's path
@@ -751,8 +868,8 @@ pre {
 <tr><td class='ruff_defitem'><code>iName</code></td><td class='ruff_defitem'>variable's name for 'i'</td></tr>
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns &quot;yes&quot; if a quote character was found.</p>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_9' href="javascript:toggleSource('9')">Show source</a></p>
-<div id='9' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::FirstQtd {lineName iName} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_11' href="javascript:toggleSource('11')">Show source</a></p>
+<div id='11' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::FirstQtd {lineName iName} {
 
     # Searches the quote characters in line.
     #   lineName - variable's name for 'line'
@@ -795,31 +912,19 @@ pre {
 <h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
 <tr><td class='ruff_defitem'><code>txt</code></td><td class='ruff_defitem'>text widget's path</td></tr>
 </table>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_10' href="javascript:toggleSource('10')">Show source</a></p>
-<div id='10' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::HighlightAll {txt} {
+<h5 class='ruff'>Description</h5><p class='ruff'>Makes a coroutine from this.</p>
+<h5 class='ruff'>See also</h5><p class='ruff'><a href="hl_tcl.html#::hl_tcl::my::CoroHighlightAll" title="CoroHighlightAll" class='ruff_cmd'>CoroHighlightAll</a></p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_12' href="javascript:toggleSource('12')">Show source</a></p>
+<div id='12' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::HighlightAll {txt} {
 
     # Highlights all of a text.
     #   txt - text widget's path
+    # Makes a coroutine from this.
+    # See also: CoroHighlightAll
 
-    set tlen [lindex [split [$txt index end] .] 0]
-    RemoveTags $txt 1.0 end
-    set maxl [expr {min($::hl_tcl::my::data(SEEN,$txt),$tlen)}]
-    for {set currQtd [set ln 0]} {$ln&lt;=$maxl} {incr ln} {
-      set currQtd [HighlightLine $txt $ln $currQtd]
-    }
-    if {$ln&lt;=$tlen} {
-      update
-      # the first lines are seen by a user at start
-      # so, while he/she is looking on, let the rest be handled unseen
-      # (define ::hl_tcl::my::HLTHE1ST anyhow for this being always &quot;idle&quot;)
-      if {[info exists ::hl_tcl::my::HLTHE1ST]} {
-        set ::hl_tcl::my::HLTHE1ST idle
-      } else {
-        set ::hl_tcl::my::HLTHE1ST 500
-      }
-      after $::hl_tcl::my::HLTHE1ST  &quot;for {set ln $ln; set currQtd $currQtd} {\$ln&lt;=$tlen} {incr ln} {
-        set currQtd \[::hl_tcl::my::HighlightLine $txt \$ln \$currQtd\]}&quot;
-    }
+    # let them work one by one:
+    set coroNo [expr {[incr ::hl_tcl::my::data(CORALL)] % 10000000}]
+    coroutine co_HlAll$coroNo ::hl_tcl::my::CoroHighlightAll $txt
 }</pre></div>
 </div><h4 class='ruffproc'><a name='::hl_tcl::my::HighlightBrackets'>HighlightBrackets</a><span class='ns_scope'> [<a href="hl_tcl.html#::hl_tcl::my" title="::hl_tcl::my" class='ruff_cmd'>::hl_tcl::my</a>]</span><span class='tinylink'><a href='hl_tcl.html#::hl_tcl::my'>my</a>, <a href='#top'>Top</a></span></h4>
 <div style='clear:both;'></div>
@@ -828,14 +933,16 @@ pre {
 <h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
 <tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>text widget's path</td></tr>
 </table>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_11' href="javascript:toggleSource('11')">Show source</a></p>
-<div id='11' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::HighlightBrackets {w} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_13' href="javascript:toggleSource('13')">Show source</a></p>
+<div id='13' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::HighlightBrackets {w} {
 
     # Highlights matching brackets if any.
     #   w - text widget's path
 
     set curpos [$w index insert]
     set curpos2 [$w index &quot;insert -1 chars&quot;]
+    $w tag remove tagCURLINE 1.0 end
+    $w tag add tagCURLINE [list $curpos linestart] [list $curpos lineend]+1displayindices
     set ch [$w get $curpos]
     set lbr &quot;\{(\[&quot;
     set rbr &quot;\})\]&quot;
@@ -873,8 +980,8 @@ pre {
 <tr><td class='ruff_defitem'><code>pri</code></td><td class='ruff_defitem'>column number to highlighted from</td></tr>
 <tr><td class='ruff_defitem'><code>i</code></td><td class='ruff_defitem'>current position in 'line'</td></tr>
 </table>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_12' href="javascript:toggleSource('12')">Show source</a></p>
-<div id='12' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::HighlightCmd {txt line ln pri i} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_14' href="javascript:toggleSource('14')">Show source</a></p>
+<div id='14' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::HighlightCmd {txt line ln pri i} {
 
     # Highlights Tcl/Tk commands.
     #   txt - text widget's path
@@ -954,8 +1061,8 @@ pre {
 <tr><td class='ruff_defitem'><code>ln</code></td><td class='ruff_defitem'>line's number</td></tr>
 <tr><td class='ruff_defitem'><code>prevQtd</code></td><td class='ruff_defitem'>flag of &quot;being quoted&quot; from the previous line</td></tr>
 </table>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_13' href="javascript:toggleSource('13')">Show source</a></p>
-<div id='13' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::HighlightLine {txt ln prevQtd} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_15' href="javascript:toggleSource('15')">Show source</a></p>
+<div id='15' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::HighlightLine {txt ln prevQtd} {
 
     # Highlightes a line in text.
     #   txt - text widget's path
@@ -1022,8 +1129,8 @@ pre {
 <tr><td class='ruff_defitem'><code>p1</code></td><td class='ruff_defitem'>starting index of the string in 'txt'</td></tr>
 <tr><td class='ruff_defitem'><code>p2</code></td><td class='ruff_defitem'>ending index of the string in 'txt'</td></tr>
 </table>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_14' href="javascript:toggleSource('14')">Show source</a></p>
-<div id='14' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::HighlightStr {txt p1 p2} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_16' href="javascript:toggleSource('16')">Show source</a></p>
+<div id='16' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::HighlightStr {txt p1 p2} {
 
     # Highlights strings.
     #   txt - text widget's path
@@ -1057,8 +1164,8 @@ pre {
 <tr><td class='ruff_defitem'><code>l</code></td><td class='ruff_defitem'>line position to check (or 'l.c' if 'c' not set)</td></tr>
 <tr><td class='ruff_defitem'><code>c</code></td><td class='ruff_defitem'>column position to check Optional, default <code>-1</code>.</td></tr>
 </table>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_15' href="javascript:toggleSource('15')">Show source</a></p>
-<div id='15' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::InRange {p1 p2 l {c -1}} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_17' href="javascript:toggleSource('17')">Show source</a></p>
+<div id='17' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::InRange {p1 p2 l {c -1}} {
 
     # Checks if a text position is in a range of text positions.
     #   p1 - 1st position of range
@@ -1088,8 +1195,8 @@ pre {
 <tr><td class='ruff_defitem'><code>l1</code></td><td class='ruff_defitem'>the line's index</td></tr>
 </table>
 <h5 class='ruff'>Description</h5><p class='ruff'>Returns: 0 if no tags for the line; 1 if the line is a string's continuation; -1 if the line is a comment's continuation.</p>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_16' href="javascript:toggleSource('16')">Show source</a></p>
-<div id='16' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::LineState {txt tSTR tCMN l1} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_18' href="javascript:toggleSource('18')">Show source</a></p>
+<div id='18' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::LineState {txt tSTR tCMN l1} {
 
     # Gets an initial state of line.
     #   txt - text widget's path
@@ -1146,8 +1253,8 @@ pre {
 <tr><td class='ruff_defitem'><code>dchar</code></td><td class='ruff_defitem'>destination character</td></tr>
 <tr><td class='ruff_defitem'><code>dir</code></td><td class='ruff_defitem'>search direction: 1 to the end, -1 to the beginning of list</td></tr>
 </table>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_17' href="javascript:toggleSource('17')">Show source</a></p>
-<div id='17' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::MatchedBrackets {inplist curpos schar dchar dir} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_19' href="javascript:toggleSource('19')">Show source</a></p>
+<div id='19' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::MatchedBrackets {inplist curpos schar dchar dir} {
 
     # Finds a match of characters (dchar for schar).
     #   inplist - list of strings where to find a match
@@ -1190,19 +1297,24 @@ pre {
 <h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
 <tr><td class='ruff_defitem'><code>txt</code></td><td class='ruff_defitem'>text widget's path</td></tr>
 </table>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_18' href="javascript:toggleSource('18')">Show source</a></p>
-<div id='18' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::MemPos {txt} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_20' href="javascript:toggleSource('20')">Show source</a></p>
+<div id='20' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::MemPos {txt} {
 
     # Remembers the state of current line.
     #   txt - text widget's path
 
     variable data
     set ln [$txt index insert]
+    set updcurr [expr {![info exists data(CUR_POS,$txt)] ||  int($data(CUR_POS,$txt)) != int($ln)}]
     set data(CUR_POS,$txt) $ln
     set data(CUR_LEN,$txt) [$txt index end]
     lassign [CountQSH $txt $ln]  data(CNT_QUOTE,$txt) data(CNT_SLASH,$txt) data(CNT_COMMENT,$txt)
-    $txt tag remove tagBRACKET 1.0 end
-    $txt tag remove tagBRACKETERR 1.0 end
+    if {[$txt tag ranges tagBRACKET] ne &quot;&quot;}    {$txt tag remove tagBRACKET 1.0 end}
+    if {[$txt tag ranges tagBRACKETERR] ne &quot;&quot;} {$txt tag remove tagBRACKETERR 1.0 end}
+    if {$updcurr} {
+      $txt tag remove tagCURLINE 1.0 end
+      $txt tag add tagCURLINE [list $ln linestart] [list $ln lineend]+1displayindices
+    }
 }</pre></div>
 </div><h4 class='ruffproc'><a name='::hl_tcl::my::MergePosList'>MergePosList</a><span class='ns_scope'> [<a href="hl_tcl.html#::hl_tcl::my" title="::hl_tcl::my" class='ruff_cmd'>::hl_tcl::my</a>]</span><span class='tinylink'><a href='hl_tcl.html#::hl_tcl::my'>my</a>, <a href='#top'>Top</a></span></h4>
 <div style='clear:both;'></div>
@@ -1213,8 +1325,8 @@ pre {
 <tr><td class='ruff_defitem'><code>args</code></td><td class='ruff_defitem'>list of the lists to be merged</td></tr>
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns a list of pairs: index of list + item of list.</p>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_19' href="javascript:toggleSource('19')">Show source</a></p>
-<div id='19' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::MergePosList {none args} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_21' href="javascript:toggleSource('21')">Show source</a></p>
+<div id='21' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::MergePosList {none args} {
 
     # Merges lists of numbers that are not-coinciding and sorted.
     #   none - a number to be not allowed in the lists (e.g. less than minimal)
@@ -1252,61 +1364,29 @@ pre {
 </div><h4 class='ruffproc'><a name='::hl_tcl::my::Modified'>Modified</a><span class='ns_scope'> [<a href="hl_tcl.html#::hl_tcl::my" title="::hl_tcl::my" class='ruff_cmd'>::hl_tcl::my</a>]</span><span class='tinylink'><a href='hl_tcl.html#::hl_tcl::my'>my</a>, <a href='#top'>Top</a></span></h4>
 <div style='clear:both;'></div>
 <p class='ruff'>Handles modifications of text.</p>
-<div class='ruff_synopsis'><span class='ruff_cmd'>Modified</span> <span class='ruff_arg'>txt</span></div>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Modified</span> <span class='ruff_arg'>txt ?i1? ?i2?</span></div>
 <h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
 <tr><td class='ruff_defitem'><code>txt</code></td><td class='ruff_defitem'>text widget's path</td></tr>
+<tr><td class='ruff_defitem'><code>i1</code></td><td class='ruff_defitem'>Not documented. Optional, default <code>-1</code>.</td></tr>
+<tr><td class='ruff_defitem'><code>i2</code></td><td class='ruff_defitem'>Not documented. Optional, default <code>-1</code>.</td></tr>
 </table>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_20' href="javascript:toggleSource('20')">Show source</a></p>
-<div id='20' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::Modified {txt} {
+<h5 class='ruff'>Description</h5><p class='ruff'>Makes a coroutine from this.</p>
+<h5 class='ruff'>See also</h5><p class='ruff'><a href="hl_tcl.html#::hl_tcl::my::CoroModified" title="CoroModified" class='ruff_cmd'>CoroModified</a></p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_22' href="javascript:toggleSource('22')">Show source</a></p>
+<div id='22' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::Modified {txt {i1 -1} {i2 -1}} {
 
     # Handles modifications of text.
     #   txt - text widget's path
+    # Makes a coroutine from this.
+    # See also: CoroModified
 
     variable data
     if {![info exist data(REG_TXT,$txt)] || $data(REG_TXT,$txt) eq &quot;&quot; ||  ![info exist data(CUR_LEN,$txt)]} {
       return  ;# skip changes till the highlighting done
     }
-    # current line:
-    set ln [expr {int([$txt index insert])}]
-    # range of change:
-    set dl [expr {abs(int($data(CUR_LEN,$txt)) - int([$txt index end]))}]
-    # ending line:
-    set endl [expr {int([$txt index end])}]
-    # begin and end of changes:
-    set ln1 [expr {max(($ln-$dl),1)}]
-    set ln2 [expr {min(($ln+$dl),$endl)}]
-    lassign [CountQSH $txt $ln] cntq cnts ccmnt
-    # flag &quot;highlight to the end&quot;:
-    set bf1 [expr {abs($ln-int($data(CUR_POS,$txt)))&gt;1 || $dl&gt;1  || $cntq!=$data(CNT_QUOTE,$txt)  || $cnts!=$data(CNT_SLASH,$txt)  || $ccmnt!=$data(CNT_COMMENT,$txt)}]
-    if {$bf1 &amp;&amp; !$data(MULTILINE,$txt)} {
-      set lnt1 $ln
-      set lnt2 [expr {$ln+1}]
-      while {$ln2&lt;$endl &amp;&amp; $lnt1&lt;$endl &amp;&amp; $lnt2&lt;=$endl &amp;&amp; (  [$txt get &quot;$lnt1.end -1 char&quot; $lnt1.end] in {\\ \&quot;} ||
-      [$txt get &quot;$lnt2.end -1 char&quot; $lnt2.end] in {\\ \&quot;})} {
-        incr lnt1 ;# next lines be handled too, if ended with &quot;\\&quot;
-        incr lnt2
-        incr ln2
-      }
-    }
-    set tSTR [$txt tag ranges tagSTR]
-    set tCMN [$txt tag ranges tagCMN]
-    if {$ln1==1} {
-      set currQtd 0
-    } else {
-      set currQtd [LineState $txt $tSTR $tCMN &quot;$ln1.0 -1 chars&quot;]
-    }
-    while {$ln1&lt;=$ln2} {
-      if {$ln1==$ln2} {
-        set bf2 [LineState $txt $tSTR $tCMN &quot;$ln1.end +1 chars&quot;]
-      }
-      RemoveTags $txt $ln1.0 $ln1.end
-      set currQtd [HighlightLine $txt $ln1 $currQtd]
-      if {$ln1==$ln2 &amp;&amp; ($bf1 || $bf2!=$currQtd) &amp;&amp; $data(MULTILINE,$txt)} {
-        set ln2 $endl  ;# run to the end
-      }
-      incr ln1
-    }
-    return
+    # let them work one by one
+    set coroNo [expr {[incr ::hl_tcl::my::data(CORMOD)] % 10000000}]
+    coroutine CoModified$coroNo ::hl_tcl::my::CoroModified $txt $i1 $i2
 }</pre></div>
 </div><h4 class='ruffproc'><a name='::hl_tcl::my::NotEscaped'>NotEscaped</a><span class='ns_scope'> [<a href="hl_tcl.html#::hl_tcl::my" title="::hl_tcl::my" class='ruff_cmd'>::hl_tcl::my</a>]</span><span class='tinylink'><a href='hl_tcl.html#::hl_tcl::my'>my</a>, <a href='#top'>Top</a></span></h4>
 <div style='clear:both;'></div>
@@ -1317,8 +1397,8 @@ pre {
 <tr><td class='ruff_defitem'><code>i</code></td><td class='ruff_defitem'>the character's position in 'line'</td></tr>
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns &quot;1&quot; if the character not escaped.</p>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_21' href="javascript:toggleSource('21')">Show source</a></p>
-<div id='21' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::NotEscaped {line i} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_23' href="javascript:toggleSource('23')">Show source</a></p>
+<div id='23' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::NotEscaped {line i} {
 
     # Checks if a character escaped in a line.
     #   line - line
@@ -1343,8 +1423,8 @@ pre {
 <tr><td class='ruff_defitem'><code>from</code></td><td class='ruff_defitem'>starting index</td></tr>
 <tr><td class='ruff_defitem'><code>to</code></td><td class='ruff_defitem'>ending index</td></tr>
 </table>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_22' href="javascript:toggleSource('22')">Show source</a></p>
-<div id='22' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::RemoveTags {txt from to} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_24' href="javascript:toggleSource('24')">Show source</a></p>
+<div id='24' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::RemoveTags {txt from to} {
 
     # Removes tags in text.
     #   txt - text widget's path
@@ -1365,8 +1445,8 @@ pre {
 <tr><td class='ruff_defitem'><code>l1</code></td><td class='ruff_defitem'>the position to find</td></tr>
 </table>
 <h5 class='ruff'>Return value</h5><p class='ruff'>Returns a found range's index of -1 if not found.</p>
-<div class='ruff_source'><p class='ruff_source_link'><a id='l_23' href="javascript:toggleSource('23')">Show source</a></p>
-<div id='23' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::SearchTag {tagpos l1} {
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_25' href="javascript:toggleSource('25')">Show source</a></p>
+<div id='25' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::SearchTag {tagpos l1} {
 
     # Searches a position in tag ranges.
     #   tagpos - tag position ranges
@@ -1386,6 +1466,8 @@ pre {
 </span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::hl_readonly'>hl_readonly</a><span class='tooltiptext'>Makes the text widget be readonly or gets its 'read-only' state.
 </span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::hl_text'>hl_text</a><span class='tooltiptext'>Highlights Tcl code of a text widget.
 </span></h4><h1><a href='#::hl_tcl::my'>hl_tcl::my</a></h1><h2><a href='#::hl_tcl::my-Commands'>Commands</a></h2><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::my::AuxEnding'>AuxEnding</a><span class='tooltiptext'>Auxiliary procedure to process the ending comments in the line.
+</span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::my::CoroHighlightAll'>CoroHighlightAll</a><span class='tooltiptext'>Highlights all of a text as a coroutine.
+</span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::my::CoroModified'>CoroModified</a><span class='tooltiptext'>Handles modifications of text.
 </span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::my::CountChar'>CountChar</a><span class='tooltiptext'>Counts a character in a string.
 </span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::my::CountChar2'>CountChar2</a><span class='tooltiptext'>Counts a character in a string.
 </span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::my::CountQSH'>CountQSH</a><span class='tooltiptext'>Counts quotes, slashes, hashes in a line
