@@ -1,0 +1,29 @@
+MODE=0
+
+# try #1
+IN=BEGIN
+        'window-alloc': (0,
+                         31,
+                         1500,
+                         780)}]}
+IN=END
+OUT=BEGIN
+        'window-alloc': (0,
+                         31,
+                         1490,
+                         770)}]}
+OUT=END
+
+# try #2
+IN=BEGIN
+        'window-alloc': (0,
+                         31,
+                         1510,
+                         790)}]}
+IN=END
+OUT=BEGIN
+        'window-alloc': (0,
+                         31,
+                         1490,
+                         770)}]}
+OUT=END

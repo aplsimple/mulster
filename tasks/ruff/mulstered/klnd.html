@@ -1,0 +1,821 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"/>
+<link rel="stylesheet" href="../../../zoo/sh/styles/aplsimple.css">
+<title>::klnd reference</title>
+<style>
+/*
+Copyright (c) 2009, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.7.0
+*/
+html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}input,button,textarea,select{*font-size:100%;}body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small;}select,input,button,textarea,button{font:99% arial,helvetica,clean,sans-serif;}table{font-size:inherit;font:100%;}pre,code,kbd,samp,tt{font-family:Consolas,"Courier New",monospace;font-size:100%;line-height:100%;}body{text-align:center;}#doc,#doc2,#doc3,#doc4,.yui-t1,.yui-t2,.yui-t3,.yui-t4,.yui-t5,.yui-t6,.yui-t7{margin:auto;text-align:left;width:57.69em;*width:56.25em;}#doc2{width:73.076em;*width:71.25em;}#doc3{margin:auto 10px;width:auto;}#doc4{width:74.923em;*width:73.05em;}.yui-b{position:relative;}.yui-b{_position:static;}#yui-main .yui-b{position:static;}#yui-main,.yui-g .yui-u .yui-g{width:100%;}.yui-t1 #yui-main,.yui-t2 #yui-main,.yui-t3 #yui-main{float:right;margin-left:-25em;}.yui-t4 #yui-main,.yui-t5 #yui-main,.yui-t6 #yui-main{float:left;margin-right:-25em;}.yui-t1 .yui-b{float:left;width:12.30769em;*width:12.00em;}.yui-t1 #yui-main .yui-b{margin-left:13.30769em;*margin-left:13.05em;}.yui-t2 .yui-b{float:left;width:9.8461em;*width:13.50em;}.yui-t2 #yui-main .yui-b{margin-left:10.8461em;*margin-left:14.55em;}.yui-t3 .yui-b{float:left;width:23.0769em;*width:22.50em;}.yui-t3 #yui-main .yui-b{margin-left:24.0769em;*margin-left:23.62em;}.yui-t4 .yui-b{float:right;width:13.8456em;*width:13.50em;}.yui-t4 #yui-main .yui-b{margin-right:14.8456em;*margin-right:14.55em;}.yui-t5 .yui-b{float:right;width:18.4615em;*width:18.00em;}.yui-t5 #yui-main .yui-b{margin-right:19.4615em;*margin-right:19.125em;}.yui-t6 .yui-b{float:right;width:23.0769em;*width:22.50em;}.yui-t6 #yui-main .yui-b{margin-right:24.0769em;*margin-right:23.62em;}.yui-t7 #yui-main .yui-b{display:block;margin:0 0 1em 0;}#yui-main .yui-b{float:none;width:auto;}.yui-gb .yui-u,.yui-g .yui-gb .yui-u,.yui-gb .yui-g,.yui-gb .yui-gb,.yui-gb .yui-gc,.yui-gb .yui-gd,.yui-gb .yui-ge,.yui-gb .yui-gf,.yui-gc .yui-u,.yui-gc .yui-g,.yui-gd .yui-u{float:left;}.yui-g .yui-u,.yui-g .yui-g,.yui-g .yui-gb,.yui-g .yui-gc,.yui-g .yui-gd,.yui-g .yui-ge,.yui-g .yui-gf,.yui-gc .yui-u,.yui-gd .yui-g,.yui-g .yui-gc .yui-u,.yui-ge .yui-u,.yui-ge .yui-g,.yui-gf .yui-g,.yui-gf .yui-u{float:right;}.yui-g div.first,.yui-gb div.first,.yui-gc div.first,.yui-gd div.first,.yui-ge div.first,.yui-gf div.first,.yui-g .yui-gc div.first,.yui-g .yui-ge div.first,.yui-gc div.first div.first{float:left;}.yui-g .yui-u,.yui-g .yui-g,.yui-g .yui-gb,.yui-g .yui-gc,.yui-g .yui-gd,.yui-g .yui-ge,.yui-g .yui-gf{width:49.1%;}.yui-gb .yui-u,.yui-g .yui-gb .yui-u,.yui-gb .yui-g,.yui-gb .yui-gb,.yui-gb .yui-gc,.yui-gb .yui-gd,.yui-gb .yui-ge,.yui-gb .yui-gf,.yui-gc .yui-u,.yui-gc .yui-g,.yui-gd .yui-u{width:32%;margin-left:1.99%;}.yui-gb .yui-u{*margin-left:1.9%;*width:31.9%;}.yui-gc div.first,.yui-gd .yui-u{width:66%;}.yui-gd div.first{width:32%;}.yui-ge div.first,.yui-gf .yui-u{width:74.2%;}.yui-ge .yui-u,.yui-gf div.first{width:24%;}.yui-g .yui-gb div.first,.yui-gb div.first,.yui-gc div.first,.yui-gd div.first{margin-left:0;}.yui-g .yui-g .yui-u,.yui-gb .yui-g .yui-u,.yui-gc .yui-g .yui-u,.yui-gd .yui-g .yui-u,.yui-ge .yui-g .yui-u,.yui-gf .yui-g .yui-u{width:49%;*width:48.1%;*margin-left:0;}.yui-g .yui-g .yui-u{width:48.1%;}.yui-g .yui-gb div.first,.yui-gb .yui-gb div.first{*margin-right:0;*width:32%;_width:31.7%;}.yui-g .yui-gc div.first,.yui-gd .yui-g{width:66%;}.yui-gb .yui-g div.first{*margin-right:4%;_margin-right:1.3%;}.yui-gb .yui-gc div.first,.yui-gb .yui-gd div.first{*margin-right:0;}.yui-gb .yui-gb .yui-u,.yui-gb .yui-gc .yui-u{*margin-left:1.8%;_margin-left:4%;}.yui-g .yui-gb .yui-u{_margin-left:1.0%;}.yui-gb .yui-gd .yui-u{*width:66%;_width:61.2%;}.yui-gb .yui-gd div.first{*width:31%;_width:29.5%;}.yui-g .yui-gc .yui-u,.yui-gb .yui-gc .yui-u{width:32%;_float:right;margin-right:0;_margin-left:0;}.yui-gb .yui-gc div.first{width:66%;*float:left;*margin-left:0;}.yui-gb .yui-ge .yui-u,.yui-gb .yui-gf .yui-u{margin:0;}.yui-gb .yui-gb .yui-u{_margin-left:.7%;}.yui-gb .yui-g div.first,.yui-gb .yui-gb div.first{*margin-left:0;}.yui-gc .yui-g .yui-u,.yui-gd .yui-g .yui-u{*width:48.1%;*margin-left:0;}.yui-gb .yui-gd div.first{width:32%;}.yui-g .yui-gd div.first{_width:29.9%;}.yui-ge .yui-g{width:24%;}.yui-gf .yui-g{width:74.2%;}.yui-gb .yui-ge div.yui-u,.yui-gb .yui-gf div.yui-u{float:right;}.yui-gb .yui-ge div.first,.yui-gb .yui-gf div.first{float:left;}.yui-gb .yui-ge .yui-u,.yui-gb .yui-gf div.first{*width:24%;_width:20%;}.yui-gb .yui-ge div.first,.yui-gb .yui-gf .yui-u{*width:73.5%;_width:65.5%;}.yui-ge div.first .yui-gd .yui-u{width:65%;}.yui-ge div.first .yui-gd div.first{width:32%;}#hd:after,#bd:after,#ft:after,.yui-g:after,.yui-gb:after,.yui-gc:after,.yui-gd:after,.yui-ge:after,.yui-gf:after{content:".";display:block;height:0;clear:both;visibility:hidden;}#hd,#bd,#ft,.yui-g,.yui-gb,.yui-gc,.yui-gd,.yui-ge,.yui-gf{zoom:0;}
+
+body{margin:10px;}h1{font-size:138.5%;}h2{font-size:123.1%;}h3{font-size:108%;}h1,h2,h3{margin:1em 0;}h1,h2,h3,h4,h5,h6,strong,dt{font-weight:bold;}optgroup{font-weight:normal;}abbr,acronym{border-bottom:1px dotted #000;cursor:help;}em{font-style:italic;}del{text-decoration:line-through;}blockquote,ul,ol,dl{margin:1em;}ol,ul,dl{margin-left:2em;}ol li{list-style:decimal outside;}ul li{list-style:disc outside;}dl dd{margin-left:1em;}th,td{border:1px solid #000;padding:.5em;}th{font-weight:bold;text-align:center;}caption{margin-bottom:.5em;text-align:center;}sup{vertical-align:super;}sub{vertical-align:sub;}p,fieldset,table,pre{margin-bottom:1em;}button,input[type="checkbox"],input[type="radio"],input[type="reset"],input[type="submit"]{padding:1px;}
+
+/* Ruff default CSS */
+
+body {
+  /*max-width: 70em;*/
+  margin: 0;
+}
+
+h1,h2 {
+  color: #888888;
+  margin-bottom: 0.5em;
+  margin-top: 0em;
+}
+
+#ft { font-size: x-small; font-family: Arial, sans-serif;
+  text-align: left;
+  border-top: 1px solid #0B3467;
+  color: #888888;
+  margin-top: 10px;
+}
+
+.banner h2 {
+  color: #0B3467;
+}
+
+#hd.banner {
+ font-family: "Times New Roman", serif;
+ font-size: 200%;
+ line-height: 64px;
+ border-bottom: thin solid #0B3467;
+ color: #0B3467;
+}
+
+p.linkline {
+  text-align: right;
+  font-size: smaller;
+  /*    margin-top: -1em; */
+  margin-bottom: 0;
+}
+
+.tinylink {
+  font-size: x-small;
+  font-variant: normal;
+  font-family: Arial, sans-serif;
+  float: right;
+  padding:2px;
+}
+
+h1 .tinylink a {
+  color: white;
+}
+
+#bd {
+font-family: Arial, sans-serif;
+/*font-size: 108%;*/
+}
+
+div.navbox {
+  /* margin-top: 1em; */
+  background-color: #0B3467;
+  color: white;
+  padding: 3px 4px 2px 4px;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+div.navbox:hover {
+  overflow: visible;
+}
+
+/* Note .navbox header css should be based on $header_levels */
+.navbox h1, .navbox h2, .navbox h3, .navbox h4, .navbox h5 {
+  font-size: 85%;
+  margin: 0px;
+  font-weight: normal;
+}
+.navbox h1 {
+  font-weight: bold; /* Override */
+}
+.navbox h2 {
+  padding-left: 1em;
+}
+.navbox h3 {
+  padding-left: 2em;
+}
+.navbox h4 {
+  padding-left: 2.5em;
+  font-weight: normal;
+}
+.navbox h5 {
+  padding-left: 3em;
+  font-weight: normal;
+}
+.navbox hr {
+  color: white;
+  margin-top:0.1em;
+  margin-bottom:0.1em;
+}
+
+.navbox a:link, .navbox a:visited, .navbox a:hover {
+  text-decoration: none;
+  color: white;
+  background-color: #0B3467;
+}
+
+.navbox a:hover {
+   font-weight: bold;
+}
+
+/* Tooltip text - see https://www.w3schools.com/css/css_tooltip.asp */
+.tooltip {
+  position: relative;
+  /* display: inline-block; */
+}
+
+.tooltip .tooltiptext {
+  width: 100%;
+  font-weight: bold;
+  background-color: white;
+  color: #0B3467;
+  text-align: left;
+  border: 1px solid #0B3467;
+  /* border-radius: 4px; */
+  position: absolute;
+  z-index: 1;
+  margin-left: 4px;
+  padding: 2px 3px;
+  visibility: hidden;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+span.ns_scope {
+  color: #aaaaaa;
+}
+
+span.ns_scope a:link, span.ns_scope a:visited {
+  text-decoration: none;
+  color: #aaaaaa;
+
+}
+
+li {
+  margin-top: 0.5em;
+}
+
+span.ns_scope a:hover {
+  text-decoration: none;
+  color: #666666;
+}
+
+table {
+  margin: 1em;
+  margin-top: 0.5em;
+  border: thin solid;
+  border-collapse: collapse;
+  border-color: #808080;
+  padding: 4px;
+}
+
+td {
+  border: thin solid;
+  border-color: #808080;
+  vertical-align: top;
+  font-size: 93%;
+  padding: 0.3em;
+  padding-top: 0.1em;
+}
+th {
+  border: thin solid;
+  border-color: #808080;
+  padding: 0.3em;
+  padding-top: 0.1em;
+  background-color: #CCCCCC;
+}
+
+dt, dd {
+   font-size: 93%;
+}
+
+h1.ruff {
+  background-color: #0B3467;
+  color: #ffffff;
+  padding-left: 0.2em;
+  font-family: "Times New Roman", serif;
+}
+h2.ruff {
+  font-variant: small-caps;
+  color: #0B3467;
+  font-weight: bold;
+  font-family: "Times New Roman", serif;
+}
+
+h3.ruff, h4.ruff, h5.ruff, h6.ruff {
+  color: #0B3467;
+}
+h5.ruff {
+  font-style: italic;
+  font-weight: normal;
+}
+h6.ruff {
+  font-weight: normal;
+}
+h3.ruffclass, h3.ruffproc, h3.ruffmethod,
+h4.ruffclass, h4.ruffproc, h4.ruffmethod,
+h5.ruffclass, h5.ruffproc, h5.ruffmethod {
+  border-bottom: thin solid #0B3467;
+  color: #0B3467;
+  margin-bottom: 0.2em;
+}
+
+pre {
+  background-color: #f9f9f9;
+  margin-top: 1em;
+  margin-left: 1em;
+  padding: 5px;
+  font-family: Consolas, "Courier New", monospace;
+  /* width: max-content; --- to leave footsteps */ overflow: auto;
+  line-height: 1.2em;
+}
+
+.ruff_dyn_src {
+  display: none; /* Displayed via JS */
+}
+
+.ruff_synopsis {
+  border: thin solid #cccccc;
+  background: #f9f9f9;
+  font-family: Consolas, "Courier New", monospace;
+  padding: 5px;
+  margin: 0em 2em 1em;
+}
+.ruff_const, .ruff_cmd, ruff_defitem {
+  font-weight: bold;
+  font-family: Consolas, "Courier New", monospace;
+}
+.ruff_arg {
+  font-style: italic;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+.ruff_source_link {
+  font-size: smaller;
+}
+
+.ruff_index {
+  font-size: small;
+  color: grey;
+  line-height: 1;
+}
+
+.ruff_index ul li {
+  list-style-type: none;
+}
+
+.ruff_index ul li a {
+  text-decoration: none;
+}
+</style>
+<script>function toggleSource( id )
+{
+  /* Copied from Rails */
+  var elem
+  var link
+
+  if( document.getElementById )
+  {
+      elem = document.getElementById( id )
+      link = document.getElementById( "l_" + id )
+  }
+  else if ( document.all )
+  {
+      elem = eval( "document.all." + id )
+      link = eval( "document.all.l_" + id )
+  }
+  else
+      return false;
+
+  if( elem.style.display == "block" )
+  {
+      elem.style.display = "none"
+      link.innerHTML = "Show source"
+  }
+  else
+  {
+      elem.style.display = "block"
+      link.innerHTML = "Hide source"
+  }
+}
+</script></head>
+<meta name="author" content="aplsimple">
+<meta name="description" content="aplsimple's home page">
+<meta name="keywords" content="aplsimple,home">
+<link rel="stylesheet" href="../../../en/zoo/style.css">
+<style>
+table{
+background-color: #f9f9f9;
+margin: 0%;
+margin-bottom: 2%;
+padding: 0%;
+box-shadow: none;
+filter: none;
+}
+pre{
+margin: 0%;
+margin-bottom: 2%;
+padding: 0%;
+}
+</style>
+<link rel="icon" type="image/jpg" href="../../../zoo/favicon.jpg">
+<body>
+<div id="wrapper">
+<div name="divd1" ALIGN="CENTER"> <FONT SIZE=5em color=#b01c20><B>
+<noscript>THIS PAGE IS NOT WORKING WITHOUT JAVASCRIPT!
+<BR>
+<BR>PLEASE, SWITCH ON JAVASCRIPT IN SETTINGS OF YOUR BROWSER AND RELOAD THE PAGE.
+</noscript>
+</B></FONT></div>
+<div id='doc3' class='yui-t2'>
+<script src="../../../zoo/funcs.js"></script>
+<script src="../../../en/zoo/this.js"></script>
+<section id=sec2>
+<div id='hd' class='banner'>
+<a name='klnd.html'>::klnd reference</a>
+</div>
+<div id='bd'><div id='yui-main'><div class='yui-b'><h1 class='ruff'><a name='::klnd'></a>::klnd<span class='tinylink'><a href='#top'>Top</a></span></h1>
+<div style='clear:both;'></div>
+<p class='ruff'>The <em>klnd</em> package provides a calendar widget to use along with <a href="https://aplsimple.github.io/en/tcl/pave" >apave</a> package.</p>
+<p class='ruff'>Features:</p>
+<ul class='ruff'>
+<li>displays localized days' and months' names</li>
+<li>gets a chosen day through <code>-value</code> or <code>-tvar</code> (variable name) option</li>
+<li>uses arrow keys to navigate through days, months and years</li>
+<li>provides hot keys to navigate through months and years</li>
+<li>provides buttons to navigate through months and years</li>
+<li>provides a button and a hot key to set a current date</li>
+<li>buttons' tips</li>
+<li>shown at +X+Y coordinates / under a widget / in a parent's center / in a screen's center or under the mouse pointer</li>
+<li>customizable title, date format, first week day (Sunday/Monday)</li>
+<li>themeable (with ttk and apave themes)</li>
+<li>may be a modal (by default) or non-modal window</li>
+</ul>
+<p class='ruff'>The calendar looks like this:</p>
+<p class='ruff'><img src="https://aplsimple.github.io/en/tcl/pave/files/widgdat2.png" class="media" alt=""></p>
+<p class='ruff'><hr></p>
+<p class='ruff'>To directly call the calendar, use the following commands:</p>
+<pre class='ruff'><br><code class="tcl">
+package require klnd
+klnd::calendar ?-option value ... ?
+
+# or this way
+source [file join $::apave::apaveDir pickers klnd klnd.tcl]
+klnd::calendar ?-option value ... ?
+<br></code></pre>
+<p class='ruff'>where <code>option</code> may be:</p>
+<table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>-value</code></td><td class='ruff_defitem'>sets an input date (omittable)</td></tr>
+<tr><td class='ruff_defitem'><code>-tvar</code></td><td class='ruff_defitem'>sets a variable name to hold the input/output value (omittable)</td></tr>
+<tr><td class='ruff_defitem'><code>-dateformat</code></td><td class='ruff_defitem'>sets the input/output date format (%D by default)</td></tr>
+<tr><td class='ruff_defitem'><code>-weekday</code></td><td class='ruff_defitem'>sets a first week day: %w for Sunday, %u for Monday (default)</td></tr>
+<tr><td class='ruff_defitem'><code>-modal</code></td><td class='ruff_defitem'><code>yes</code> if the calendar should be a modal window (default)</td></tr>
+<tr><td class='ruff_defitem'><code>-title</code></td><td class='ruff_defitem'>sets the calendar's title</td></tr>
+<tr><td class='ruff_defitem'><code>-geometry</code></td><td class='ruff_defitem'>sets the calendar's geometry</td></tr>
+<tr><td class='ruff_defitem'><code>-entry</code></td><td class='ruff_defitem'>sets a widget's path to show the calendar under</td></tr>
+<tr><td class='ruff_defitem'><code>-parent</code></td><td class='ruff_defitem'>sets a parent toplevel window to center the calendar in</td></tr>
+<tr><td class='ruff_defitem'><code>-centerme</code></td><td class='ruff_defitem'><code>yes</code> if the calendar should be centered in the screen</td></tr>
+</table>
+<p class='ruff'>If <code>-value</code> and <code>-tvar</code> options are both set, the <code>-tvar</code> is preferred. If both omitted, a current system date is used as input.</p>
+<p class='ruff'>The calendar returns a chosen date (setting also the <code>-tvar</code> variable if any) or &quot;&quot; at no choice.</p>
+<p class='ruff'>The priority of geometry options: <code>-geometry, -entry, -parent, -centerme</code>. At no geometry option given, the calendar is shown under the mouse pointer.</p>
+<p class='ruff'>The <code>-parent</code> option may be used along with <code>-geometry, -entry</code>, as it allows a child window to inherit the parent's attributes.</p>
+<p class='ruff'><hr></p>
+<p class='ruff'>An example of using the calendar for <em>apave</em> layout:</p>
+<pre class='ruff'><br><code class="tcl">
+{dat1 labDat1 L 1 1 {} {-tvar ::N::dat1 -title {Date of the event} -dateformat %d.%m.%Y -weekday %w}}
+<br></code></pre>
+<p class='ruff'>This example includes <code>-tvar</code> option meaning a variable name to hold the date.</p>
+<p class='ruff'><hr></p>
+<p class='ruff'>The calendar provides the hotkeys Left, Right, Up, Down, PageUp, PageDown, Home, End and F3 to navigate through days, months and years.</p>
+<p class='ruff'>The Enter / Space keys or Double-Click are used to pick a date.</p>
+<br><h2 class='ruff'><a name='::klnd-Commands'></a>Commands<span class='tinylink'><a href='klnd.html#::klnd'>klnd</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<br><br><br><h4 class='ruffproc'><a name='::klnd::calendar'>calendar</a><span class='ns_scope'> [<a href="klnd.html#::klnd" title="::klnd" class='ruff_cmd'>::klnd</a>]</span><span class='tinylink'><a href='klnd.html#::klnd'>klnd</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>The main procedure of the calendar.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>calendar</span> <span class='ruff_arg'>?args?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code><code>args</code></code></td><td class='ruff_defitem'>options of the calendar</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_1' href="javascript:toggleSource('1')">Show source</a></p>
+<div id='1' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::calendar {args} {
+
+  # The main procedure of the calendar.
+  #   args - options of the calendar
+
+  variable my::p
+  # get options and initialize the calendar's settings
+  lassign [::apave::parseOptions $args -title &quot;Calendar&quot; -value &quot;&quot; -tvar &quot;&quot;  -parent &quot;&quot; -dateformat %D -weekday &quot;&quot; -centerme &quot;&quot; -geometry &quot;&quot; -entry &quot;&quot;]  title datevalue tvar parent my::p(dformat) my::p(weekday) centerme geo entry
+  set args [::apave::removeOptions $args -title -value -tvar -parent -dateformat -weekday]
+  if {$tvar ne &quot;&quot;} {set datevalue [set $tvar]}
+  catch {unset my::p(after)} ;# to pause more at start
+  my::InitCalendar
+  set p(close) [string map {&amp; &quot;&quot;} [::msgcat::mc &quot;Close&quot;]]
+  # make the icons
+  foreach {i icon} {0 date 1 previous2 2 previous 3 next 4 next2} {
+    image create photo IM_AP_$i -data [::apave::iconData $icon]
+  }
+  # priority of geometry options: -geometry, -entry, -parent, -centerme
+  # if no geometry option, show the calendar under the mouse pointer
+  if {$geo ne &quot;&quot;} {
+    set geo &quot;-geometry $geo&quot;
+  } elseif {$entry ne &quot;&quot;} {
+    set x [winfo rootx $entry]
+    set y [expr {[winfo rooty $entry]+32}]
+    set geo &quot;-geometry +$x+$y&quot;
+  } elseif {$parent ne &quot;&quot;} {
+    set geo &quot;-centerme $parent&quot;    ;# to center in a toplevel window
+  } elseif {$centerme ne &quot;&quot;} {
+    set geo &quot;-centerme $centerme&quot;  ;# it's an option of apave's
+  } else {
+    set geo &quot;-geometry +[expr {[winfo pointerx .]+10}]+[expr {[winfo pointery .]+10}]&quot;
+  }
+  set parent [string trimright $parent .]
+  set win [set my::p(win) &quot;$parent._apave_CALENDAR_&quot;]
+  catch {$my::p(obj) destroy}
+  # create apave object and layout its window
+  set my::p(obj) [::apave::APaveInput create APAVE_CLND $win]
+  $my::p(obj) makeWindow $win.fra $title
+  $my::p(obj) paveWindow $win.fra {
+    {fraTool - - 1 10 {-st new} {}}
+    {fraTool.tool - - - - {pack -side top} {-array {
+      IM_AP_0 {::klnd::my::SetCurrentDay} sev 6
+      IM_AP_1 {{::klnd::my::GoYear -1} -tooltip &quot;Previous year (Home)@@-under 5&quot;} h_ 2
+      IM_AP_2 {{::klnd::my::GoMonth -1} -tooltip &quot;Previous month (PageUp)@@-under 5&quot;} h_ 3
+      LabMonth {&quot;&quot; {-fill x -expand 1} {-anchor center}} h_ 2
+      IM_AP_3 {{::klnd::my::GoMonth 1} -tooltip &quot;Next month (PageDown)@@-under 5&quot;} h_ 3
+      IM_AP_4 {{::klnd::my::GoYear 1} -tooltip &quot;Next year (End)@@-under 5&quot;} h_ 2
+    }}}
+    {fraDays fraTool T - - {-st nsew}}
+    {fraDays.tcl {
+      # make headers and buttons of days
+      if {$::tcl_platform(platform) eq &quot;windows&quot;} {
+        set att &quot;-highlightthickness 1 -w 6&quot;
+      } else {
+        set att &quot;-highlightthickness 0 -w 3&quot;
+      }
+      set wt -
+      for {set i 1} {$i&lt;50} {incr i} {
+        if {$i&lt;8} {set cur &quot;fraDays.LabDay$i&quot;} {set cur &quot;fraDays.BuTSTD[expr {$i-7}]&quot;}
+        if {($i%7)!=1} {set p L; set pw $pr} {set p T; set pw $wt; set wt $cur}
+        if {$i&lt;8} {
+          set lwid &quot;$cur $pw $p 1 1 {-st ew} {-anchor center -foreground $::klnd::my::p(fgh)}&quot;
+        } else {
+          set lwid &quot;$cur $pw $p 1 1 {-st ew} {-relief flat -overrelief flat -bd 0 -takefocus 0 -pady 2 -com {::klnd::my::Enter [expr {$i-7}]} $att}&quot;
+        }
+        %C $lwid
+        set pr $cur
+      }
+    }}
+    {seh FraDays T 1 10 {-pady 4}}
+    {fraBottom seh T - - {-st ew}}
+    {fraBottom.h_ - - - - {pack -fill both -expand 1 -side left} {}}
+    {fraBottom.ButClose - - - - {pack -side left} {-t &quot;$::klnd::my::p(close)&quot; -com &quot;$::klnd::my::p(obj) res $win 0&quot;}}
+  }
+  # binds for day buttons and 'Close'
+  foreach {ev prc} { &lt;Home&gt; &quot;::klnd::my::GoYear -1 yes&quot; &lt;End&gt; &quot;::klnd::my::GoYear 1 yes&quot;  &lt;Prior&gt; &quot;::klnd::my::GoMonth -1 yes&quot; &lt;Next&gt; &quot;::klnd::my::GoMonth 1 yes&quot;} {
+    for {set i 1} {$i&lt;38} {incr i} {
+      set but [$my::p(obj) BuTSTD$i]
+      bind $but $ev $prc
+      bind $but &lt;FocusIn&gt; &quot;::klnd::my::Enter $i&quot;
+      bind $but &lt;KeyPress&gt; &quot;::klnd::my::KeyPress $i %K&quot;
+      bind $but &lt;Double-1&gt; &quot;::klnd::my::DoubleClick $win $i&quot;
+    }
+    bind [$my::p(obj) ButClose] $ev $prc
+  }
+  bind $win &lt;F3&gt; ::klnd::my::SetCurrentDay
+  bind $win &lt;KeyPress&gt; &quot;::klnd::my::Leave&quot;
+  # get the day to display at start
+  set m $my::p(m)
+  set y $my::p(y)
+  if {![catch {set ym [clock scan $datevalue -format $my::p(dformat)]}]} {
+    set m [clock format $ym -format %N]
+    set y [clock format $ym -format %Y]
+    set my::p(dvis) [clock format $ym -format %e]
+  }
+  # show and work with the calendar
+  after idle &quot;::klnd::my::ShowMonth $m $y&quot;
+  set res [$my::p(obj) showModal $win -resizable {0 0} {*}$args {*}$geo]
+  # get the result of the selection if any
+  if {$res &amp;&amp; $my::p(dvis)} {
+    set res [clock format [clock scan $my::p(mvis)/$my::p(dvis)/$my::p(yvis) -format %D] -format $my::p(dformat)]
+    if {$tvar ne &quot;&quot;} {set $tvar $res}
+  } else {
+    set res &quot;&quot;
+  }
+  $my::p(obj) destroy
+  destroy $win
+  return $res
+}<br><br></code></pre></div>
+</div><br><br><h1 class='ruff'><a name='::klnd::my'></a>::klnd::my<span class='tinylink'><a href='#top'>Top</a></span></h1>
+<div style='clear:both;'></div>
+<p class='ruff'>The <code>::klnd::my</code> namespace contains procedures for the &quot;internal&quot; usage by <em>klnd</em> package.</p>
+<p class='ruff'>All of them are upper-cased, in contrast with the UI procedures of <code>klnd</code> namespace.</p>
+<br><h2 class='ruff'><a name='::klnd::my-Commands'></a>Commands<span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<br><br><br><h4 class='ruffproc'><a name='::klnd::my::CurrentDate'>CurrentDate</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Gets the current date.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>CurrentDate</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_2' href="javascript:toggleSource('2')">Show source</a></p>
+<div id='2' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::CurrentDate {} {
+
+  # Gets the current date.
+
+  variable p
+  set sec [clock seconds]
+  lassign [split [clock format $sec -format $p(FINT)] /] p(y) p(m) p(d)
+  return $sec
+}<br><br></code></pre></div>
+</div><br><br><br><h4 class='ruffproc'><a name='::klnd::my::DoubleClick'>DoubleClick</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Processes double-clicking a button (to choose or ignore).</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>DoubleClick</span> <span class='ruff_arg'>win i</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code><code>win</code></code></td><td class='ruff_defitem'>window's path</td></tr>
+<tr><td class='ruff_defitem'><code><code>i</code></code></td><td class='ruff_defitem'>button index</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_3' href="javascript:toggleSource('3')">Show source</a></p>
+<div id='3' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::DoubleClick {win i} {
+
+  # Processes double-clicking a button (to choose or ignore).
+  #   win - window's path
+  #   i - button index
+
+  variable p
+  if {[IsDay $i]} {$p(obj) res $win 1}
+}<br><br></code></pre></div>
+</div><br><br><br><h4 class='ruffproc'><a name='::klnd::my::Enter'>Enter</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Highlights a button and makes it current.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Enter</span> <span class='ruff_arg'>i</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code><code>i</code></code></td><td class='ruff_defitem'>button index</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_4' href="javascript:toggleSource('4')">Show source</a></p>
+<div id='4' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::Enter {i} {
+
+  # Highlights a button and makes it current.
+  #   i - button index
+
+  variable p
+  if {![IsDay $i]} return
+  Leave
+  [set w [$p(obj) BuTSTD$i]] configure -fg $p(fg) -bg $p(bg)
+  set p(ienter) $i
+  set p(dvis) [$w cget -text]
+  catch {after cancel $p(after2)}
+  set p(after2) [after 10 &quot;if \[winfo exists $w\] {focus -force $w}&quot;]
+}<br><br></code></pre></div>
+</div><br><br><br><h4 class='ruffproc'><a name='::klnd::my::GoMonth'>GoMonth</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Shifts the month backward/forward.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>GoMonth</span> <span class='ruff_arg'>i ?dobreak?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code><code>i</code></code></td><td class='ruff_defitem'>increment for the current month</td></tr>
+<tr><td class='ruff_defitem'><code><code>dobreak</code></code></td><td class='ruff_defitem'>yes when called from 'bind'; <i>optional, default</i> <code>no</code></td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_5' href="javascript:toggleSource('5')">Show source</a></p>
+<div id='5' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::GoMonth {i {dobreak no}} {
+
+  # Shifts the month backward/forward.
+  #   i - increment for the current month
+  #   dobreak - yes when called from 'bind'
+
+  variable p
+  set m [expr {$p(mvis)+($i)}]
+  if {$m&gt;12} {set m 1; incr p(yvis)}
+  if {$m&lt;1} {set m 12; incr p(yvis) -1}
+  ShowMonth $m $p(yvis)
+  if {$dobreak} {return -code break}
+}<br><br></code></pre></div>
+</div><br><br><br><h4 class='ruffproc'><a name='::klnd::my::GoYear'>GoYear</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Shifts the year backward/forward.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>GoYear</span> <span class='ruff_arg'>i ?dobreak?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code><code>i</code></code></td><td class='ruff_defitem'>increment for the current year</td></tr>
+<tr><td class='ruff_defitem'><code><code>dobreak</code></code></td><td class='ruff_defitem'>yes when called from 'bind'; <i>optional, default</i> <code>no</code></td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_6' href="javascript:toggleSource('6')">Show source</a></p>
+<div id='6' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::GoYear {i {dobreak no}} {
+
+  # Shifts the year backward/forward.
+  #   i - increment for the current year
+  #   dobreak - yes when called from 'bind'
+
+  variable p
+  ShowMonth $p(mvis) [expr {$p(yvis)+($i)}]
+  if {$dobreak} {return -code break}
+}<br><br></code></pre></div>
+</div><br><br><br><h4 class='ruffproc'><a name='::klnd::my::HighlightCurrentDay'>HighlightCurrentDay</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Highlights the current day's button.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>HighlightCurrentDay</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_7' href="javascript:toggleSource('7')">Show source</a></p>
+<div id='7' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::HighlightCurrentDay {} {
+
+  # Highlights the current day's button.
+
+  variable p
+  catch {[$p(obj) BuTSTD$p(icurr)] configure -fg $p(fg2) -bg $p(bg2)}
+}<br><br></code></pre></div>
+</div><br><br><br><h4 class='ruffproc'><a name='::klnd::my::InitCalendar'>InitCalendar</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Initializes the settings of the calendar.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>InitCalendar</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_8' href="javascript:toggleSource('8')">Show source</a></p>
+<div id='8' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::InitCalendar {} {
+
+  # Initializes the settings of the calendar.
+
+  variable p
+  variable locales
+  package require msgcat
+  # colors to be used
+  lassign [::apave::obj csGet] p(fg0) p(fg1) p(bg0) p(bg1) - p(bg) p(fg) - - p(fgh) - - - - p(fg2) p(bg2)
+  CurrentDate
+  set p(yvis) $p(y)  ;# by default, the selected date = the current date
+  set p(mvis) $p(m)
+  set p(dvis) $p(d)
+  # get localized setting of 1st week day
+  set loc [lindex [msgcat::mcpreferences] 0]
+  if {$p(weekday) eq &quot;&quot;} {
+    if {[array names locales $loc] ne &quot;&quot;} {
+      set p(weekday) $locales($loc)
+    } else {
+      set p(weekday) %u  ;# by default, 1st day of week is Monday
+    }
+  }
+  # get localized week day names
+  set p(days) [list]
+  foreach i {0 1 2 3 4 5 6} {
+    lappend p(days) [clock format [clock scan &quot;06/[expr {22+$i}]/1941&quot; -format %D]  -format %a -locale $loc]
+  }
+  if {$p(weekday) eq &quot;%u&quot;} {  ;# Sunday be the last day of week
+    set d1 [lindex $p(days) 0]
+    set p(days) [list {*}[lrange $p(days) 1 end] $d1]
+  }
+  # get localized month names
+  set p(months) [list]
+  foreach i {01 02 03 04 05 06 07 08 09 10 11 12} {
+    lappend p(months) [clock format [clock scan &quot;$i/01/1941&quot; -format %D]  -format %B -locale $loc]
+  }
+}<br><br></code></pre></div>
+</div><br><br><br><h4 class='ruffproc'><a name='::klnd::my::IsDay'>IsDay</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Check if a button shows a day.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>IsDay</span> <span class='ruff_arg'>i</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code><code>i</code></code></td><td class='ruff_defitem'>button index</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_9' href="javascript:toggleSource('9')">Show source</a></p>
+<div id='9' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::IsDay {i} {
+
+  # Check if a button shows a day.
+  #   i - button index
+
+  variable p
+  return [expr {![catch {set w [$p(obj) BuTSTD$i]}] &amp;&amp; [$w cget -takefocus]}]
+}<br><br></code></pre></div>
+</div><br><br><br><h4 class='ruffproc'><a name='::klnd::my::KeyPress'>KeyPress</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Processes the key presses on buttons.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>KeyPress</span> <span class='ruff_arg'>i K</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code><code>i</code></code></td><td class='ruff_defitem'>button index</td></tr>
+<tr><td class='ruff_defitem'><code><code>K</code></code></td><td class='ruff_defitem'>pressed key</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_10' href="javascript:toggleSource('10')">Show source</a></p>
+<div id='10' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::KeyPress {i K} {
+
+  # Processes the key presses on buttons.
+  #   i - button index
+  #   K - pressed key
+
+  variable p
+  Leave $i
+  switch -glob $K {
+    Left {set n [expr {$i-1}]}
+    Right {set n [expr {$i+1}]}
+    Up {set n [expr {$i-7}]}
+    Down {set n [expr {$i+7}]}
+    Enter - Return - space {$p(obj) res $p(win) 1; return -code break}
+    *Tab* {Leave; focus [$p(obj) ButClose]; return -code break}
+    default {Enter $i; return}
+  }
+  if {[IsDay $n]} {
+    Enter $n
+  } elseif {$K in {Left Up}} {
+    GoMonth -1
+  } else {
+    GoMonth 1
+  }
+}<br><br></code></pre></div>
+</div><br><br><br><h4 class='ruffproc'><a name='::klnd::my::Leave'>Leave</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Unhighlights a button.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Leave</span> <span class='ruff_arg'>?i?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code><code>i</code></code></td><td class='ruff_defitem'>button index; <i>optional, default</i> <code>0</code></td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_11' href="javascript:toggleSource('11')">Show source</a></p>
+<div id='11' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::Leave {{i 0}} {
+
+  # Unhighlights a button.
+  #   i - button index
+
+  variable p
+  if {$i &amp;&amp; ![[$p(obj) BuTSTD$i] cget -takefocus]} return
+  foreach n [list $i $p(ienter)] {
+    if {$n} {[$p(obj) BuTSTD$n] configure -fg $p(fg1) -bg $p(bg1)}
+  }
+  HighlightCurrentDay
+}<br><br></code></pre></div>
+</div><br><br><br><h4 class='ruffproc'><a name='::klnd::my::SetCurrentDay'>SetCurrentDay</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Goes to the current date.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>SetCurrentDay</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_12' href="javascript:toggleSource('12')">Show source</a></p>
+<div id='12' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::SetCurrentDay {} {
+
+  # Goes to the current date.
+
+  variable p
+  set p(dvis) 0
+  ShowMonth $p(m) $p(y)
+  Enter $p(icurr)
+}<br><br></code></pre></div>
+</div><br><br><br><h4 class='ruffproc'><a name='::klnd::my::ShowMonth'>ShowMonth</a><span class='ns_scope'> [<a href="klnd.html#::klnd::my" title="::klnd::my" class='ruff_cmd'>::klnd::my</a>]</span><span class='tinylink'><a href='klnd.html#::klnd::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Displays a month's days.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>ShowMonth</span> <span class='ruff_arg'>m y</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code><code>m</code></code></td><td class='ruff_defitem'>month y -year</td></tr>
+<tr><td class='ruff_defitem'><code><code>y</code></code></td><td class='ruff_defitem'>Not documented.</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_13' href="javascript:toggleSource('13')">Show source</a></p>
+<div id='13' class='ruff_dyn_src'><pre><br><code class="tcl">proc ::klnd::my::ShowMonth {m y} {
+
+  # Displays a month's days.
+  #   m - month
+  #   y -year
+
+  variable p
+  set sec [CurrentDate]
+  set y [expr {max($y,1753)}]
+  ::baltip::tip [$p(obj) BuT_IM_AP_0]  &quot;Current date (F3)\n[clock format $sec -format $p(dformat)]&quot; -under 5
+  # display month &amp; year
+  [$p(obj) LabMonth] configure -text  &quot;[lindex $p(months) [expr {$m-1}]] $y&quot;  -font &quot;[$p(obj) csFontDef] -size [expr {[$p(obj) basicFontSize]+3}]&quot;
+  # display day names
+  for {set i 1} {$i&lt;8} {incr i} {
+    [$p(obj) LabDay$i] configure -text &quot; [lindex $p(days) $i-1] &quot;
+  }
+  # 1st day of the month's first week:
+  set i0 [clock format [clock scan &quot;$m/1/$y&quot; -format %D] -format %w]
+  if {$p(weekday) eq &quot;%u&quot;} {if {$i0} {incr i0 -1} {set i0 6}}
+  # get the last day of month
+  if {[set yl $y] &amp;&amp; [set ml $m]==12} {set ml 1; incr yl}
+  set lday [clock format [clock scan &quot;[incr ml]/1/$yl 1 day ago&quot;] -format %d]
+  set iday [set p(icurr) 0]
+  for {set i 1} {$i&lt;43} {incr i} {
+    if {$i&lt;=$i0 || $iday&gt;=$lday} {
+      set att &quot;-takefocus 0 -text {    } -activebackground $p(bg1)&quot;
+    } else {
+      set att &quot;-takefocus 1 -text {[incr iday]} -activeforeground $p(fg0) -activebackground $p(bg0)&quot;
+      if {$iday==$p(dvis) || ($iday==$lday &amp;&amp; $iday&lt;$p(dvis))} {
+        if {[info exists p(after)]} {set af 20} {set af 200} ;# less at key pressing tight
+        catch {after cancel $p(after)}
+        set p(after) [after $af &quot;::klnd::my::Enter $i; ::klnd::my::HighlightCurrentDay&quot;]
+      }
+      if {$iday==1} {set p(d1st) $i}
+      if {$y==$p(y) &amp;&amp; $m==$p(m) &amp;&amp; $iday==$p(d)} {
+        set p(icurr) $i  ;# button's index of the current date
+      }
+    }
+    [$p(obj) BuTSTD$i] configure {*}$att -fg $p(fg1) -bg $p(bg1) -relief flat -overrelief flat
+  }
+  set p(mvis) $m  ;# month &amp; year currently visible
+  set p(yvis) $y
+}<br><br></code></pre></div>
+</div></div></div><div class='yui-b navbox' ><h1><a href='#::klnd'>klnd</a></h1><h2><a href='#::klnd-Commands'>Commands</a></h2><h4 class='tooltip'><a href='klnd.html#::klnd::calendar'>calendar</a><span class='tooltiptext'>The main procedure of the calendar.
+</span></h4><h1><a href='#::klnd::my'>klnd::my</a></h1><h2><a href='#::klnd::my-Commands'>Commands</a></h2><h4 class='tooltip'><a href='klnd.html#::klnd::my::CurrentDate'>CurrentDate</a><span class='tooltiptext'>Gets the current date.
+</span></h4><h4 class='tooltip'><a href='klnd.html#::klnd::my::DoubleClick'>DoubleClick</a><span class='tooltiptext'>Processes double-clicking a button (to choose or ignore).
+</span></h4><h4 class='tooltip'><a href='klnd.html#::klnd::my::Enter'>Enter</a><span class='tooltiptext'>Highlights a button and makes it current.
+</span></h4><h4 class='tooltip'><a href='klnd.html#::klnd::my::GoMonth'>GoMonth</a><span class='tooltiptext'>Shifts the month backward/forward.
+</span></h4><h4 class='tooltip'><a href='klnd.html#::klnd::my::GoYear'>GoYear</a><span class='tooltiptext'>Shifts the year backward/forward.
+</span></h4><h4 class='tooltip'><a href='klnd.html#::klnd::my::HighlightCurrentDay'>HighlightCurrentDay</a><span class='tooltiptext'>Highlights the current day's button.
+</span></h4><h4 class='tooltip'><a href='klnd.html#::klnd::my::InitCalendar'>InitCalendar</a><span class='tooltiptext'>Initializes the settings of the calendar.
+</span></h4><h4 class='tooltip'><a href='klnd.html#::klnd::my::IsDay'>IsDay</a><span class='tooltiptext'>Check if a button shows a day.
+</span></h4><h4 class='tooltip'><a href='klnd.html#::klnd::my::KeyPress'>KeyPress</a><span class='tooltiptext'>Processes the key presses on buttons.
+</span></h4><h4 class='tooltip'><a href='klnd.html#::klnd::my::Leave'>Leave</a><span class='tooltiptext'>Unhighlights a button.
+</span></h4><h4 class='tooltip'><a href='klnd.html#::klnd::my::SetCurrentDay'>SetCurrentDay</a><span class='tooltiptext'>Goes to the current date.
+</span></h4><h4 class='tooltip'><a href='klnd.html#::klnd::my::ShowMonth'>ShowMonth</a><span class='tooltiptext'>Displays a month's days.
+</span></h4></div></div><div id='ft'><div style='float: right;'>Document generated by <a href='https://ruff.magicsplat.com'>Ruff!</a></div></div>
+</div></body></html>

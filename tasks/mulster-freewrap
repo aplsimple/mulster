@@ -6,7 +6,7 @@
 INFILE=../e_menu/s_menu.tcl
 OUTFILE=../freewrap/e_menu/s_menu.tcl
 
-####### Replacing a string with e_menu.tcl contents #######
+####### Replacing strings with files' contents #######
 
 FILES=1
 
@@ -18,29 +18,8 @@ OUT=BEGIN
 ../e_menu/e_menu.tcl
 OUT=END
 
-####### Replacing strings with strings #######
-
-FILES=0
-
 IN=BEGIN
-    if {$solo} {
-      catch {source [file join $::em::srcdir baltip baltip.tcl]}
-    } else {
-      append em_version " / [file tail $::argv0]"
-    }
-IN=END
-
-OUT=BEGIN
-../e_menu/src/baltip/baltip.tcl !!!!!!!!!!!!!!!!!!!!!!
-append em_version " / [file tail $::argv0]"
-OUT=END
-
-####### Replacing strings with files' contents #######
-
-FILES=1
-
-IN=BEGIN
-../e_menu/src/baltip/baltip.tcl !!!!!!!!!!!!!!!!!!!!!!
+  catch {source [file join $::em::srcdir baltip baltip.tcl]}
 IN=END
 
 OUT=BEGIN
@@ -95,6 +74,16 @@ OUT=END
 
 IN=BEGIN
       source [file join $apaveDir apaveimg.tcl]
+      if {$iconset ne "small"} {
+        foreach ic $_AP_ICO {  ;# small icons best fit for menus
+          set _AP_IMG($ic-small) [set _AP_IMG($ic)]
+        }
+        if {$iconset eq "middle"} {
+          source [file join $apaveDir apaveimg2.tcl]
+        } else {
+          source [file join $apaveDir apaveimg2.tcl] ;# TODO
+        }
+      }
 IN=END
 
 OUT=BEGIN
@@ -107,6 +96,24 @@ IN=END
 
 OUT=BEGIN
 ../e_menu/src/obbit.tcl
+OUT=END
+
+####### Pickers #######
+
+IN=BEGIN
+      source [file join $::apave::apaveDir pickers color clrpick.tcl]
+IN=END
+
+OUT=BEGIN
+../e_menu/src/pickers/color/clrpick.tcl
+OUT=END
+
+IN=BEGIN
+      source [file join $::apave::apaveDir pickers klnd klnd.tcl]
+IN=END
+
+OUT=BEGIN
+../e_menu/src/pickers/klnd/klnd.tcl
 OUT=END
 
 #############################################################################

@@ -259,6 +259,20 @@ pre {
 .ruff_source_link {
     font-size: smaller;
 }
+
+.ruff_index {
+    font-size: small;
+    color: grey;
+    line-height: 1;
+}
+
+.ruff_index ul li {
+    list-style-type: none;
+}
+
+.ruff_index ul li a {
+    text-decoration: none;
+}
 </style>
 <script>function toggleSource( id )
 {
@@ -301,7 +315,7 @@ pre {
 <p class='ruff'>The <em>Tk text</em> widget may be made read-only or editable. Also, the <em>hl_tcl</em> may take an argument, sort of command to watch the viewing / editing.</p>
 <p class='ruff'>When applied to html pages, the <em>hl_tcl</em> highlights Tcl/Tk code snippets embedded between &lt;code&gt; &lt;/code&gt; tags.</p>
 <p class='ruff'>The <em>hl_tcl</em> has highlighted its own code in <a href="https://aplsimple.github.io/en/tcl/hl_tcl/hl_tcl.html" >Reference</a>.</p>
-<h2 class='ruff'><a name='::hl_tcl-Some_of_blah-blah'></a>Some of blah-blah<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
+<h2 class='ruff'><a name='::hl_tcl-Some of blah-blah'></a>Some of blah-blah<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
 <p class='ruff'>The Tcl being incredibly dynamic language sets a lot of problems before any Tcl syntax highlighter. Probably, the usage of quotes and esp. the strings spanning several lines are the main challenges.</p>
 <p class='ruff'>Below is a line that brings most (not <em>hl_tcl</em>, as seen in <a href="https://aplsimple.github.io/en/tcl/hl_tcl/hl_tcl.html" >Reference</a>) of Tcl highlighters in a stupor:</p>
@@ -321,7 +335,7 @@ pre {
 <p class='ruff'>There are &quot;tricky&quot; highlighters (like <a href="https://wiki.gnome.org/Apps/Gedit" title="Gedit editor">Gedit</a>) that behave more wisely at the stumbling an orphan quote: they permit only a one-line Tcl strings (if not continued with \), so that the string highlighting would be most likely finished in the same line it started. No problems except for this silly line. And no delays due to the highlighting the rest of code...</p>
 <p class='ruff'>... as seen in:</p>
 <p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/hl_tcl/files/hltcl3.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
-<h2 class='ruff'><a name='::hl_tcl-Some_of_editors'></a>Some of editors<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
+<h2 class='ruff'><a name='::hl_tcl-Some of editors'></a>Some of editors<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
 <p class='ruff'><a href="https://www.geany.org" title="Geany IDE">Geany</a>. Probably, the best Tcl highlighter. And the great programming tool at that. Still, it has few drawbacks:</p>
 <ul class='ruff'>
@@ -342,7 +356,7 @@ pre {
 <p class='ruff'><a href="https://github.com/phase1geo/tke/" title="TKE editor">TKE</a>. Written in Tcl/Tk, it might be the best of all to highlight the Tcl/Tk. In spite of its suspended state it still can. Issues with highlighting strings and the performance.</p>
 <p class='ruff'><a href="http://mate-desktop.org" title="Pluma editor">Pluma</a> and <a href="https://wiki.gnome.org/Apps/Gedit" title="Gedit editor">Gedit</a> seem to use the same Tcl highlighting engine that gives rather good results. Still, the mentioned above drawbacks are here too. And no highlighting of tk, ttk, TclOO.</p>
 <p class='ruff'><a href="https://notepad-plus-plus.org/" title="Notepad++ official site">Notepad++</a>. Very fast Tcl highlighter. And very basic. All the same drawbacks. No highlighting of tk, ttk, TclOO. <em>Plus</em> an obsolete version of Tcl, i.e. no highlighting <code>lset, lassign</code> etc.</p>
-<h2 class='ruff'><a name='::hl_tcl-What_can_we_do_'></a>What can we do?<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
+<h2 class='ruff'><a name='::hl_tcl-What can we do?'></a>What can we do?<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
 <p class='ruff'>To develop an ideal (correct and fast) Tcl/Tk highlighter, we would have to dive into Tcl core. Though, no hopes to achieve the ideal through repeating the core in Tcl/Tk or massively using the regular expressions.</p>
 <p class='ruff'>That said, while implementing Tcl/Tk highlighter <em>in pure Tcl/Tk</em>, we might hope to achieve a reasonable compromise between the performance and the elimination of blunders.</p>
@@ -367,7 +381,7 @@ pre {
 </ul>
 <p class='ruff'>These are in no way critical drawbacks. A little less florid Tcl code might be even preferable for other tastes.</p>
 <p class='ruff'>The Tcl can arrange its pitfalls for <em>hl_tcl</em> (I know where). Also, tricky practices or tastes can make a fool of <em>hl_tcl</em>. Still hopefully these pranks are few and rare to encounter.</p>
-<h2 class='ruff'><a name='::hl_tcl-Use_for_text_widget'></a>Use for text widget<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
+<h2 class='ruff'><a name='::hl_tcl-Use for text widget'></a>Use for text widget<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
 <p class='ruff'>The code below:</p>
 <pre class='ruff'>
@@ -410,7 +424,7 @@ pre {
 <li><strong><code>hl_readonly</code></strong> gets/sets a read-only mode and/or a command to watch a text widget at viewing/editing it</li>
 </ul>
 <p class='ruff'>See details in <a href="https://aplsimple.github.io/en/tcl/hl_tcl/hl_tcl.html" >Reference</a>.</p>
-<h2 class='ruff'><a name='::hl_tcl-Use_for_static_html'></a>Use for static html<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
+<h2 class='ruff'><a name='::hl_tcl-Use for static html'></a>Use for static html<span class='tinylink'><a href='hl_tcl.html#::hl_tcl'>hl_tcl</a>, <a href='#top'>Top</a></span></h2>
 <div style='clear:both;'></div>
 <p class='ruff'>In the <a href="https://chiselapp.com/user/aplsimple/repository/hl_tcl/download" >hl_tcl.zip</a>, there is a Tcl script named <em>tcl_html.tcl</em> that highlights Tcl snippets of static html page(s).</p>
 <p class='ruff'>It runs as follows:</p>
@@ -523,22 +537,21 @@ pre {
     } else {
       if {![info exists ::hl_tcl::my::data(COLORS,$txt)]}  {
         set clrCURL &quot;&quot;
-        catch {set clrCURL [lindex [::apave::paveObj csGet] 3]}
+        catch {set clrCURL [lindex [::apave::obj csGet] 16]}
         if {$::hl_tcl::my::data(DARK,$txt)} {
           if {$clrCURL eq &quot;&quot;} {set clrCURL #29383c}
-          set ::hl_tcl::my::data(COLORS,$txt) [list  orange #A17970 lightgreen #f1b479 #76a396 #d485d4 #b9b96e $clrCURL]
+          set ::hl_tcl::my::data(COLORS,$txt) [list  orange #ff7e00 lightgreen #f1b479 #76a396 #d485d4 #b9b96e $clrCURL]
           # $clrCOM $clrCOMTK $clrSTR $clrVAR $clrCMN $clrPROC $clrOPT $clrCURL
         } else {
           if {$clrCURL eq &quot;&quot;} {set clrCURL #efe0cd}
-          set ::hl_tcl::my::data(COLORS,$txt) [list  &quot;#923B23&quot; #7A040E  #035103 #4A181B #646464 #A106A1 #463e11 $clrCURL]
+          set ::hl_tcl::my::data(COLORS,$txt) [list  &quot;#923B23&quot; #7d1c00 #035103 #4A181B #646464 #A106A1 #463e11 $clrCURL]
         }
       }
     }
     if {[dict exists $args -font]} {
       set ::hl_tcl::my::data(FONT,$txt) [dict get $args -font]
     } else {
-      set ::hl_tcl::my::data(FONT,$txt) [font configure TkFixedFont]
-      dict set ::hl_tcl::my::data(FONT,$txt) -size 12
+      set ::hl_tcl::my::data(FONT,$txt) [font actual TkFixedFont]
     }
     hl_readonly $txt $::hl_tcl::my::data(READONLY,$txt)
 }</pre></div>
@@ -604,7 +617,7 @@ pre {
 
     set font0 $::hl_tcl::my::data(FONT,$txt)
     set font1 [set font2 $font0]
-    $txt tag config tagSTD -font &quot;$font0&quot;
+    $txt tag configure tagSTD -font &quot;$font0&quot;
     $txt tag add tagSTD 1.0 end
     dict set font1 -weight bold
     dict set font2 -slant italic
@@ -616,15 +629,16 @@ pre {
     $txt tag configure tagCMN -font &quot;$font2&quot; -foreground $clrCMN
     $txt tag configure tagPROC -font &quot;$font1&quot; -foreground $clrPROC
     $txt tag configure tagOPT -font &quot;$font0&quot; -foreground $clrOPT
-    $txt tag configure tagBRACKET -font &quot;$font1&quot; -foreground $clrPROC
-    $txt tag configure tagBRACKETERR -foreground white -background red
+    $txt tag configure tagBRACKET -font &quot;$font1&quot; -foreground magenta
+    $txt tag configure tagBRACKETERR -font &quot;$font1&quot; -foreground white -background red
     $txt tag configure tagCURLINE -background $clrCURL
     $txt tag raise sel
     $txt tag raise tagBRACKETERR
+    catch {$txt tag raise hilited;  $txt tag raise hilited2} ;# for apave package
     my::HighlightAll $txt
     if {![info exists ::hl_tcl::my::data(BIND_TXT,$txt)]} {
-      bind $txt &lt;KeyPress&gt; [list + [namespace current]::my::MemPos $txt]
-      bind $txt &lt;ButtonPress-1&gt; [list + [namespace current]::my::MemPos $txt]
+      bind $txt &lt;KeyPress&gt; [list + ::hl_tcl::my::MemPos $txt]
+      bind $txt &lt;ButtonPress-1&gt; [list + ::hl_tcl::my::MemPos $txt]
       foreach ev {Enter KeyRelease ButtonRelease} {
         bind $txt &lt;$ev&gt; [list + ::hl_tcl::my::HighlightBrackets $txt]
       }
@@ -733,7 +747,7 @@ pre {
     set ln2 [expr {min(($ln+$dl),$endl)}]
     lassign [CountQSH $txt $ln] cntq cnts ccmnt
     # flag &quot;highlight to the end&quot;:
-    set bf1 [expr {abs($ln-int($data(CUR_POS,$txt)))&gt;1 || $dl&gt;1  || $cntq!=$data(CNT_QUOTE,$txt)  || $cnts!=$data(CNT_SLASH,$txt)  || $ccmnt!=$data(CNT_COMMENT,$txt)}]
+    set bf1 [expr {abs($ln-int($data(CURPOS,$txt)))&gt;1 || $dl&gt;1  || $cntq!=$data(CNT_QUOTE,$txt)  || $cnts!=$data(CNT_SLASH,$txt)  || $ccmnt!=$data(CNT_COMMENT,$txt)}]
     if {$bf1 &amp;&amp; !$data(MULTILINE,$txt)} {
       set lnt1 $ln
       set lnt2 [expr {$ln+1}]
@@ -939,10 +953,8 @@ pre {
     # Highlights matching brackets if any.
     #   w - text widget's path
 
-    set curpos [$w index insert]
+    set curpos [ShowCurrentLine $w]
     set curpos2 [$w index &quot;insert -1 chars&quot;]
-    $w tag remove tagCURLINE 1.0 end
-    $w tag add tagCURLINE [list $curpos linestart] [list $curpos lineend]+1displayindices
     set ch [$w get $curpos]
     set lbr &quot;\{(\[&quot;
     set rbr &quot;\})\]&quot;
@@ -993,7 +1005,7 @@ pre {
     variable data
     $txt tag add tagSTD &quot;$ln.$pri&quot; &quot;$ln.$i -1 chars&quot;
     set st [string range $line $pri $i-1]
-    set lcom [regexp -inline -all -indices {(^|\[|\{|\}|;)+\s*(:|\w)+} $st]
+    set lcom [regexp -inline -all -indices $data(RE1) $st]
     # commands
     foreach {lc _ _} $lcom {
       lassign $lc i1 i2
@@ -1012,14 +1024,14 @@ pre {
       }
     }
     foreach el {else elseif} {
-      set lcom [regexp -inline -all -indices &quot;\}\\s+($el)\\s+\{&quot; $st]
+      set lcom [regexp -inline -all -indices $data(RE2$el) $st]
       foreach {_ lc} $lcom {
         lassign $lc i1 i2
         $txt tag add tagCOM &quot;$ln.$pri +$i1 char&quot; &quot;$ln.$pri +[incr i2] char&quot;
       }
     }
     # $variables
-    set lcom [regexp -inline -all -indices {(^|[^\\])\$+\{?(:|\w|\(|\))+\}?} $st]
+    set lcom [regexp -inline -all -indices $data(RE3) $st]
     foreach {lc _ _} $lcom {
       lassign $lc i1 i2
       set i [string first \$ [set c [string range $st $i1 $i2]]]
@@ -1030,7 +1042,7 @@ pre {
     }
     # -options
     if {$::hl_tcl::my::data(OPTRE,$txt)} {
-      set lcom [regexp -inline -all -indices {(\s*|^)(-[[:alpha:]]+\w*)(\s*|$)} $st]
+      set lcom [regexp -inline -all -indices $data(RE4) $st]
       foreach {_ _ lc _} $lcom {
         lassign $lc i1 i2
         $txt tag add tagOPT &quot;$ln.$pri +$i1 char&quot; &quot;$ln.$pri +[incr i2] char&quot;
@@ -1137,11 +1149,12 @@ pre {
     #   p1 - starting index of the string in 'txt'
     #   p2 - ending index of the string in 'txt'
 
+    variable data
     set p1 [$txt index $p1]
     set p2 [$txt index $p2]
     $txt tag add tagSTR $p1 $p2
     set st [$txt get $p1 $p2]
-    set lcom [regexp -inline -all -indices {(^|[^\\])(\[|\]|\$|\{|\})+} $st]
+    set lcom [regexp -inline -all -indices $data(RE5) $st]
     foreach {lc g1 g2} $lcom {
       lassign $lc i1 i2
       incr i2
@@ -1304,17 +1317,12 @@ pre {
     #   txt - text widget's path
 
     variable data
-    set ln [$txt index insert]
-    set updcurr [expr {![info exists data(CUR_POS,$txt)] ||  int($data(CUR_POS,$txt)) != int($ln)}]
-    set data(CUR_POS,$txt) $ln
+    set ln [ShowCurrentLine $txt]
+    set data(CURPOS,$txt) $ln
     set data(CUR_LEN,$txt) [$txt index end]
     lassign [CountQSH $txt $ln]  data(CNT_QUOTE,$txt) data(CNT_SLASH,$txt) data(CNT_COMMENT,$txt)
     if {[$txt tag ranges tagBRACKET] ne &quot;&quot;}    {$txt tag remove tagBRACKET 1.0 end}
     if {[$txt tag ranges tagBRACKETERR] ne &quot;&quot;} {$txt tag remove tagBRACKETERR 1.0 end}
-    if {$updcurr} {
-      $txt tag remove tagCURLINE 1.0 end
-      $txt tag add tagCURLINE [list $ln linestart] [list $ln lineend]+1displayindices
-    }
 }</pre></div>
 </div><h4 class='ruffproc'><a name='::hl_tcl::my::MergePosList'>MergePosList</a><span class='ns_scope'> [<a href="hl_tcl.html#::hl_tcl::my" title="::hl_tcl::my" class='ruff_cmd'>::hl_tcl::my</a>]</span><span class='tinylink'><a href='hl_tcl.html#::hl_tcl::my'>my</a>, <a href='#top'>Top</a></span></h4>
 <div style='clear:both;'></div>
@@ -1461,7 +1469,27 @@ pre {
     }
     return -1
 }</pre></div>
-</div></div></div><div class='yui-b navbox' ><h1><a href='#::hl_tcl'>hl_tcl</a></h1><h2><a href='#::hl_tcl-Some_of_blah-blah'>Some of blah-blah</a></h2><h2><a href='#::hl_tcl-Some_of_editors'>Some of editors</a></h2><h2><a href='#::hl_tcl-What_can_we_do_'>What can we do?</a></h2><h2><a href='#::hl_tcl-Use_for_text_widget'>Use for text widget</a></h2><h2><a href='#::hl_tcl-Use_for_static_html'>Use for static html</a></h2><h2><a href='#::hl_tcl-Links'>Links</a></h2><h2><a href='#::hl_tcl-Commands'>Commands</a></h2><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::hl_all'>hl_all</a><span class='tooltiptext'>Updates (&quot;rehighlights&quot;) all highlighted and existing text widgets.
+</div><h4 class='ruffproc'><a name='::hl_tcl::my::ShowCurrentLine'>ShowCurrentLine</a><span class='ns_scope'> [<a href="hl_tcl.html#::hl_tcl::my" title="::hl_tcl::my" class='ruff_cmd'>::hl_tcl::my</a>]</span><span class='tinylink'><a href='hl_tcl.html#::hl_tcl::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Shows the current line.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>ShowCurrentLine</span> <span class='ruff_arg'>txt</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>txt</code></td><td class='ruff_defitem'>text widget's path</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_26' href="javascript:toggleSource('26')">Show source</a></p>
+<div id='26' class='ruff_dyn_src'><pre>proc ::hl_tcl::my::ShowCurrentLine {txt} {
+
+    # Shows the current line.
+    #   txt - text widget's path
+
+    set ln [$txt index insert]
+    if {![info exists data(CURPOS,$txt)] || int($data(CURPOS,$txt))!=int($ln)} {
+      $txt tag remove tagCURLINE 1.0 end
+      $txt tag add tagCURLINE [list $ln linestart] [list $ln lineend]+1displayindices
+    }
+    return $ln
+}</pre></div>
+</div></div></div><div class='yui-b navbox' ><h1><a href='#::hl_tcl'>hl_tcl</a></h1><h2><a href='#::hl_tcl-Some of blah-blah'>Some of blah-blah</a></h2><h2><a href='#::hl_tcl-Some of editors'>Some of editors</a></h2><h2><a href='#::hl_tcl-What can we do?'>What can we do?</a></h2><h2><a href='#::hl_tcl-Use for text widget'>Use for text widget</a></h2><h2><a href='#::hl_tcl-Use for static html'>Use for static html</a></h2><h2><a href='#::hl_tcl-Links'>Links</a></h2><h2><a href='#::hl_tcl-Commands'>Commands</a></h2><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::hl_all'>hl_all</a><span class='tooltiptext'>Updates (&quot;rehighlights&quot;) all highlighted and existing text widgets.
 </span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::hl_init'>hl_init</a><span class='tooltiptext'>Initializes highlighting.
 </span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::hl_readonly'>hl_readonly</a><span class='tooltiptext'>Makes the text widget be readonly or gets its 'read-only' state.
 </span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::hl_text'>hl_text</a><span class='tooltiptext'>Highlights Tcl code of a text widget.
@@ -1486,5 +1514,6 @@ pre {
 </span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::my::NotEscaped'>NotEscaped</a><span class='tooltiptext'>Checks if a character escaped in a line.
 </span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::my::RemoveTags'>RemoveTags</a><span class='tooltiptext'>Removes tags in text.
 </span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::my::SearchTag'>SearchTag</a><span class='tooltiptext'>Searches a position in tag ranges.
+</span></h4><h4 class='tooltip'><a href='hl_tcl.html#::hl_tcl::my::ShowCurrentLine'>ShowCurrentLine</a><span class='tooltiptext'>Shows the current line.
 </span></h4></div></div><div id='ft'><div style='float: right;'>Document generated by <a href='https://ruff.magicsplat.com'>Ruff!</a></div></div>
 </div></body></html>

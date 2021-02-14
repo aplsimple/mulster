@@ -258,6 +258,20 @@ pre {
 .ruff_source_link {
   font-size: smaller;
 }
+
+.ruff_index {
+  font-size: small;
+  color: grey;
+  line-height: 1;
+}
+
+.ruff_index ul li {
+  list-style-type: none;
+}
+
+.ruff_index ul li a {
+  text-decoration: none;
+}
 </style>
 <script>function toggleSource( id )
 {
@@ -337,11 +351,12 @@ padding: 0%;
 <li>be faded/destroyed after an interval defined by a caller</li>
 <li>be enabled/disabled for all or specific widgets</li>
 <li>be displayed at the screen's edges</li>
-<li>be displayed with given opacity</li>
+<li>be displayed under the host widget</li>
 <li>be displayed as a stand-alone balloon message at given coordinates</li>
+<li>be displayed with given opacity, font, paddings, colors</li>
 <li>have configure/cget etc. wrapped in Tcl ensemble for convenience</li>
 </ul>
-<p class='ruff'>The video introduction to <em>balltip</em> is presented by <a href="https://github.com/aplsimple/baltip/releases/download/baltip-1.0/baltip-1.0.mp4" >baltip-1.0.mp4</a> (11 Mb).</p>
+<p class='ruff'>The video introduction to <em>baltip</em> is presented by <a href="https://github.com/aplsimple/baltip/releases/download/baltip-1.0/baltip-1.0.mp4" >baltip-1.0.mp4</a> (11 Mb).</p>
 <p class='ruff'>Below are several pictures just to glance at <em>baltip</em>.</p>
 <p class='ruff'><em>Under the mouse pointer</em>. By default, the tips are displayed just under the mouse pointer.</p>
 <p class='ruff'><img src="https://aplsimple.github.io/en/tcl/baltip/files/btip3.png" class="media" alt=""></p>
@@ -495,6 +510,7 @@ padding: 0%;
   #   args - option names (if empty, returns all options)
   # Returns a list of &quot;name value&quot; pairs.
 
+  variable my::ttdata
   if {![llength $args]} {
     lappend args -on -per10 -fade -pause -fg -bg -bd -padx -pady -padding  -font -alpha -text -index -tag -bell -under
   }
@@ -522,6 +538,7 @@ padding: 0%;
   #   args - options (&quot;name value&quot; pairs)
   # Returns the list of -force, -geometry, -index, -tag option values.
 
+  variable my::ttdata
   set force no
   set index -1
   set geometry [set tag &quot;&quot;]
@@ -576,10 +593,11 @@ padding: 0%;
   #   w - widget's path
   #  args - options (incl. -index/-tag)
 
+  variable my::ttdata
   if {[winfo exists $w] &amp;&amp; [info exists my::ttdata(optvals,$w)] &amp;&amp;  [dict exists $my::ttdata(optvals,$w) -text]} {
-    set optvals $::baltip::my::ttdata(optvals,$w)
+    set optvals $my::ttdata(optvals,$w)
     lappend optvals {*}$args
-    after idle [list ::baltip::my::Show $w  [dict get $::baltip::my::ttdata(optvals,$w) -text] yes  {} $optvals]
+    after idle [list ::baltip::my::Show $w  [dict get $my::ttdata(optvals,$w) -text] yes {} $optvals]
   }
 }<br><br></code></pre></div>
 </div><br><br><br><h4 class='ruffproc'><a name='::baltip::tip'>tip</a><span class='ns_scope'> [<a href="baltip.html#::baltip" title="::baltip" class='ruff_cmd'>::baltip</a>]</span><span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h4>
@@ -599,6 +617,8 @@ padding: 0%;
   #   text - the tip text
   #   args - options (&quot;name value&quot; pairs)
 
+  variable my::ttdata
+  array unset my::ttdata winGEO*
   if {[winfo exists $w] || $w eq &quot;&quot;} {
     set arrsaved [array get my::ttdata]
     set optvals [::baltip::my::CGet {*}$args]
@@ -624,7 +644,7 @@ padding: 0%;
           set my::ttdata(LASTMITEM) &quot;&quot;
           bind $w &lt;&lt;MenuSelect&gt;&gt; [list + ::baltip::my::MenuTip $w %W $optvals]
         } elseif {$ttag ne &quot;&quot;} {
-          set ::baltip::my::ttdata($w,$ttag) &quot;$text&quot;
+          set my::ttdata($w,$ttag) &quot;$text&quot;
           $w tag bind $ttag &lt;Enter&gt; [list + ::baltip::my::TagTip $w $ttag $optvals]
           foreach event {Leave KeyPress Button} {
             $w tag bind $ttag &lt;$event&gt; [list + ::baltip::my::TagTip $w]
@@ -653,6 +673,7 @@ padding: 0%;
   #  text - tip's text
   #  args - tip's settings
 
+  variable my::ttdata
   set my::ttdata(text,$w) $text
   foreach {k v} $args {set my::ttdata([string range $k 1 end],$w) $v}
 }<br><br></code></pre></div>
@@ -825,6 +846,8 @@ padding: 0%;
   variable ttdata
   if {$w ne &quot;&quot; &amp;&amp; ![winfo exists $w]} return
   set win $w.w__BALTIP
+  # keep the label's colors untouched (for apave package)
+  catch {::apave::obj untouchWidgets $win.label}
   set px [winfo pointerx .]
   set py [winfo pointery .]
   if {$geo ne &quot;&quot;} {                    ;# balloons not related to widgets
@@ -874,10 +897,10 @@ padding: 0%;
     if {$geo eq &quot;&quot;} {
       catch {wm attributes $win -alpha $data(-alpha)}
     } else {
-      ::baltip::my::Fade $win $aint [expr {round(1.0*$data(-pause)/$aint)}]  0 Un $data(-alpha) 1 $geo
+      Fade $win $aint [expr {round(1.0*$data(-pause)/$aint)}]  0 Un $data(-alpha) 1 $geo
     }
     if {$force} {
-      ::baltip::my::Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo
+      Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo
     } else {
       after $data(-pause) [list  ::baltip::my::Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo]
     }
@@ -901,8 +924,8 @@ padding: 0%;
   # Shows a window of tip.
   #   win - the tip's window
 
-  if {![winfo exists $win]} return
   variable ttdata
+  if {![winfo exists $win] || ![info exists ttdata(winGEO,$win)]} return
   set geo $ttdata(winGEO,$win)
   set under $ttdata(winUNDER,$win)
   set w [winfo parent $win]
