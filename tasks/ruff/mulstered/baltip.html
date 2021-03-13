@@ -597,7 +597,8 @@ padding: 0%;
   if {[winfo exists $w] &amp;&amp; [info exists my::ttdata(optvals,$w)] &amp;&amp;  [dict exists $my::ttdata(optvals,$w) -text]} {
     set optvals $my::ttdata(optvals,$w)
     lappend optvals {*}$args
-    after idle [list ::baltip::my::Show $w  [dict get $my::ttdata(optvals,$w) -text] yes {} $optvals]
+    catch {after cancel $my::ttdata(after)}
+    set my::ttdata(after) [after idle [list ::baltip::my::Show $w  [dict get $my::ttdata(optvals,$w) -text] yes {} $optvals]]
   }
 }<br><br></code></pre></div>
 </div><br><br><br><h4 class='ruffproc'><a name='::baltip::tip'>tip</a><span class='ns_scope'> [<a href="baltip.html#::baltip" title="::baltip" class='ruff_cmd'>::baltip</a>]</span><span class='tinylink'><a href='baltip.html#::baltip'>baltip</a>, <a href='#top'>Top</a></span></h4>
@@ -738,9 +739,11 @@ padding: 0%;
   #   geos - saved coordinates (+X+Y) of shown tip
   # See also: FadeNext, UnFadeNext
 
+  variable ttdata
   update
   if {[winfo exists $w]} {
-    after idle [list after $aint  [list ::baltip::my::${Un}FadeNext $w $aint $fint $icount $alpha $show $geo $geos]]
+    catch {after cancel $ttdata(after)}
+    set ttdata(after) [after idle [list after $aint  [list ::baltip::my::${Un}FadeNext $w $aint $fint $icount $alpha $show $geo $geos]]]
   }
 }<br><br></code></pre></div>
 </div><br><br><br><h4 class='ruffproc'><a name='::baltip::my::FadeNext'>FadeNext</a><span class='ns_scope'> [<a href="baltip.html#::baltip::my" title="::baltip::my" class='ruff_cmd'>::baltip::my</a>]</span><span class='tinylink'><a href='baltip.html#::baltip::my'>my</a>, <a href='#top'>Top</a></span></h4>
@@ -902,11 +905,13 @@ padding: 0%;
     if {$force} {
       Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo
     } else {
-      after $data(-pause) [list  ::baltip::my::Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo]
+      catch {after cancel $ttdata(after)}
+      set ttdata(after) [after $data(-pause) [list  ::baltip::my::Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo]]
     }
   } else {
     # just showing, no fading
-    after $data(-pause) [list ::baltip::my::ShowWindow $win]
+    catch {after cancel $ttdata(after)}
+    set ttdata(after) [after $data(-pause) [list ::baltip::my::ShowWindow $win]]
   }
   if {$data(-bell)} [list after [expr {$data(-pause)/4}] bell]
   array unset data

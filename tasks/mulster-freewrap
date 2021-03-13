@@ -34,11 +34,12 @@ OUT=BEGIN
 ../e_menu/src/e_addon.tcl
 OUT=END
 
+# e_help
 IN=BEGIN
 if {[catch {source [file join $::em::srcdir e_help.tcl]} e]} {
   set ::em::srcdir [file join [pwd] src]
   if {[catch {source [file join $::em::srcdir e_help.tcl]} e2]} {
-    puts "$e\n\n$e2\n\nPossibly, there is an error in e_help.tcl"
+    puts "$e\n\n$e2\n\nPossibly, an error in e_help.tcl"
     exit
   }
 }
@@ -48,6 +49,7 @@ OUT=BEGIN
 ../e_menu/src/e_help.tcl
 OUT=END
 
+# apaveinput
 IN=BEGIN
 if {![namespace exists apave]} {source [file join [file normalize [file dirname [info script]]] apaveinput.tcl]}
 IN=END

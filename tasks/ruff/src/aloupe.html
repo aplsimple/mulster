@@ -1,0 +1,990 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"/>
+<title>aloupe reference</title>
+<style>
+/*
+Copyright (c) 2009, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.7.0
+*/
+html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}input,button,textarea,select{*font-size:100%;}body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small;}select,input,button,textarea,button{font:99% arial,helvetica,clean,sans-serif;}table{font-size:inherit;font:100%;}pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%;}body{text-align:center;}#doc,#doc2,#doc3,#doc4,.yui-t1,.yui-t2,.yui-t3,.yui-t4,.yui-t5,.yui-t6,.yui-t7{margin:auto;text-align:left;width:57.69em;*width:56.25em;}#doc2{width:73.076em;*width:71.25em;}#doc3{margin:auto 10px;width:auto;}#doc4{width:74.923em;*width:73.05em;}.yui-b{position:relative;}.yui-b{_position:static;}#yui-main .yui-b{position:static;}#yui-main,.yui-g .yui-u .yui-g{width:100%;}.yui-t1 #yui-main,.yui-t2 #yui-main,.yui-t3 #yui-main{float:right;margin-left:-25em;}.yui-t4 #yui-main,.yui-t5 #yui-main,.yui-t6 #yui-main{float:left;margin-right:-25em;}.yui-t1 .yui-b{float:left;width:12.30769em;*width:12.00em;}.yui-t1 #yui-main .yui-b{margin-left:13.30769em;*margin-left:13.05em;}.yui-t2 .yui-b{float:left;width:13.8461em;*width:13.50em;}.yui-t2 #yui-main .yui-b{margin-left:14.8461em;*margin-left:14.55em;}.yui-t3 .yui-b{float:left;width:23.0769em;*width:22.50em;}.yui-t3 #yui-main .yui-b{margin-left:24.0769em;*margin-left:23.62em;}.yui-t4 .yui-b{float:right;width:13.8456em;*width:13.50em;}.yui-t4 #yui-main .yui-b{margin-right:14.8456em;*margin-right:14.55em;}.yui-t5 .yui-b{float:right;width:18.4615em;*width:18.00em;}.yui-t5 #yui-main .yui-b{margin-right:19.4615em;*margin-right:19.125em;}.yui-t6 .yui-b{float:right;width:23.0769em;*width:22.50em;}.yui-t6 #yui-main .yui-b{margin-right:24.0769em;*margin-right:23.62em;}.yui-t7 #yui-main .yui-b{display:block;margin:0 0 1em 0;}#yui-main .yui-b{float:none;width:auto;}.yui-gb .yui-u,.yui-g .yui-gb .yui-u,.yui-gb .yui-g,.yui-gb .yui-gb,.yui-gb .yui-gc,.yui-gb .yui-gd,.yui-gb .yui-ge,.yui-gb .yui-gf,.yui-gc .yui-u,.yui-gc .yui-g,.yui-gd .yui-u{float:left;}.yui-g .yui-u,.yui-g .yui-g,.yui-g .yui-gb,.yui-g .yui-gc,.yui-g .yui-gd,.yui-g .yui-ge,.yui-g .yui-gf,.yui-gc .yui-u,.yui-gd .yui-g,.yui-g .yui-gc .yui-u,.yui-ge .yui-u,.yui-ge .yui-g,.yui-gf .yui-g,.yui-gf .yui-u{float:right;}.yui-g div.first,.yui-gb div.first,.yui-gc div.first,.yui-gd div.first,.yui-ge div.first,.yui-gf div.first,.yui-g .yui-gc div.first,.yui-g .yui-ge div.first,.yui-gc div.first div.first{float:left;}.yui-g .yui-u,.yui-g .yui-g,.yui-g .yui-gb,.yui-g .yui-gc,.yui-g .yui-gd,.yui-g .yui-ge,.yui-g .yui-gf{width:49.1%;}.yui-gb .yui-u,.yui-g .yui-gb .yui-u,.yui-gb .yui-g,.yui-gb .yui-gb,.yui-gb .yui-gc,.yui-gb .yui-gd,.yui-gb .yui-ge,.yui-gb .yui-gf,.yui-gc .yui-u,.yui-gc .yui-g,.yui-gd .yui-u{width:32%;margin-left:1.99%;}.yui-gb .yui-u{*margin-left:1.9%;*width:31.9%;}.yui-gc div.first,.yui-gd .yui-u{width:66%;}.yui-gd div.first{width:32%;}.yui-ge div.first,.yui-gf .yui-u{width:74.2%;}.yui-ge .yui-u,.yui-gf div.first{width:24%;}.yui-g .yui-gb div.first,.yui-gb div.first,.yui-gc div.first,.yui-gd div.first{margin-left:0;}.yui-g .yui-g .yui-u,.yui-gb .yui-g .yui-u,.yui-gc .yui-g .yui-u,.yui-gd .yui-g .yui-u,.yui-ge .yui-g .yui-u,.yui-gf .yui-g .yui-u{width:49%;*width:48.1%;*margin-left:0;}.yui-g .yui-g .yui-u{width:48.1%;}.yui-g .yui-gb div.first,.yui-gb .yui-gb div.first{*margin-right:0;*width:32%;_width:31.7%;}.yui-g .yui-gc div.first,.yui-gd .yui-g{width:66%;}.yui-gb .yui-g div.first{*margin-right:4%;_margin-right:1.3%;}.yui-gb .yui-gc div.first,.yui-gb .yui-gd div.first{*margin-right:0;}.yui-gb .yui-gb .yui-u,.yui-gb .yui-gc .yui-u{*margin-left:1.8%;_margin-left:4%;}.yui-g .yui-gb .yui-u{_margin-left:1.0%;}.yui-gb .yui-gd .yui-u{*width:66%;_width:61.2%;}.yui-gb .yui-gd div.first{*width:31%;_width:29.5%;}.yui-g .yui-gc .yui-u,.yui-gb .yui-gc .yui-u{width:32%;_float:right;margin-right:0;_margin-left:0;}.yui-gb .yui-gc div.first{width:66%;*float:left;*margin-left:0;}.yui-gb .yui-ge .yui-u,.yui-gb .yui-gf .yui-u{margin:0;}.yui-gb .yui-gb .yui-u{_margin-left:.7%;}.yui-gb .yui-g div.first,.yui-gb .yui-gb div.first{*margin-left:0;}.yui-gc .yui-g .yui-u,.yui-gd .yui-g .yui-u{*width:48.1%;*margin-left:0;}.yui-gb .yui-gd div.first{width:32%;}.yui-g .yui-gd div.first{_width:29.9%;}.yui-ge .yui-g{width:24%;}.yui-gf .yui-g{width:74.2%;}.yui-gb .yui-ge div.yui-u,.yui-gb .yui-gf div.yui-u{float:right;}.yui-gb .yui-ge div.first,.yui-gb .yui-gf div.first{float:left;}.yui-gb .yui-ge .yui-u,.yui-gb .yui-gf div.first{*width:24%;_width:20%;}.yui-gb .yui-ge div.first,.yui-gb .yui-gf .yui-u{*width:73.5%;_width:65.5%;}.yui-ge div.first .yui-gd .yui-u{width:65%;}.yui-ge div.first .yui-gd div.first{width:32%;}#hd:after,#bd:after,#ft:after,.yui-g:after,.yui-gb:after,.yui-gc:after,.yui-gd:after,.yui-ge:after,.yui-gf:after{content:".";display:block;height:0;clear:both;visibility:hidden;}#hd,#bd,#ft,.yui-g,.yui-gb,.yui-gc,.yui-gd,.yui-ge,.yui-gf{zoom:1;}
+
+body{margin:10px;}h1{font-size:138.5%;}h2{font-size:123.1%;}h3{font-size:108%;}h1,h2,h3{margin:1em 0;}h1,h2,h3,h4,h5,h6,strong,dt{font-weight:bold;}optgroup{font-weight:normal;}abbr,acronym{border-bottom:1px dotted #000;cursor:help;}em{font-style:italic;}del{text-decoration:line-through;}blockquote,ul,ol,dl{margin:1em;}ol,ul,dl{margin-left:2em;}ol li{list-style:decimal outside;}ul li{list-style:disc outside;}dl dd{margin-left:1em;}th,td{border:1px solid #000;padding:.5em;}th{font-weight:bold;text-align:center;}caption{margin-bottom:.5em;text-align:center;}sup{vertical-align:super;}sub{vertical-align:sub;}p,fieldset,table,pre{margin-bottom:1em;}button,input[type="checkbox"],input[type="radio"],input[type="reset"],input[type="submit"]{padding:1px;}
+
+
+/* Ruff default CSS */
+
+body {
+  max-width: 70em;
+  margin: 0;
+}
+
+h1,h2 {
+  color: #888888;
+  margin-bottom: 0.5em;
+  margin-top: 0em;
+}
+
+#ft {
+  text-align: left;
+  border-top: 1px solid #006666;
+  color: #888888;
+  margin-top: 10px;
+}
+
+.banner h2 {
+  color: #006666;
+}
+
+#hd.banner {
+ font-family: "Times New Roman", serif;
+ font-size: 200%;
+ line-height: 64px;
+ border-bottom: thin solid #006666;
+ color: #006666;
+}
+
+p.linkline {
+    text-align: right;
+    font-size: smaller;
+    /*    margin-top: -1em; */
+    margin-bottom: 0;
+}
+
+.tinylink {
+    font-size: x-small;
+    font-variant: normal;
+    font-family: Arial, sans-serif;
+    float: right;
+    padding:2px;
+}
+
+h1 .tinylink a {
+    color: white;
+}
+
+#bd {
+font-family: Arial, sans-serif;
+font-size: 108%;
+}
+
+div.navbox {
+  /* margin-top: 1em; */
+    background-color: #006666;
+    color: white;
+    padding: 3px 4px 2px 4px;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+div.navbox:hover {
+    overflow: visible;
+}
+
+/* Note .navbox header css should be based on $header_levels */
+.navbox h1, .navbox h2, .navbox h3, .navbox h4, .navbox h5 {
+  font-size: 85%;
+  margin: 0px;
+  font-weight: normal;
+}
+.navbox h1 {
+    font-weight: bold; /* Override */
+}
+.navbox h2 {
+  padding-left: 1em;
+}
+.navbox h3 {
+  padding-left: 2em;
+}
+.navbox h4 {
+  padding-left: 2.5em;
+  font-weight: normal;
+}
+.navbox h5 {
+  padding-left: 3em;
+  font-weight: normal;
+}
+.navbox hr {
+  color: white;
+  margin-top:0.1em;
+  margin-bottom:0.1em;
+}
+
+.navbox a:link, .navbox a:visited, .navbox a:hover {
+  text-decoration: none;
+  color: white;
+  background-color: #006666;
+}
+
+.navbox a:hover {
+   font-weight: bold;
+}
+
+/* Tooltip text - see https://www.w3schools.com/css/css_tooltip.asp */
+.tooltip {
+    position: relative;
+    /* display: inline-block; */
+}
+
+.tooltip .tooltiptext {
+    width: 100%;
+    font-weight: bold;
+    background-color: white;
+    color: #006666;
+    text-align: left;
+    border: 1px solid #006666;
+    /* border-radius: 4px; */
+    position: absolute;
+    z-index: 1;
+    margin-left: 4px;
+    padding: 2px 3px;
+    visibility: hidden;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+span.ns_scope {
+    color: #aaaaaa;
+}
+
+span.ns_scope a:link, span.ns_scope a:visited {
+  text-decoration: none;
+  color: #aaaaaa;
+
+}
+
+li {
+  margin-top: 0.5em;
+}
+
+span.ns_scope a:hover {
+  text-decoration: none;
+  color: #666666;
+}
+
+table {
+  margin: 1em;
+  margin-top: 0.5em;
+  border: thin solid;
+  border-collapse: collapse;
+  border-color: #808080;
+  padding: 4px;
+}
+
+td {
+  border: thin solid;
+  border-color: #808080;
+  vertical-align: top;
+  font-size: 93%;
+  padding: 0.3em;
+  padding-top: 0.1em;
+}
+th {
+  border: thin solid;
+  border-color: #808080;
+  padding: 0.3em;
+  padding-top: 0.1em;
+  background-color: #CCCCCC;
+}
+
+dt, dd {
+   font-size: 93%;
+}
+
+h1.ruff {
+    background-color: #006666;
+    color: #ffffff;
+    padding-left: 0.2em;
+    font-family: "Times New Roman", serif;
+}
+h2.ruff {
+    font-variant: small-caps;
+    color: #006666;
+    font-family: "Times New Roman", serif;
+}
+
+h3.ruff, h4.ruff, h5.ruff, h6.ruff {
+    color: #006666;
+}
+h5.ruff {
+    font-style: italic;
+    font-weight: normal;
+}
+h6.ruff {
+    font-weight: normal;
+}
+h3.ruffclass, h3.ruffproc, h3.ruffmethod,
+h4.ruffclass, h4.ruffproc, h4.ruffmethod,
+h5.ruffclass, h5.ruffproc, h5.ruffmethod {
+    border-bottom: thin solid #006666;
+    color: #006666;
+    margin-bottom: 0.2em;
+}
+
+pre {
+    background-color: #eeeeee;
+    margin-top: 1em;
+    margin-left: 1em;
+    padding: 5px;
+    font-family: Consolas, "Courier New", monospace;
+    width: max-content;
+    font-size: smaller;
+    line-height: 1.2em;
+}
+
+.ruff_dyn_src {
+    display: none; /* Displayed via JS */
+}
+
+.ruff_synopsis {
+    border: thin solid #cccccc;
+    background: #eeeeee;
+    font-size: smaller;
+    font-family: Consolas, "Courier New", monospace;
+    padding: 5px;
+    margin: 0em 2em 1em;
+}
+.ruff_const, .ruff_cmd, ruff_defitem {
+    font-weight: bold;
+    font-family: Consolas, "Courier New", monospace;
+}
+.ruff_arg {
+    font-style: italic;
+    font-family: Consolas, "Courier New", monospace;
+}
+
+.ruff_source_link {
+    font-size: smaller;
+}
+
+.ruff_index {
+    font-size: small;
+    color: grey;
+    line-height: 1;
+}
+
+.ruff_index ul li {
+    list-style-type: none;
+}
+
+.ruff_index ul li a {
+    text-decoration: none;
+}
+</style>
+<script>function toggleSource( id )
+{
+    /* Copied from Rails */
+    var elem
+    var link
+
+    if( document.getElementById )
+    {
+        elem = document.getElementById( id )
+        link = document.getElementById( "l_" + id )
+    }
+    else if ( document.all )
+    {
+        elem = eval( "document.all." + id )
+        link = eval( "document.all.l_" + id )
+    }
+    else
+        return false;
+
+    if( elem.style.display == "block" )
+    {
+        elem.style.display = "none"
+        link.innerHTML = "Show source"
+    }
+    else
+    {
+        elem.style.display = "block"
+        link.innerHTML = "Hide source"
+    }
+}
+</script></head>
+<body><div id='doc3' class='yui-t2'><div id='hd' class='banner'>
+<a style='text-decoration:none;' href='aloupe.html'>aloupe reference</a>
+</div>
+<div id='bd'><div id='yui-main'><div class='yui-b'><h1 class='ruff'><a name='::aloupe'></a>::aloupe<span class='tinylink'><a href='#top'>Top</a></span></h1>
+<div style='clear:both;'></div>
+<p class='ruff'>The <em>aloupe v0.8.2</em> is a Tcl/Tk small widget / utility allowing to view the screen through a loupe.</p>
+<p class='ruff'>It allows also</p>
+<ul class='ruff'>
+<li>to make screenshots of magnified images</li>
+<li>to pick a color from the images.</li>
+</ul>
+<p class='ruff'>It is inspired by the Tcl/Tk wiki pages:</p>
+<p class='ruff'><a href="https://wiki.tcl-lang.org/page/A+little+magnifying+glass" >A little magnifying glass</a></p>
+<p class='ruff'><a href="https://wiki.tcl-lang.org/page/A+Screenshot+Widget+implemented+with+TclOO" >A Screenshot Widget implemented with TclOO</a></p>
+<p class='ruff'>It looks like this:</p>
+<p class='ruff'>&lt;img src=&quot;https://aplsimple.github.io/en/tcl/aloupe/files/aloupe.png&quot; class=&quot;media&quot; alt=&quot;&quot;&gt;</p>
+<h2 class='ruff'><a name='::aloupe-Usage'></a>Usage<span class='tinylink'><a href='aloupe.html#::aloupe'>aloupe</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<p class='ruff'>The <em>aloupe</em> utility runs with the command:</p>
+<pre class='ruff'>
+ tclsh aloupe.tcl ?option value ...?
+</pre>
+<p class='ruff'>where <code>option</code> may be <code>-size, -zoom, -alpha, -background, -geometry, -ontop</code>.</p>
+<p class='ruff'>The <code>Img</code> and <code>treectrl</code> packages have to be installed to run it. In Debian Linux the packages are titled <code>libtk-img</code> and <code>tktreectrl</code>.</p>
+<p class='ruff'>There are also stand-alone <a href="https://github.com/aplsimple/aloupe/releases" >aloupe executables</a> for Linux / Windows.</p>
+<p class='ruff'>The executables are started as simply as:</p>
+<pre class='ruff'>
+ aloupe
+ aloupe.exe
+</pre>
+<p class='ruff'>After the start, two windows would be displayed: a moveable loupe (at the mouse pointer) and a displaying window.</p>
+<p class='ruff'>The loupe is moved by drag-and-drop. At dropping the loupe, its underlying image is magnified in the displaying window.</p>
+<p class='ruff'>To change a size/zoom of the loupe, use the appropriate spinboxes. After changing them, just click the loupe to update the windows.</p>
+<p class='ruff'>To save the magnified image, use <em>Save</em> button.</p>
+<p class='ruff'>The <em>To clipboard</em> button displays a current pixel's color at clicking the image. When hit, the button puts the color into the clipboard.</p>
+<p class='ruff'>The <code>-command</code> option may be passed to <code>::aloupe::run</code> which will run the passed command at pressing the <em>To clipboard</em> button. The command may contain <code>%c</code> wildcard meaning the color value. Just to test, try and set <code>-command &quot;puts %c&quot;</code> option.</p>
+<h2 class='ruff'><a name='::aloupe-Options'></a>Options<span class='tinylink'><a href='aloupe.html#::aloupe'>aloupe</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<p class='ruff'>The <em>aloupe</em> can be run with the options:</p>
+<ul class='ruff'>
+<li><code>-size</code> - a size of the loupe's box (8 .. 256)</li>
+<li><code>-zoom</code> - a zoom factor (2 .. 32)</li>
+<li><code>-alpha</code> - an opacity of the loupe (0.0 .. 1.0)</li>
+<li><code>-background</code> - a background color of the loupe</li>
+<li><code>-geometry</code> - a displaying window's geometry set as +X+Y</li>
+<li><code>-ontop</code> - if <em>yes</em> (default), sets the displaying window above others</li>
+</ul>
+<p class='ruff'>Some options can be used at running <em>aloupe</em> from a Tcl code:</p>
+<ul class='ruff'>
+<li><code>-exit</code> - is <em>false</em> which means &quot;don't finish Tcl/Tk session, just close the loupe&quot;</li>
+<li><code>-command</code> - a command to be run at pressing the <em>To clipboard</em> button</li>
+<li><code>-parent</code> - a parent window's path (when the parent closes, its <em>aloupe</em> children do too)</li>
+</ul>
+<p class='ruff'>From a Tcl code, <em>aloupe</em> is run this way:</p>
+<pre class='ruff'>
+ package require aloupe
+ ::aloupe::run ?option value ...?
+</pre>
+<h2 class='ruff'><a name='::aloupe-Links'></a>Links<span class='tinylink'><a href='aloupe.html#::aloupe'>aloupe</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<ul class='ruff'>
+<li><a href="https://aplsimple.github.io/en/tcl/aloupe/aloupe.html" >Reference</a></li>
+<li><a href="https://chiselapp.com/user/aplsimple/repository/aloupe/download" >Source</a> (aloupe.zip)</li>
+<li><a href="https://github.com/aplsimple/aloupe/releases" >Demo and executables</a> for Linux / Windows</li>
+</ul>
+<h2 class='ruff'><a name='::aloupe-License'></a>License<span class='tinylink'><a href='aloupe.html#::aloupe'>aloupe</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<p class='ruff'>MIT.</p>
+<h2 class='ruff'><a name='::aloupe-Commands'></a>Commands<span class='tinylink'><a href='aloupe.html#::aloupe'>aloupe</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<h4 class='ruffproc'><a name='::aloupe::option'>option</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe" title="::aloupe" class='ruff_cmd'>::aloupe</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe'>aloupe</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Returns a value of aloupe option.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>option</span> <span class='ruff_arg'>opt</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>opt</code></td><td class='ruff_defitem'>the option's name</td></tr>
+</table>
+<h5 class='ruff'>Return value</h5><p class='ruff'>Returns a value of aloupe option.</p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_1' href="javascript:toggleSource('1')">Show source</a></p>
+<div id='1' class='ruff_dyn_src'><pre>proc ::aloupe::option {opt} {
+
+    # Returns a value of aloupe option.
+    #   opt - the option's name
+
+    variable data
+    return $data($opt)
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::run'>run</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe" title="::aloupe" class='ruff_cmd'>::aloupe</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe'>aloupe</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Runs the loupe.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>run</span> <span class='ruff_arg'>?args?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>args</code></td><td class='ruff_defitem'>options of the loupe</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_2' href="javascript:toggleSource('2')">Show source</a></p>
+<div id='2' class='ruff_dyn_src'><pre>proc ::aloupe::run {args} {
+
+    # Runs the loupe.
+    #  args - options of the loupe
+
+    variable my::data
+    variable my::size
+    variable my::zoom
+    # save the default settings of aloupe
+    if {![info exists my::data(DEFAULTS)]} {
+      set my::data(DEFAULTS) ::aloupe::_DEFAULTS_
+      array set $my::data(DEFAULTS) [array get my::data]
+    }
+    # restore the default settings of aloupe (for a 2nd/3rd... run)
+    set svd $my::data(DEFAULTS)
+    foreach an [array names $svd)] {
+      set my::data($an) [set ${svd}($an)] ;# a bit of addresses
+    }
+    foreach {a v} $args {
+      if {($v ne &quot;&quot; || $a in {-geometry}) &amp;&amp;  [info exists my::data($a)] &amp;&amp; [string is lower [string index $a 1]]} {
+        set my::data($a) $v
+      } else {
+        puts &quot;Bad option: $a \&quot;$v\&quot;&quot;
+        my::Synopsis
+        my::Exit
+        return
+      }
+    }
+    catch {::apave::obj untouchWidgets &quot;*_a_loupe_loup*&quot;}  ;# don't theme the loupe
+    set my::size [set my::data(PREVSIZE) $my::data(-size)]
+    set my::zoom [set my::data(PREVZOOM) $my::data(-zoom)]
+    my::Create
+}</pre></div>
+</div><h1 class='ruff'><a name='::aloupe::my'></a>::aloupe::my<span class='tinylink'><a href='#top'>Top</a></span></h1>
+<div style='clear:both;'></div>
+<p class='ruff'>The <code>::aloupe::my</code> namespace contains procedures for the &quot;internal&quot; usage by <em>aloupe</em> package.</p>
+<p class='ruff'>All of them are upper-cased, in contrast with the UI procedures of <code>aloupe</code> namespace.</p>
+<h2 class='ruff'><a name='::aloupe::my-Commands'></a>Commands<span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h2>
+<div style='clear:both;'></div>
+<h4 class='ruffproc'><a name='::aloupe::my::Button2Click'>Button2Click</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Processes the click on 'Clipboard' button.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Button2Click</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_3' href="javascript:toggleSource('3')">Show source</a></p>
+<div id='3' class='ruff_dyn_src'><pre>proc ::aloupe::my::Button2Click {} {
+
+    # Processes the click on 'Clipboard' button.
+
+    variable data
+    if {$data(COLOR) ne &quot;&quot;} {
+      StyleButton2 yes -background $data(INVCOLOR) -foreground $data(COLOR)
+      update idletasks
+      after 60 ;# just to make the click visible
+    }
+    if {[HandleColor] &amp;&amp; !$data(-exit) &amp;&amp; $data(-command) ne &quot;&quot;} {
+      SaveGeometry
+      {*}[string map [list %c $data(COLOR)] $data(-command)]
+    }
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::Create'>Create</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Initializes and creates the utility's windows.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Create</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_4' href="javascript:toggleSource('4')">Show source</a></p>
+<div id='4' class='ruff_dyn_src'><pre>proc ::aloupe::my::Create {} {
+
+    # Initializes and creates the utility's windows.
+
+    variable data
+    catch {destroy $data(WLOUP)}
+    catch {destroy $data(WDISP)}
+    set data(WLOUP) &quot;$data(-parent)._a_loupe_loup&quot;
+    set data(WDISP) &quot;$data(-parent)._a_loupe_disp&quot;
+    set data(LABEL) &quot;$data(WDISP).label&quot;
+    set data(COLOR) [set data(CAPTURE) &quot;&quot;]
+    catch {image delete $data(IMAGE)}
+    if {[set wgr [grab current]] ne &quot;&quot;} {grab release $wgr}
+    CreateDisplay
+    CreateLoupe
+    set data(PREVZOOM) $data(-zoom)
+    set data(PREVSIZE) $data(-size)
+    focus $data(WDISP)
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::CreateDisplay'>CreateDisplay</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Creates the displaying window.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>CreateDisplay</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_5' href="javascript:toggleSource('5')">Show source</a></p>
+<div id='5' class='ruff_dyn_src'><pre>proc ::aloupe::my::CreateDisplay {} {
+
+    # Creates the displaying window.
+
+    variable data
+    set data(IMSIZE) [expr {2*$data(-size)*$data(-zoom)}]
+    set data(IMAGE) [image create photo -width $data(IMSIZE) -height $data(IMSIZE)]
+    toplevel $data(WDISP)
+    wm title $data(WDISP) [::msgcat::mc Loupe]
+    $data(WDISP) configure -background [ttk::style configure . -background]
+    grid [ttk::label $data(WDISP).lab1 -text &quot; [::msgcat::mc Size]&quot;] -row 0 -column 0 -sticky e
+    grid [ttk::spinbox $data(WDISP).sp1 -from 8 -to 256 -justify center  -width 4 -textvariable ::aloupe::my::size -command ::aloupe::my::SizeLoupe]  -row 0 -column 1 -sticky w
+    grid [ttk::label $data(WDISP).lab2 -text &quot; [::msgcat::mc Zoom]&quot;] -row 0 -column 2 -sticky e
+    grid [ttk::spinbox $data(WDISP).sp2 -from 2 -to 32 -justify center  -width 2 -textvariable ::aloupe::my::zoom] -row 0 -column 3 -sticky w
+    grid [ttk::separator $data(WDISP).sep1 -orient horizontal] -row 1 -columnspan 4 -sticky we -pady 2
+    grid [ttk::label $data(LABEL) -image $data(IMAGE) -relief flat  -style [lindex [SetStyle TLabel no -bd 0] 1]] -row 2 -columnspan 4 -padx 2
+    grid [ttk::button $data(WDISP).but1 -text [::msgcat::mc Save]  -command ::aloupe::my::Save] -row 3 -column 0 -columnspan 2 -sticky ew
+    set data(BUT2) $data(WDISP).but2
+    grid [ttk::button $data(BUT2) -text [::msgcat::mc &quot;To clipboard&quot;]  -command ::aloupe::my::Button2Click] -row 3 -column 2 -columnspan 2 -sticky ew
+    set data(-geometry) [regexp -inline \\+.* $data(-geometry)]
+    if {$data(-geometry) ne &quot;&quot;} {
+      wm geometry $data(WDISP) $data(-geometry)
+    } elseif {$data(-parent) ne &quot;&quot;} {
+      ::tk::PlaceWindow $data(WDISP) widget $data(-parent)
+    } else {
+      ::tk::PlaceWindow $data(WDISP)
+    }
+    if {![info exists data(BUTCFG)]} {
+      set defargs [list  -foreground [ttk::style configure . -foreground]  -background [ttk::style configure . -background] ]
+      set data(BUTCFG) [StyleButton2 no {*}$defargs]
+      lappend data(BUTCFG) {*}$defargs -text [$data(BUT2) cget -text]
+    }
+    bind $data(LABEL) &lt;ButtonPress-1&gt; {::aloupe::my::PickColor %W %X %Y}
+    bind $data(WDISP) &lt;Escape&gt; exit
+    wm resizable $data(WDISP) 0 0
+    wm protocol $data(WDISP) WM_DELETE_WINDOW ::aloupe::my::Exit
+    if {$data(-ontop)} {wm attributes $data(WDISP) -topmost 1}
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::CreateLoupe'>CreateLoupe</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Creates the loupe window.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>CreateLoupe</span> <span class='ruff_arg'>?geom?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>geom</code></td><td class='ruff_defitem'>the predefined geometry Optional, default <code>&quot;&quot;</code>.</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_6' href="javascript:toggleSource('6')">Show source</a></p>
+<div id='6' class='ruff_dyn_src'><pre>proc ::aloupe::my::CreateLoupe {{geom {}}} {
+
+    # Creates the loupe window.
+    #   geom - the predefined geometry
+
+    variable data
+    frame $data(WLOUP)
+    wm manage $data(WLOUP)
+    wm withdraw $data(WLOUP)
+    wm overrideredirect $data(WLOUP) 1
+    set canvas $data(WLOUP).c
+    canvas $canvas -width 100 -height 100 -background $data(-background)  -relief flat -bd 0 -highlightthickness 2 -highlightbackground red
+    pack $canvas -fill both -expand true
+    bind $canvas &lt;ButtonPress-1&gt;   {::aloupe::my::DragStart %W %X %Y}
+    bind $canvas &lt;B1-Motion&gt;       {::aloupe::my::Drag %W %X %Y}
+    bind $canvas &lt;ButtonRelease-1&gt; {::aloupe::my::DragEnd %W}
+    bind $canvas &lt;Escape&gt;          {::aloupe::my::Exit}
+    after 50 &quot;
+      ::aloupe::my::InitGeometry $geom
+      wm deiconify $data(WLOUP)
+      wm attributes $data(WLOUP) -topmost 1 -alpha $data(-alpha)
+      &quot;
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::Drag'>Drag</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Performs the frag-and-drop of the loupe.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Drag</span> <span class='ruff_arg'>w X Y</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>the loupe window's path</td></tr>
+<tr><td class='ruff_defitem'><code>X</code></td><td class='ruff_defitem'>X-coordinate of the mouse pointer</td></tr>
+<tr><td class='ruff_defitem'><code>Y</code></td><td class='ruff_defitem'>Y-coordinate of the mouse pointer</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_7' href="javascript:toggleSource('7')">Show source</a></p>
+<div id='7' class='ruff_dyn_src'><pre>proc ::aloupe::my::Drag {w X Y} {
+
+    # Performs the frag-and-drop of the loupe.
+    #   w - the loupe window's path
+    #   X - X-coordinate of the mouse pointer
+    #   Y - Y-coordinate of the mouse pointer
+
+    variable data
+    if {![info exists data(dragX)]} return
+    set dx [expr {$X - $data(dragX)}]
+    set dy [expr {$Y - $data(dragY)}]
+    wm geometry $data(WLOUP) +$dx+$dy
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::DragEnd'>DragEnd</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Ends the frag-and-drop of the loupe and displays its magnified image.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>DragEnd</span> <span class='ruff_arg'>w</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>the loupe window's path</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_8' href="javascript:toggleSource('8')">Show source</a></p>
+<div id='8' class='ruff_dyn_src'><pre>proc ::aloupe::my::DragEnd {w} {
+
+    # Ends the frag-and-drop of the loupe and displays its magnified image.
+    #   w - the loupe window's path
+
+    variable data
+    if {![info exists data(dragX)]} return
+    wm withdraw $data(WLOUP)
+    if {!$data(-ontop) &amp;&amp; ![string match $data(WDISP)* $data(FOCUS)] &amp;&amp;
+    $::tcl_platform(platform) eq &quot;unix&quot;} {
+      # the disp window can be overlapped by others =&gt; it should be deiconified
+      wm withdraw $data(WDISP)
+    }
+    set curX [winfo rootx $w]
+    set curY [winfo rooty $w]
+    set curW [winfo width $w]
+    set curH [winfo height $w]
+    catch {image delete $data(CAPTURE)}
+    set data(CAPTURE) [image create photo -width $curW -height $curH]
+    set zoom 1
+    set loupe_ctr_x [expr {$curX + $curW / 2}]
+    set loupe_ctr_y [expr {$curY + $curH / 2}]
+    after 40 &quot;loupe $data(CAPTURE) $loupe_ctr_x $loupe_ctr_y $curW $curH $zoom&quot;
+    after 50
+    update   ;# enough time to hide the window and capture the image
+    after 50
+    catch {
+      $data(IMAGE) copy $data(CAPTURE)  -from 0 0 [expr {2*$data(-size)}] [expr {2*$data(-size)}]  -to 0 0 $data(IMSIZE) $data(IMSIZE) -zoom $data(-zoom)
+    }
+    wm deiconify $data(WDISP)
+    wm deiconify $data(WLOUP)
+    focus -force $data(WDISP).but2
+    set data(-PREVGEOM) [wm geometry $data(WLOUP)]
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::DragStart'>DragStart</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Initializes the frag-and-drop of the loupe.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>DragStart</span> <span class='ruff_arg'>w X Y</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>the loupe window's path</td></tr>
+<tr><td class='ruff_defitem'><code>X</code></td><td class='ruff_defitem'>X-coordinate of the mouse pointer</td></tr>
+<tr><td class='ruff_defitem'><code>Y</code></td><td class='ruff_defitem'>Y-coordinate of the mouse pointer</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_9' href="javascript:toggleSource('9')">Show source</a></p>
+<div id='9' class='ruff_dyn_src'><pre>proc ::aloupe::my::DragStart {w X Y} {
+
+    # Initializes the frag-and-drop of the loupe.
+    #   w - the loupe window's path
+    #   X - X-coordinate of the mouse pointer
+    #   Y - Y-coordinate of the mouse pointer
+
+    variable data
+    variable size
+    variable zoom
+    set data(FOCUS) [focus]
+    focus -force $data(WDISP)
+    set data(-size) $size
+    set data(-zoom) $zoom
+    if {$data(PREVZOOM) != $data(-zoom) || $data(PREVSIZE) != $data(-size)} {
+      SaveGeometry
+      Create
+      catch {unset data(dragX)}  ;# no drag-n-drop, update the loupe only
+      update
+      return
+    }
+    set data(COLOR) [set data(CAPTURE) &quot;&quot;]
+    StyleButton2 no {*}$data(BUTCFG)
+    InitGeometry
+    update
+    set data(dragX) [expr {$X - [winfo rootx $w]}]
+    set data(dragY) [expr {$Y - [winfo rooty $w]}]
+    set data(dragw) [winfo width $w]
+    set data(dragh) [winfo height $w]
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::Exit'>Exit</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Clears all and exits.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Exit</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_10' href="javascript:toggleSource('10')">Show source</a></p>
+<div id='10' class='ruff_dyn_src'><pre>proc ::aloupe::my::Exit {} {
+
+    # Clears all and exits.
+
+    variable data
+    if {$data(-exit)} exit
+    SaveGeometry
+    catch {image delete $data(IMAGE)}
+    catch {image delete $data(CAPTURE)}
+    catch {destroy $data(WDISP)}
+    catch {
+      wm withdraw $data(WLOUP)
+      destroy $data(WLOUP)
+    }
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::HandleColor'>HandleColor</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Processes the image color under the mouse pointer, optionally saving it to the clipboard.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>HandleColor</span> <span class='ruff_arg'>?doclb?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>doclb</code></td><td class='ruff_defitem'>if 'yes', means &quot;put the color into the clipboard&quot; Optional, default <code>yes</code>.</td></tr>
+</table>
+<h5 class='ruff'>Return value</h5><p class='ruff'>Returns 'yes' if the color was chosen.</p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_11' href="javascript:toggleSource('11')">Show source</a></p>
+<div id='11' class='ruff_dyn_src'><pre>proc ::aloupe::my::HandleColor {{doclb yes}} {
+
+    # Processes the image color under the mouse pointer,
+    # optionally saving it to the clipboard.
+    #   doclb - if 'yes', means &quot;put the color into the clipboard&quot;
+    # Returns 'yes' if the color was chosen.
+
+    variable data
+    set res no
+    if {[IsCapture]} {
+      if {$data(COLOR) eq &quot;&quot;} {
+        Message -title &quot;Color of Image&quot; -icon warning  -message &quot;Click the magnified image\nto get a pixel's color.\n\nThen hit this button.&quot;
+      } else {
+        if {$doclb} {
+          clipboard clear
+          clipboard append -type STRING $data(COLOR)
+        }
+        StyleButton2 yes -background $data(COLOR) -foreground $data(INVCOLOR)  -text $data(COLOR)
+        set res yes
+      }
+    }
+    return $res
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::InitGeometry'>InitGeometry</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Gets and sets the geometry of the loupe window, based on the image label's sizes and the zoom factor.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>InitGeometry</span> <span class='ruff_arg'>?geom?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>geom</code></td><td class='ruff_defitem'>the predefined geometry Optional, default <code>&quot;&quot;</code>.</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_12' href="javascript:toggleSource('12')">Show source</a></p>
+<div id='12' class='ruff_dyn_src'><pre>proc ::aloupe::my::InitGeometry {{geom {}}} {
+
+    # Gets and sets the geometry of the loupe window,
+    # based on the image label's sizes and the zoom factor.
+    #   geom - the predefined geometry
+
+    variable data
+    if {$geom eq &quot;&quot;} {
+      lassign [split [winfo geometry $data(LABEL)] x+] w h
+      set w [expr {int($w/$data(-zoom))}]
+      set h [expr {int($h/$data(-zoom))}]
+      lassign [winfo pointerxy .] x y
+      set x [expr {$x-$w/2}]
+      set y [expr {$y-$h/2}]
+      set geom ${w}x${h}+$x+$y
+      if {$w&gt;0 &amp;&amp; $h&gt;0 &amp;&amp; $x&gt;-$w &amp;&amp; $y&gt;-$h} {
+        set data(-PREVGEOM) $geom
+      }
+    }
+    wm geometry $data(WLOUP) $geom
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::InvertBg'>InvertBg</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Inverts colors from light to dark and vice versa to get &quot;fg&quot; from &quot;bg&quot;. It's simplified way, just to not include the bulky HSV code.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>InvertBg</span> <span class='ruff_arg'>r g b</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>r</code></td><td class='ruff_defitem'>red component</td></tr>
+<tr><td class='ruff_defitem'><code>g</code></td><td class='ruff_defitem'>green component</td></tr>
+<tr><td class='ruff_defitem'><code>b</code></td><td class='ruff_defitem'>blue component</td></tr>
+</table>
+<h5 class='ruff'>Return value</h5><p class='ruff'>Returns {R G B} list of inverted colors.</p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_13' href="javascript:toggleSource('13')">Show source</a></p>
+<div id='13' class='ruff_dyn_src'><pre>proc ::aloupe::my::InvertBg {r g b} {
+
+    # Inverts colors from light to dark and vice versa to get &quot;fg&quot; from &quot;bg&quot;.
+    # It's simplified way, just to not include the bulky HSV code.
+    #  r - red component
+    #  g - green component
+    #  b - blue component
+    # Returns {R G B} list of inverted colors.
+
+    set c [expr {$r&lt;100 &amp;&amp; $g&lt;100 || $r&lt;100 &amp;&amp; $b&lt;100 || $b&lt;100 &amp;&amp; $g&lt;100 ||
+      ($r+$g+$b)&lt;300 ? 255 : 0}]
+    return [list $c $c $c]
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::IsCapture'>IsCapture</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Checks if the image was captured.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>IsCapture</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_14' href="javascript:toggleSource('14')">Show source</a></p>
+<div id='14' class='ruff_dyn_src'><pre>proc ::aloupe::my::IsCapture {} {
+
+    # Checks if the image was captured.
+
+    variable data
+    if {$data(CAPTURE) eq &quot;&quot;} {
+      Message -title &quot;Color of Image&quot; -icon warning  -message &quot;Click, then drag and drop\nthe loupe to get the image.&quot;
+      return no
+    }
+    return yes
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::Message'>Message</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Displays a message, with the loupe hidden.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Message</span> <span class='ruff_arg'>?args?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>args</code></td><td class='ruff_defitem'>Optional arguments.</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_15' href="javascript:toggleSource('15')">Show source</a></p>
+<div id='15' class='ruff_dyn_src'><pre>proc ::aloupe::my::Message {args} {
+
+    # Displays a message, with the loupe hidden.
+
+    variable data
+    wm withdraw $data(WLOUP)
+    tk_messageBox -parent $data(WDISP) -type ok {*}$args
+    wm deiconify $data(WLOUP)
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::PickColor'>PickColor</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Gets the image color under the mouse pointer.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>PickColor</span> <span class='ruff_arg'>w X Y</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>w</code></td><td class='ruff_defitem'>the image label's path</td></tr>
+<tr><td class='ruff_defitem'><code>X</code></td><td class='ruff_defitem'>X-coordinate of the mouse pointer</td></tr>
+<tr><td class='ruff_defitem'><code>Y</code></td><td class='ruff_defitem'>Y-coordinate of the mouse pointer</td></tr>
+</table>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_16' href="javascript:toggleSource('16')">Show source</a></p>
+<div id='16' class='ruff_dyn_src'><pre>proc ::aloupe::my::PickColor {w X Y} {
+
+    # Gets the image color under the mouse pointer.
+    #   w - the image label's path
+    #   X - X-coordinate of the mouse pointer
+    #   Y - Y-coordinate of the mouse pointer
+
+    variable data
+    if {![IsCapture]} return
+    set x [expr {max(($X - [winfo rootx $w] -4),0)}]
+    set y [expr {max(($Y - [winfo rooty $w] -4),0)}]
+    catch {
+      lassign [$data(IMAGE) get $x $y] r g b
+      set data(COLOR) [format &quot;#%02x%02x%02x&quot; $r $g $b]
+      set data(INVCOLOR) [format &quot;#%02x%02x%02x&quot; {*}[InvertBg $r $g $b]]
+      HandleColor no
+    }
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::Save'>Save</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Saves the magnified image to a file.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Save</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_17' href="javascript:toggleSource('17')">Show source</a></p>
+<div id='17' class='ruff_dyn_src'><pre>proc ::aloupe::my::Save {} {
+
+    # Saves the magnified image to a file.
+
+    variable data
+    if {![IsCapture]} return
+    wm withdraw $data(WLOUP)
+    set filetypes { {&quot;PNG Images&quot; .png} {&quot;All Image Files&quot; {.png .gif}} }
+    catch {::apave::obj themeExternal &quot;$data(WLOUP)*&quot;}  ;# theme the file chooser
+    set file [tk_getSaveFile -parent $data(WDISP)  -title [::msgcat::mc &quot;Save the Loupe&quot;] -filetypes $filetypes]
+    if {$file ne &quot;&quot;} {
+      if {![regexp -nocase {\.(png|gif)$} $file -&gt; ext]} {
+        set ext &quot;png&quot;
+        append file &quot;.${ext}&quot;
+      }
+      if {[catch {$data(IMAGE) write $file -format [string tolower $ext]} err]} {
+        Message -title &quot;Error Writing File&quot; -icon error  -message &quot;Error writing to file \&quot;$file\&quot;:\n$err&quot;
+      }
+    }
+    wm deiconify $data(WLOUP)
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::SaveGeometry'>SaveGeometry</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Saves the displaying window's geometry.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>SaveGeometry</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_18' href="javascript:toggleSource('18')">Show source</a></p>
+<div id='18' class='ruff_dyn_src'><pre>proc ::aloupe::my::SaveGeometry {} {
+
+    # Saves the displaying window's geometry.
+
+    variable data
+    set data(-geometry) &quot;&quot;
+    catch {set data(-geometry) [wm geometry $data(WDISP)]}
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::SetStyle'>SetStyle</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Sets a style for of widgets with a type.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>SetStyle</span> <span class='ruff_arg'>type domap ?args?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>type</code></td><td class='ruff_defitem'>Not documented.</td></tr>
+<tr><td class='ruff_defitem'><code>domap</code></td><td class='ruff_defitem'>yes, if set the map options</td></tr>
+<tr><td class='ruff_defitem'><code>args</code></td><td class='ruff_defitem'>configuration options</td></tr>
+<tr><td class='ruff_defitem'><code>'type</code></td><td class='ruff_defitem'>the type of widgets</td></tr>
+</table>
+<h5 class='ruff'>Return value</h5><p class='ruff'>Returns a list of old type's configuration and new type's name.</p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_19' href="javascript:toggleSource('19')">Show source</a></p>
+<div id='19' class='ruff_dyn_src'><pre>proc ::aloupe::my::SetStyle {type domap args} {
+
+    # Sets a style for of widgets with a type.
+    #   'type - the type of widgets
+    #   domap - yes, if set the map options
+    #   args - configuration options
+    # Returns a list of old type's configuration and new type's name.
+
+    set config [ttk::style configure TButton]
+    set new ${type}_A_LOUPE
+    ttk::style configure $new {*}$config
+    ttk::style configure $new {*}$args
+    if {$domap} {
+      ttk::style map $new {*}[ttk::style map $type]
+      set fg [dict get $args -foreground]
+      set bg [dict get $args -background]
+      ttk::style map $new -foreground [list pressed $fg active $fg alternate $fg focus $fg selected $fg]
+      ttk::style map $new -background [list pressed $bg active $bg alternate $bg focus $bg selected $bg]
+    } else {
+      ttk::style map $new -foreground [list]
+      ttk::style map $new -background [list]
+      ttk::style map $new {*}[ttk::style map $type]
+    }
+    ttk::style layout $new [ttk::style layout $type]
+    return [list $config $new]
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::SizeLoupe'>SizeLoupe</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Re-displays the loupe at changing its size.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>SizeLoupe</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_20' href="javascript:toggleSource('20')">Show source</a></p>
+<div id='20' class='ruff_dyn_src'><pre>proc ::aloupe::my::SizeLoupe {} {
+
+    # Re-displays the loupe at changing its size.
+
+    variable data
+    variable size
+    set data(-size) $size
+    lassign [split [winfo geometry $data(LABEL)] x+] w1
+    lassign [split $data(-PREVGEOM) x+] w2 h2 x2 y2
+    set w [expr {int(2.0*$size*$data(-zoom)*$w2/$w1)}]  ;# count the previous zoom
+    destroy $data(WLOUP)
+    CreateLoupe ${w}x${w}+$x2+$y2
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::StyleButton2'>StyleButton2</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Makes a style for Tbutton.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>StyleButton2</span> <span class='ruff_arg'>domap ?args?</span></div>
+<h5 class='ruff'>Parameters</h5><table class='ruff_deflist'>
+<tr><td class='ruff_defitem'><code>domap</code></td><td class='ruff_defitem'>yes, if set the map options</td></tr>
+<tr><td class='ruff_defitem'><code>args</code></td><td class='ruff_defitem'>options (&quot;name value&quot; pairs)</td></tr>
+</table>
+<h5 class='ruff'>Return value</h5><p class='ruff'>Returns the TButton's configuration options.</p>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_21' href="javascript:toggleSource('21')">Show source</a></p>
+<div id='21' class='ruff_dyn_src'><pre>proc ::aloupe::my::StyleButton2 {domap args} {
+
+    # Makes a style for Tbutton.
+     #  domap - yes, if set the map options
+    #   args - options (&quot;name value&quot; pairs)
+    # Returns the TButton's configuration options.
+
+    variable data
+    if {[dict exists $args -text]} {
+      $data(BUT2) configure -text [dict get $args -text]
+      set args [dict remove $args -text]
+    }
+    lassign [SetStyle TButton $domap {*}$args] config style
+    $data(BUT2) configure -style $style
+    return $config
+}</pre></div>
+</div><h4 class='ruffproc'><a name='::aloupe::my::Synopsis'>Synopsis</a><span class='ns_scope'> [<a href="aloupe.html#::aloupe::my" title="::aloupe::my" class='ruff_cmd'>::aloupe::my</a>]</span><span class='tinylink'><a href='aloupe.html#::aloupe::my'>my</a>, <a href='#top'>Top</a></span></h4>
+<div style='clear:both;'></div>
+<p class='ruff'>Short info about usage.</p>
+<div class='ruff_synopsis'><span class='ruff_cmd'>Synopsis</span> </div>
+<div class='ruff_source'><p class='ruff_source_link'><a id='l_22' href="javascript:toggleSource('22')">Show source</a></p>
+<div id='22' class='ruff_dyn_src'><pre>proc ::aloupe::my::Synopsis {} {
+
+      # Short info about usage.
+
+      puts &quot;
+    Syntax:
+      tclsh aloupe.tcl ?option value ...?
+    where 'option' may be -size, -zoom, -alpha, -background, -exit, -command, -ontop.
+    &quot;
+}</pre></div>
+</div></div></div><div class='yui-b navbox' ><h1><a href='#::aloupe'>aloupe</a></h1><h2><a href='#::aloupe-Usage'>Usage</a></h2><h2><a href='#::aloupe-Options'>Options</a></h2><h2><a href='#::aloupe-Links'>Links</a></h2><h2><a href='#::aloupe-License'>License</a></h2><h2><a href='#::aloupe-Commands'>Commands</a></h2><h4 class='tooltip'><a href='aloupe.html#::aloupe::option'>option</a><span class='tooltiptext'>Returns a value of aloupe option.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::run'>run</a><span class='tooltiptext'>Runs the loupe.
+</span></h4><h1><a href='#::aloupe::my'>aloupe::my</a></h1><h2><a href='#::aloupe::my-Commands'>Commands</a></h2><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::Button2Click'>Button2Click</a><span class='tooltiptext'>Processes the click on 'Clipboard' button.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::Create'>Create</a><span class='tooltiptext'>Initializes and creates the utility's windows.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::CreateDisplay'>CreateDisplay</a><span class='tooltiptext'>Creates the displaying window.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::CreateLoupe'>CreateLoupe</a><span class='tooltiptext'>Creates the loupe window.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::Drag'>Drag</a><span class='tooltiptext'>Performs the frag-and-drop of the loupe.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::DragEnd'>DragEnd</a><span class='tooltiptext'>Ends the frag-and-drop of the loupe and displays its magnified image.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::DragStart'>DragStart</a><span class='tooltiptext'>Initializes the frag-and-drop of the loupe.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::Exit'>Exit</a><span class='tooltiptext'>Clears all and exits.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::HandleColor'>HandleColor</a><span class='tooltiptext'>Processes the image color under the mouse pointer, optionally saving it to the clipboard.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::InitGeometry'>InitGeometry</a><span class='tooltiptext'>Gets and sets the geometry of the loupe window, based on the image label's sizes and the zoom factor.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::InvertBg'>InvertBg</a><span class='tooltiptext'>Inverts colors from light to dark and vice versa to get &quot;fg&quot; from &quot;bg&quot;. It's simplified way, just to not include the bulky HSV code.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::IsCapture'>IsCapture</a><span class='tooltiptext'>Checks if the image was captured.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::Message'>Message</a><span class='tooltiptext'>Displays a message, with the loupe hidden.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::PickColor'>PickColor</a><span class='tooltiptext'>Gets the image color under the mouse pointer.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::Save'>Save</a><span class='tooltiptext'>Saves the magnified image to a file.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::SaveGeometry'>SaveGeometry</a><span class='tooltiptext'>Saves the displaying window's geometry.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::SetStyle'>SetStyle</a><span class='tooltiptext'>Sets a style for of widgets with a type.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::SizeLoupe'>SizeLoupe</a><span class='tooltiptext'>Re-displays the loupe at changing its size.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::StyleButton2'>StyleButton2</a><span class='tooltiptext'>Makes a style for Tbutton.
+</span></h4><h4 class='tooltip'><a href='aloupe.html#::aloupe::my::Synopsis'>Synopsis</a><span class='tooltiptext'>Short info about usage.
+</span></h4></div></div><div id='ft'><div style='float: right;'>Document generated by <a href='https://ruff.magicsplat.com'>Ruff!</a></div></div>
+</div></body></html>
