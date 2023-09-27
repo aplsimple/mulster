@@ -584,7 +584,7 @@ oo::class create mulster::Mulster {
     #
     # Uses _MMM(fin) and $_MMM(fout) as flags 'need of flush'.
     # If they are set, calls `RecurseProc` to flush the output file(s).
-    # 
+    #
     # See also:
     #   main
     #   InitIO
@@ -662,7 +662,7 @@ oo::class create mulster::Mulster {
       set lcont [my mulsterList $lcont $lin $lout $r1 $r2 $mode $single $fileon]
       set t [expr {$il+1}]
       puts -nonewline "Replacement #$t: "
-      if {[string length $t$_MMM(repls)]>3} {set t "\t"} {set t "\t\t"} 
+      if {[string length $t$_MMM(repls)]>3} {set t "\t"} {set t "\t\t"}
       if {$mode>2} {set mode "regexp[my ReOptions $mode]"}
       append t "SINGLE=$single, MODE=${mode}"
       if {$_MMM(repls)==0} {
@@ -790,7 +790,7 @@ oo::class create mulster::Mulster {
     # Checks a setting of input / output file.
     #
     #   ncheck - if 1, checks input file; if 2, checks output file
-    
+
     switch $ncheck {
       1 {my CheckVal $_MMM(fin) 1 "Input file not defined"}
       2 {my CheckVal $_MMM(fout) 1 "Output file not defined"}
@@ -816,6 +816,8 @@ oo::class create mulster::Mulster {
       error "\n\nERROR in [self] object of Mulster class:\n $msg$stnl\n\n"
     }
   }
+
+  # ________________________ EONS _________________________ #
 
 }
 
@@ -868,10 +870,11 @@ if {[info exist ::argv0] && $::argv0==[info script]} {
 #
 # for "Run me" of e_menu:
 #
-#-ARGS0:
+#-ARGS0: ../e_menu/s_menu.tcl
 #-ARGS0: -k 1 -mode glob test/test12ini
 #-ARGS1: -b 0 tasks/mulster-tke
 #-ARGS2: -b 0 tasks/mulster-geany
-#ARGS3: -b 0 tasks/mulster-ruff
+#-ARGS3: -b 0 tasks/mulster-ruff
+#ARGS3: -b 0 tasks/mulster-freewrap
 #
 #############################################################################

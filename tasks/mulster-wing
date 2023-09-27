@@ -1,29 +1,43 @@
 MODE=0
 
-# try #1
+# try #0
 IN=BEGIN
         'window-alloc': (0,
-                         31,
-                         1500,
-                         780)}]}
+                         27,
+                         1510,
+                         1000)}]}
 IN=END
 OUT=BEGIN
         'window-alloc': (0,
-                         31,
-                         1490,
-                         770)}]}
+                         27,
+                         1500,
+                         990)}]}
+OUT=END
+
+# try #1
+IN=BEGIN
+        'window-alloc': (0,
+                         27,
+                         1520,
+                         1010)}]}
+IN=END
+OUT=BEGIN
+        'window-alloc': (0,
+                         27,
+                         1500,
+                         990)}]}
 OUT=END
 
 # try #2
 IN=BEGIN
         'window-alloc': (0,
-                         31,
-                         1510,
-                         790)}]}
+                         27,
+                         1530,
+                         1020)}]}
 IN=END
 OUT=BEGIN
         'window-alloc': (0,
-                         31,
-                         1490,
-                         770)}]}
+                         27,
+                         1500,
+                         990)}]}
 OUT=END

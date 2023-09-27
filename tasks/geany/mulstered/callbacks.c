@@ -63,11 +63,10 @@
 #include "utils.h"
 #include "vte.h"
 
-#include "gtkcompat.h"
-
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gstdio.h>
 #include <time.h>
@@ -334,6 +333,43 @@ void on_toolbutton_reload_clicked(GtkAction *action, gpointer user_data)
 	g_return_if_fail(doc != NULL);
 
 	document_reload_prompt(doc, NULL);
+}
+
+/* reload all files */
+void on_reload_all(GtkAction *action, gpointer user_data)
+{
+	guint i;
+	gint cur_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(main_widgets.notebook));
+
+	if (!file_prefs.keep_edit_history_on_reload)
+	{
+		GeanyDocument *doc;
+		foreach_document(i)
+		{
+			doc = documents[i];
+			if (doc->changed || document_can_undo(doc) || document_can_redo(doc))
+			{
+				if (dialogs_show_question_full(NULL, _("_Reload"), GTK_STOCK_CANCEL,
+					_("Changes detected, reloading all will lose any changes and history."),
+					_("Are you sure you want to reload all files?")))
+				{
+					break; // break the loop and continue with reloading below
+				}
+				else
+				{
+					return; // cancel reloading
+				}
+			}
+		}
+	}
+
+	foreach_document(i)
+	{
+		if (! (documents[i]->file_name == NULL))
+			document_reload_force(documents[i], documents[i]->encoding);
+	}
+
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(main_widgets.notebook), cur_page);
 }
 
 
@@ -1652,7 +1688,7 @@ gboolean on_escape_key_press_event(GtkWidget *widget, GdkEventKey *event, gpoint
 	guint state = keybindings_get_modifiers(event->state);
 
 	/* make pressing escape in the sidebar and toolbar focus the editor */
-	if (event->keyval == GDK_Escape && state == 0)
+	if (event->keyval == GDK_KEY_Escape && state == 0)
 	{
 		keybindings_send_command(GEANY_KEY_GROUP_FOCUS, GEANY_KEYS_FOCUS_EDITOR);
 		return TRUE;

@@ -4,7 +4,8 @@
 # This prepares files to be processed by Freewrap.
 
 INFILE=../e_menu/s_menu.tcl
-OUTFILE=../freewrap/e_menu/s_menu.tcl
+OUTFILE=../freewrap/TEST-kit/e_menu.vfs/e_menu/s_menu.tcl
+#!OUTFILE=../freewrap/e_menu/s_menu.tcl
 
 ####### Replacing strings with files' contents #######
 
@@ -16,14 +17,6 @@ IN=END
 
 OUT=BEGIN
 ../e_menu/e_menu.tcl
-OUT=END
-
-IN=BEGIN
-  catch {source [file join $::em::srcdir baltip baltip.tcl]}
-IN=END
-
-OUT=BEGIN
-../e_menu/src/baltip/baltip.tcl
 OUT=END
 
 IN=BEGIN
@@ -49,13 +42,13 @@ OUT=BEGIN
 ../e_menu/src/e_help.tcl
 OUT=END
 
-# apaveinput
+# apave
 IN=BEGIN
-if {![namespace exists apave]} {source [file join [file normalize [file dirname [info script]]] apaveinput.tcl]}
+if {![namespace exists ::apave]} {source [file join [file normalize [file dirname [info script]]] apave.tcl]}
 IN=END
 
 OUT=BEGIN
-../e_menu/src/apaveinput.tcl
+../e_menu/src/apave.tcl
 OUT=END
 
 IN=BEGIN
@@ -67,11 +60,19 @@ OUT=BEGIN
 OUT=END
 
 IN=BEGIN
-source [file join [file dirname [info script]] apave.tcl]
+source [file join [file dirname [info script]] apavebase.tcl]
 IN=END
 
 OUT=BEGIN
-../e_menu/src/apave.tcl
+../e_menu/src/apavebase.tcl
+OUT=END
+
+IN=BEGIN
+        source [file join $::apave::SRCDIR baltip baltip.tcl]
+IN=END
+
+OUT=BEGIN
+../apave/baltip/baltip.tcl
 OUT=END
 
 IN=BEGIN
@@ -107,15 +108,16 @@ IN=BEGIN
 IN=END
 
 OUT=BEGIN
-../e_menu/src/pickers/color/clrpick.tcl
+../apave/pickers/color/clrpick.tcl
+../apave/pickers/klnd/klnd.tcl
 OUT=END
 
-IN=BEGIN
-      source [file join $::apave::apaveDir pickers klnd klnd.tcl]
-IN=END
-
-OUT=BEGIN
-../e_menu/src/pickers/klnd/klnd.tcl
-OUT=END
+#!IN=BEGIN
+#!      source [file join $::apave::apaveDir pickers klnd klnd.tcl]
+#!IN=END
+#!
+#!OUT=BEGIN
+#!../apave/pickers/klnd/klnd.tcl
+#!OUT=END
 
 #############################################################################

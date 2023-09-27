@@ -57,11 +57,10 @@
 
 #include "SciLexer.h"
 
-#include "gtkcompat.h"
-
 #include <ctype.h>
 #include <string.h>
 
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
 
@@ -2667,7 +2666,7 @@ gboolean editor_complete_snippet(GeanyEditor *editor, gint pos)
 		return FALSE;
 	/* return if we are editing an existing line (chars on right of cursor) */
 	if (keybindings_lookup_item(GEANY_KEY_GROUP_EDITOR,
-			GEANY_KEYS_EDITOR_COMPLETESNIPPET)->key == GDK_space &&
+			GEANY_KEYS_EDITOR_COMPLETESNIPPET)->key == GDK_KEY_space &&
 		! editor_prefs.complete_snippets_whilst_editing && ! at_eol(sci, pos))
 		return FALSE;
 
@@ -4597,14 +4596,16 @@ void editor_ensure_final_newline(GeanyEditor *editor)
 }
 
 
-void editor_set_font(GeanyEditor *editor, const gchar *font)
+/* Similar to editor_set_font() but *only* sets the font, and doesn't take care
+ * of updating properties that might depend on the font */
+static void set_font(ScintillaObject *sci, const gchar *font)
 {
 	gint style;
 	gchar *font_name;
 	PangoFontDescription *pfd;
 	gdouble size;
 
-	g_return_if_fail(editor);
+	g_return_if_fail(sci);
 
 	pfd = pango_font_description_from_string(font);
 	size = pango_font_description_get_size(pfd) / (gdouble) PANGO_SCALE;
@@ -4612,10 +4613,17 @@ void editor_set_font(GeanyEditor *editor, const gchar *font)
 	pango_font_description_free(pfd);
 
 	for (style = 0; style <= STYLE_MAX; style++)
-		sci_set_font_fractional(editor->sci, style, font_name, size);
+		sci_set_font_fractional(sci, style, font_name, size);
 
 	g_free(font_name);
+}
 
+
+void editor_set_font(GeanyEditor *editor, const gchar *font)
+{
+	g_return_if_fail(editor);
+
+	set_font(editor->sci, font);
 	update_margins(editor->sci);
 	/* zoom to 100% to prevent confusion */
 	sci_zoom_off(editor->sci);
@@ -4805,8 +4813,7 @@ static gboolean on_editor_focus_in(GtkWidget *widget, GdkEventFocus *event, gpoi
 }
 
 
-static gboolean on_editor_expose_event(GtkWidget *widget, GdkEventExpose *event,
-		gpointer user_data)
+static gboolean on_editor_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
 	GeanyEditor *editor = user_data;
 
@@ -4815,14 +4822,6 @@ static gboolean on_editor_expose_event(GtkWidget *widget, GdkEventExpose *event,
 	editor_check_colourise(editor);
 	return FALSE;
 }
-
-
-#if GTK_CHECK_VERSION(3, 0, 0)
-static gboolean on_editor_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data)
-{
-	return on_editor_expose_event(widget, NULL, user_data);
-}
-#endif
 
 
 static void setup_sci_keys(ScintillaObject *sci)
@@ -4926,7 +4925,6 @@ static ScintillaObject *create_new_sci(GeanyEditor *editor)
 
 	setup_sci_keys(sci);
 
-	sci_set_symbol_margin(sci, editor_prefs.show_markers_margin);
 	sci_set_lines_wrapped(sci, editor->line_wrapping);
 	sci_set_caret_policy_x(sci, CARET_JUMPS | CARET_EVEN, 0);
 	/* Y policy is set in editor_apply_update_prefs() */
@@ -4970,11 +4968,7 @@ static ScintillaObject *create_new_sci(GeanyEditor *editor)
 		g_signal_connect(sci, "scroll-event", G_CALLBACK(on_editor_scroll_event), editor);
 		g_signal_connect(sci, "motion-notify-event", G_CALLBACK(on_motion_event), NULL);
 		g_signal_connect(sci, "focus-in-event", G_CALLBACK(on_editor_focus_in), editor);
-#if GTK_CHECK_VERSION(3, 0, 0)
 		g_signal_connect(sci, "draw", G_CALLBACK(on_editor_draw), editor);
-#else
-		g_signal_connect(sci, "expose-event", G_CALLBACK(on_editor_expose_event), editor);
-#endif
 	}
 	return sci;
 }
@@ -5000,7 +4994,7 @@ ScintillaObject *editor_create_widget(GeanyEditor *editor)
 	editor->sci = sci;
 
 	editor_set_indent(editor, iprefs->type, iprefs->width);
-	editor_set_font(editor, interface_prefs.editor_font);
+	set_font(editor->sci, interface_prefs.editor_font);
 	editor_apply_update_prefs(editor);
 
 	/* if editor already had a widget, restore it */

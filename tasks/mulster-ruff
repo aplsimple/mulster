@@ -255,6 +255,17 @@ class='ruff_dyn_src'><pre>
 <h4 class='ruffmethod
 <h4 class='ruffproc
 }<br></code></pre></div>
+#923B23
+#923b23
+#7D1C00
+#7d1c00
+#7A040E
+#7a040e
+#035103
+#4A181B
+#4a181b
+#463E11
+#463e11
 IN=END
 
 OUT=BEGIN
@@ -265,6 +276,17 @@ class='ruff_dyn_src'><pre><br><code class="tcl">
 <br><br><h4 class='ruffmethod
 <br><br><h4 class='ruffproc
 }<br><br></code></pre></div>
+#3a6797
+#3a6797
+#134070
+#134070
+#134070
+#134070
+#8b2a0e
+#1b1baa
+#1b1baa
+#6c3e67
+#6c3e67
 OUT=END
 
 MODE=regexp --
