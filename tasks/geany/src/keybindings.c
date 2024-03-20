@@ -366,6 +366,8 @@ static void init_default_kb(void)
 
 	add_kb(group, GEANY_KEYS_PROJECT_NEW, NULL,
 		0, 0, "project_new", _("New"), "project_new1");
+	add_kb(group, GEANY_KEYS_PROJECT_NEW_FROM_FOLDER, NULL,
+		0, 0, "project_new_from_folder", _("New from Folder"), "project_new_from_folder1");
 	add_kb(group, GEANY_KEYS_PROJECT_OPEN, NULL,
 		0, 0, "project_open", _("Open"), "project_open1");
 	add_kb(group, GEANY_KEYS_PROJECT_PROPERTIES, NULL,
@@ -502,8 +504,8 @@ static void init_default_kb(void)
 	add_kb(group, GEANY_KEYS_FORMAT_REFLOWPARAGRAPH, NULL,
 		GDK_KEY_j, GEANY_PRIMARY_MOD_MASK, "format_reflowparagraph", _("_Reflow Lines/Block"),
 		"reflow_lines_block1");
-	keybindings_set_item(group, GEANY_KEYS_FORMAT_JOINLINES, NULL,
-		0, 0, "edit_joinlines", _("Join lines"), NULL);
+	add_kb(group, GEANY_KEYS_FORMAT_JOINLINES, NULL,
+		0, 0, "edit_joinlines", _("_Join Lines"), "join_lines1");
 
 	group = keybindings_get_core_group(GEANY_KEY_GROUP_INSERT);
 
@@ -1014,7 +1016,7 @@ static GtkWidget *create_dialog(void)
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), FALSE);
 
 	text_renderer = gtk_cell_renderer_text_new();
-	/* we can't use "weight-set", see http://bugzilla.gnome.org/show_bug.cgi?id=355214 */
+	/* we can't use "weight-set", see https://bugzilla.gnome.org/show_bug.cgi?id=355214 */
 	column = gtk_tree_view_column_new_with_attributes(
 		NULL, text_renderer, "text", 0, "weight", 2, NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
@@ -1204,7 +1206,7 @@ static gboolean check_menu_key(GeanyDocument *doc, guint keyval, guint state, gu
 		 || focusw == msgwindow.tree_msg
 		 || focusw == msgwindow.scribble
 #ifdef HAVE_VTE
-		 || (vte_info.have_vte && focusw == vc->vte)
+		 || (vte_info.have_vte && focusw == vte_config.vte)
 #endif
 		)
 		{
@@ -1231,12 +1233,12 @@ static gboolean check_vte(GdkModifierType state, guint keyval)
 	GeanyKeyGroup *group;
 	GtkWidget *widget;
 
-	if (gtk_window_get_focus(GTK_WINDOW(main_widgets.window)) != vc->vte)
+	if (gtk_window_get_focus(GTK_WINDOW(main_widgets.window)) != vte_config.vte)
 		return FALSE;
 	/* let VTE copy/paste override any user keybinding */
 	if (state == (GEANY_PRIMARY_MOD_MASK | GDK_SHIFT_MASK) && (keyval == GDK_KEY_c || keyval == GDK_KEY_v))
 		return TRUE;
-	if (! vc->enable_bash_keys)
+	if (! vte_config.enable_bash_keys)
 		return FALSE;
 	/* prevent menubar flickering: */
 	if (state == GDK_SHIFT_MASK && (keyval >= GDK_KEY_a && keyval <= GDK_KEY_z))
@@ -1445,6 +1447,7 @@ static gboolean cb_func_file_action(guint key_id)
 	{
 		case GEANY_KEYS_FILE_NEW:
 			document_new_file(NULL, NULL, NULL);
+			cb_func_switch_action(GEANY_KEYS_FOCUS_EDITOR);
 			break;
 		case GEANY_KEYS_FILE_OPEN:
 			on_open1_activate(NULL, NULL);
@@ -1501,6 +1504,9 @@ static gboolean cb_func_project_action(guint key_id)
 	{
 		case GEANY_KEYS_PROJECT_NEW:
 			on_project_new1_activate(NULL, NULL);
+			break;
+		case GEANY_KEYS_PROJECT_NEW_FROM_FOLDER:
+			on_project_new_from_folder1_activate(NULL, NULL);
 			break;
 		case GEANY_KEYS_PROJECT_OPEN:
 			on_project_open1_activate(NULL, NULL);
@@ -2382,14 +2388,6 @@ static void join_paragraph(GeanyEditor *editor)
 {
 	ScintillaObject *sci = editor->sci;
 	gboolean sel;
-	gint column;
-
-	column = get_reflow_column(editor);
-	if (column == -1)
-	{
-		utils_beep();
-		return;
-	}
 
 	sci_start_undo_action(sci);
 	sel = sci_has_selection(sci);
